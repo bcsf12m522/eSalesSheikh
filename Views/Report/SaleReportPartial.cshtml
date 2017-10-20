@@ -281,8 +281,8 @@
                             <td class="text-center width-180" style="vertical-align:middle;">
                                 <!--
                                 <a class="btn btn-sm btn-primary bold" href="~/Sale/Print_Picking_List/@v.Id" @*data-target="#Printing_options" data-toggle="modal"*@>PP</a>-->
-                                <a class="btn btn-sm btn-primary bold" @*href="~/Sale/Print_Document/@v.Id"*@ data-target="#Printing_options" data-toggle="modal" onclick="print_Btn_click(@v.Id)">Print</a>
-
+                                <!--<a class="btn btn-sm btn-primary bold" @*href="~/Sale/Print_Document/@v.Id"*@ data-target="#Printing_options" data-toggle="modal" onclick="print_Btn_click(@v.Id)">Print</a>-->
+                                <a class="btn btn-sm btn-primary bold" href="~/Sale/View_Invoice/@v.Id">View</a>
                                 <a class="btn btn-sm btn-success bold" href="~/Sale/Edit_Sale/@v.Id">Edit</a>
                                 @*@if (@v.Amount_Left==0)
                                 {
@@ -291,6 +291,7 @@
                                 else
                                 {*@
                                     <a class="btn btn-sm btn-danger bold" href="#" onclick="Delete_Sale_by_Ajax(@v.Id,2)">Delete</a>
+                                
                                 @*}*@
                                 
                             </td>

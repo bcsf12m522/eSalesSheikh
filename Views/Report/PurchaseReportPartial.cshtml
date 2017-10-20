@@ -47,12 +47,13 @@
                 <td class="text-center" data-title="User ID">@v.Payment_Status.Status</td>
                 <td class="text-center" data-title="User ID">@v.Purchase_Order_Status.Status_Type</td>
 
-                <td class="text-center width-120" style="vertical-align:middle;">
-                    <a class="btn btn-sm btn-info bold" href="~/Purchase/Edit_Purchase_Order/@v.Id">
+                <td class="text-center width-160" style="vertical-align:middle;">
+                    <a class="btn btn-sm btn-primary bold" href="~/Purchase/View_Purchase_Order/@v.Id">View</a>
+                    <a class="btn btn-sm btn-success bold" href="~/Purchase/Edit_Purchase_Order/@v.Id">
                         Edit
                     </a>
 
-                    <a class="btn btn-sm btn-danger bold" href="">
+                    <a class="btn btn-sm btn-danger bold" href="~/Purchase/Delete_Purchase_Order/@v.Id">
                         Delete
                     </a>
                 </td>

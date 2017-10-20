@@ -1468,6 +1468,11 @@ function Serial_Number_Enter_Click(e) {
     var loop_size = $("#quantity_for_loop").val();
     var enter_count = $("#EnterCounterSerialNumber").val();
 
+  
+    
+    var url = '/Product/Check_Serial_Number/';
+
+  
     //alert("enter_count " + enter_count + "  loop_size  " + loop_size)
 
     if (enter_count != loop_size) {
@@ -1479,18 +1484,95 @@ function Serial_Number_Enter_Click(e) {
 
             //alert("variable " + variable);
 
-            var variable = " (Serial No." + $("#serial_number_value").val() + ")";
-            var box = $("#invoice_description" + counter);
-            box.val(box.val() + variable);
-
-            enter_count = +enter_count + +1;
-
-            $("#EnterCounterSerialNumber").val(enter_count);
-
-            $("#serial_number_value").val("")
-            if (enter_count == loop_size) {
-                $("#Serial_Number_Modal").hide();
+            var desc = $("#invoice_description" + counter).val();
+            
+            var split = desc.substring(desc.indexOf("("));
+            if (split == desc) {
+                split = "";
             }
+            
+            //alert("Desc " + desc);
+
+            var serial_input_lower = $("#serial_number_value").val();
+            var serial_input = serial_input_lower.toLowerCase();
+
+            //var n = serial_input.localeCompare(desc);
+
+            //var re = new RegExp(serial_input, 'gi');
+
+            //var re = new RegExp(serial_input,'gi');
+
+            //var duplicate = desc.localeCompare(re);
+            //alert(duplicate);
+
+            var ajax_return_value = 0;
+           
+            //if (desc.indexOf(serial_input) != -1) {
+            //    alert(serial_input + " found");
+            //}
+           
+
+            $.ajax({
+                url: url,
+                data: { SR_Value: serial_input },
+                cache: false,
+                type: "Get",
+                success: function (data) {
+                    //alert("DATA "+ data);
+                    //ajax_return_value = data;
+                    //alert("ajax_return_value " + ajax_return_value);
+                    //document.getElementById('productList').innerHTML = data;
+                    var value = split.indexOf(serial_input);
+
+                    //alert("value" + value);
+
+                    if(value == -1 && data=="False"){
+
+                        //alert("DONE12");
+                        var variable = " (Serial No." + serial_input + ")";
+                        var box = $("#invoice_description" + counter);
+                        box.val(box.val() + variable);
+
+                        enter_count = +enter_count + +1;
+
+                        $("#EnterCounterSerialNumber").val(enter_count);
+
+                        $("#serial_number_value").val("")
+                        if (enter_count == loop_size) {
+                            $("#Serial_Number_Modal").hide();
+                        }
+                        //alert("DONE");
+                    }
+                    else {
+                        //alert("ELSE");
+                        $("#serial_number_value").val("")
+
+                        swal({
+                            title: "SERIAL NUMBER DUPLICATION",
+                            text: "Serial Number Duplicated",
+                            type: "warning",
+                            confirmButtonColor: '#DD6B55',
+                            confirmButtonText: 'Okay',
+                        })
+
+                    }
+
+
+
+
+
+
+                },
+                error: function (response) {
+                    alert("ERROR");
+                }
+            })
+
+
+            
+
+          //  alert("after ajax");
+          
             //alert($("#invoice_description" + counter).append($.trim(variable).text()));
             //$("#invoice_description"+counter).append(variable);
         }
@@ -1499,6 +1581,17 @@ function Serial_Number_Enter_Click(e) {
 
 }
 
+
+
+
+
+function ajax_call_for_serial(serial_input) {
+    alert("serial_input" + serial_input);
+
+    
+
+  
+}
 
 function close_serial_number_modal() {
     $("#Serial_Number_Modal").hide();

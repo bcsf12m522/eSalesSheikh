@@ -277,9 +277,11 @@
 
                             <td class="text-center width-180" style="vertical-align:middle;">
 
-                                <a class="btn btn-sm btn-primary bold" href="~/Sale/Print_Document/@Model.Id">Print</a>
+                                @*<a class="btn btn-sm btn-primary bold" href="~/Sale/Print_Document/@Model.Id">Print</a>*@
 
-                                <a class="btn btn-sm btn-primary bold" href="~/Sale/Edit_Sale/@Model.Id">Edit</a>
+                                <a class="btn btn-sm btn-primary bold" href="~/Sale/View_Invoice/@Model.Id">View</a>
+
+                                <a class="btn btn-sm btn-success bold" href="~/Sale/Edit_Sale/@Model.Id">Edit</a>
                                 @*@if (@v.Amount_Left==0)
             {
                 <a class="btn btn-sm btn-danger bold" href="#"  onclick="Delete_Sale_Error()">Delete</a>

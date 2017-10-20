@@ -26,6 +26,11 @@
     width: 120px;
 }
 
+.email_textarea{
+    min-height:350px;
+    resize:vertical;
+}
+
 .btn_logout_session_expire {
     color: #fff;
     background-color: #cb9a89;
@@ -91,6 +96,10 @@
     font-weight: bold;
 }
 
+.pointer_hand{
+    cursor:pointer;
+}
+
 .width-178 {
     width: 178px !important;
 }
@@ -139,6 +148,10 @@
 
 .mb-20 {
     margin-bottom: 20px;
+}
+
+.mb-100 {
+    margin-bottom: 100px;
 }
 
 .ml--20 {

@@ -192,138 +192,7 @@
     </footer>
 
 
-    <!--add print modal ---------------------------------------------------------------- -->
-
-    <div class="modal fade" id="Printing_options" tabindex="-1" role="dialog" aria-hidden="false">
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content modal-style-custom">
-
-                <div class="title col-md-12">
-                    <span>Message</span>
-                    <img src="~/img/images/c3.png" class="close mr--13 pull-right cc" onclick="hide_print_done_btn()" />
-                </div>
-
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                    <div class="x_panel">
-
-                        <div class="empty-height"></div><div class="empty-height"></div>
-
-                        <div class="win text-center">
-
-                            <div class="empty-height"></div><div class="empty-height"></div>
-
-                            <div class="text-left">
-                                @*<div class="pull-left">
-                                        <a class="btn blue-btn-style btn_logout_session_expire bold width-120">
-                                            Logout
-                                        </a>
-
-
-                                    </div>*@
-                                <div class="col-md-12">
-                                    <div class="col-md-1"></div>
-                                    <div class="col-md-10">
-                                        <a onclick="print_document()" class="btn btn-primary blue-btn-style btn-mini bold width-150">Print Document</a>
-                                    </div>
-                                    <div class="col-md-1"></div>
-
-                                </div>
-                                
-                                <div class="clearfix"></div>
-                                <div class="empty-height"></div>
-
-                                <div class="col-md-12">
-                                    <div class="col-md-1"></div>
-                                    <div class="col-md-10">
-                                        <a onclick="print_picking_list()" class="btn btn-primary blue-btn-style btn-mini bold width-150">Print Picking List</a>
-                                    </div>
-                                    <div class="col-md-1"></div>
-
-                                </div>
-                                
-                                <div class="clearfix"></div>
-                                <div class="empty-height"></div>
-
-                                <div class="col-md-12">
-                                    <div class="col-md-1"></div>
-                                    <div class="col-md-10">
-                                        <a href="#" target="_blank" onclick="print_delivery_note()" class="btn btn-primary blue-btn-style btn-mini bold width-150">Print Delivery Note</a>
-                                    </div>
-                                    <div class="col-md-1"></div>
-
-                                </div>
-                                
-
-                                <div class="clearfix"></div>
-                                <div class="empty-height"></div>
-
-                                <!--
-
-                                    <div class="col-md-12">
-                                        <div class="col-md-1"></div>
-                                        <div class="col-md-10">
-                                            <label class="font-15" style="color:black"><input type="checkbox" id="print_doc_check" name="" />Print Document</label>
-                                        </div>
-                                        <div class="col-md-1"></div>
-
-                                    </div>
-
-                                    <div class="col-md-12">
-                                        <div class="col-md-1"></div>
-                                        <div class="col-md-10">
-                                            <label class="font-15" style="color:black"><input type="checkbox" id="print_picking_check" name="" />Print Picking List</label>
-                                        </div>
-                                        <div class="col-md-1"></div>
-
-                                    </div>
-
-                                    <div class="col-md-12">
-                                        <div class="col-md-1"></div>
-                                        <div class="col-md-10">
-                                            <label class="font-15" style="color:black"><input type="checkbox" id="print_delivery_check"  name="" />Print Delivery Note</label>
-                                        </div>
-                                        <div class="col-md-1"></div>
-
-                                    </div>
-
-                                </div>
-
-                                <div class="clearfix"></div>
-
-                                <div class="empty-height"></div><div class="empty-height"></div>
-                                <div class="col-md-12">
-                                    <div class="col-md-2"></div>
-
-                                    <div class="col-md-8">
-                                        @*<input data-dismiss="modal" type="button" onclick="global_discount()" value="Ok" class="btn btn-success btn-mini center-block" />*@
-                                        <a class="btn btn-success blue-btn-style btn-mini bold width-100" onclick="submit_print()">Done</a>
-                                    </div>
-
-                                    <div class="col-md-2"></div>
-
-
-
-                                </div>
-                                        -->
-                                <div class="col-md-12">
-
-                                    <div class="clearfix"></div>
-                                </div>
-
-
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="modal-footer"></div>
-                    <div class=""></div>
-
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!--add print modal ---------------------------------------------------------------- -->
+   
 
     <script src="~/scripts/customer_summary/customer_summary.js"></script>
     <script src="~/scripts/report/sale_report.js"></script>
@@ -352,32 +221,7 @@
         }
 
 
-        function print_document() {
-            //alert(id);
-            var id = $("#id_of_invoice").val();
-            var url = "Print_Document/"+id;
-            //location.href = url + id;
-
-            window.open(url, '_blank');
-
-            //$("#Serial_Number_Modal").addClass("in").show("slow");
-        }
-
-        function print_picking_list() {
-            //alert(id);
-            var id = $("#id_of_invoice").val();
-            var url = "Print_Picking_List/" + id;
-            window.open(url, '_blank');
-            //$("#Serial_Number_Modal").addClass("in").show("slow");
-        }
-
-        function print_delivery_note() {
-            //alert(id);
-            var id = $("#id_of_invoice").val();
-            var url = "Print_Delivery_Note/" + id;
-            window.open(url, '_blank');
-            //$("#Serial_Number_Modal").addClass("in").show("slow");
-        }
+   
 
 
         function myDate() {
@@ -441,9 +285,7 @@
             })
         }
 
-        function hide_print_done_btn() {
-            $("#Printing_options").hide("fast");
-        }
+       
 
         function PrintBtn() {
             $("#crud_btn_hide").addClass("none");

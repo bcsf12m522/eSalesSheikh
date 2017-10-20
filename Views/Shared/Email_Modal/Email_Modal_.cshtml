@@ -1,0 +1,141 @@
+﻿@*------------------------------------------EMAIL MODAL----------------------------------------*@
+
+@foreach (var v in @ViewBag.config)
+{
+
+
+
+    <div class="modal fade" id="Email_Modal" tabindex="-1" role="dialog" aria-hidden="false">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content modal-style-custom">
+
+                <div class="title col-md-12">
+                    <span>Compose Email</span>
+                    <img src="~/img/images/c3.png" class="close mr--13 pull-right" data-dismiss="modal" />
+                </div>
+
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+
+                        @using (Html.BeginForm("Send_Email", "Sale", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            <div class="win text-center">
+                                @*<h3 class="color"><b>Find Customer</b></h3>*@<h3 class="color"><b></b></h3><h3 class="color"><b></b></h3><h3 class="color"><b></b></h3><h3 class="color"><b></b></h3>
+
+                                <div class="empty-height"></div><div class="empty-height"></div>
+
+                                <div class="row col-md-12" style="margin-top: 5px;">
+                                    <div class="col-md-3"></div>
+                                    <div class="col-md-2 text-left">
+                                        <label>
+                                            Email From
+                                        </label>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <input class="height-28 width-300 text-center" value="@v.Email" readonly />
+                                    </div>
+                                    <div class="col-md-2"></div>
+                                </div>
+
+
+
+                                <div class="row col-md-12 mt-5">
+                                    <div class="col-md-3"></div>
+                                    <div class="col-md-2 text-left">
+                                        <label>
+                                            Email To
+                                        </label>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <input class="height-28 width-300 text-center" />
+                                    </div>
+                                    <div class="col-md-2"></div>
+                                </div>
+
+
+
+
+                                <div class="row col-md-12 mt-5">
+                                    <div class="col-md-3"></div>
+                                    <div class="col-md-2  text-left">
+                                        <label>
+                                            CC To
+                                        </label>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <input class="height-28 width-300 text-center" />
+                                    </div>
+                                    <div class="col-md-2"></div>
+                                </div>
+
+
+                                <div class="clearfix"></div>
+
+
+
+
+
+                                <div class="row col-md-12 mt-5">
+                                    <div class="col-md-3"></div>
+                                    <div class="col-md-2  text-left">
+                                        <label>
+                                            Subject
+                                        </label>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <input class="height-28 width-300 text-center" />
+                                    </div>
+                                    <div class="col-md-2"></div>
+                                </div>
+
+
+
+
+                            </div>
+                        }
+
+
+
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+
+                <div class="empty-height"></div><div class="empty-height"></div><div class="empty-height"></div>
+
+
+                <div class="col-md-12">
+
+                    <textarea class="col-md-12 email_textarea pl-0 pr-0" id="email_textarea" name="email_textarea"></textarea>
+
+                </div>
+
+
+
+
+
+                <div class="col-md-12 mt-30">
+                    <div class="col-md-3"></div>
+
+                    <div class="col-md-3">
+                        <a href="#" class="btn btn-primary btn-mini center-block mt-0">Ok</a>
+                    </div>
+
+                    <div class="col-md-3">
+                        <a href="#" class="btn btn_view_payment_status center-block mt-0" data-dismiss="modal">Cancel</a>
+                    </div>
+                    <div class="col-md-3"></div>
+
+
+
+                </div>
+
+                <div class="modal-footer"></div>
+                <div class=""></div>
+
+            </div>
+        </div>
+    </div>
+}
+
+@*------------------------------------------EMAIL MODAL----------------------------------------*@
