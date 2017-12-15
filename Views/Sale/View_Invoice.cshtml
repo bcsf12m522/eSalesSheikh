@@ -1,5 +1,11 @@
 ﻿@model List<eSalesPro.Models.Sale_Invoice>
+@{
 
+    var base_url_live = eSalesPro.AppConstants.AppConstant.base_url_sheikh;
+    var base_url_client = eSalesPro.AppConstants.AppConstant.base_url_client;
+    var base_url_local = eSalesPro.AppConstants.AppConstant.base_url_local;
+
+}
 
 <script>
     function hide_print_done_btn() {
@@ -13,8 +19,8 @@
         $("#payment_status_id").prop("disabled", true).css({ "background-color": "#bcbcc5", "color": "#000" });
         $("#payment_method_id").prop("disabled", true).css({ "background-color": "#bcbcc5", "color": "#000" });
         $("#language").prop("disabled", true).css({ "background-color": "#bcbcc5", "color": "#000" });
-        
-        
+
+
         $("#invoice_number").prop("disabled", true).css({ "background-color": "#FFF", "color": "#000" });
         $("#quote_number").prop("disabled", true).css({ "background-color": "#FFF", "color": "#000" });
         $("#item_sale_number").prop("disabled", true).css({ "background-color": "#FFF", "color": "#000" });
@@ -29,16 +35,16 @@
 
         for (var i = 1 ; i <= count   ; i++) {
 
-                $("#codeforProduct" + i).prop("disabled", true).css({ "background-color": "#FFF", "color": "#000" });
-                $("#invoice_description" + i).prop("readonly", true).css({ "background-color": "#FFF", "color": "#000" });
-                $("#invoice_quantity" + i).prop("disabled", true).css({ "background-color": "#FFF", "color": "#000" });
-                $("#invoice_price" + i).prop("disabled", true).css({ "background-color": "#FFF", "color": "#000" });
-                $("#invoice_price_vat" + i).prop("disabled", true).css({ "background-color": "#FFF", "color": "#000" });
-                $("#invoice_total" + i).prop("disabled", true).css({ "background-color": "#FFF", "color": "#000" });
-                $("#invoice_total_vat" + i).prop("disabled", true).css({ "background-color": "#FFF", "color": "#000" });
-                $("#invoice_discount" + i).prop("disabled", true).css({ "background-color": "#FFF", "color": "#000" });
+            $("#codeforProduct" + i).prop("disabled", true).css({ "background-color": "#FFF", "color": "#000" });
+            $("#invoice_description" + i).prop("readonly", true).css({ "background-color": "#FFF", "color": "#000" });
+            $("#invoice_quantity" + i).prop("disabled", true).css({ "background-color": "#FFF", "color": "#000" });
+            $("#invoice_price" + i).prop("disabled", true).css({ "background-color": "#FFF", "color": "#000" });
+            $("#invoice_price_vat" + i).prop("disabled", true).css({ "background-color": "#FFF", "color": "#000" });
+            $("#invoice_total" + i).prop("disabled", true).css({ "background-color": "#FFF", "color": "#000" });
+            $("#invoice_total_vat" + i).prop("disabled", true).css({ "background-color": "#FFF", "color": "#000" });
+            $("#invoice_discount" + i).prop("disabled", true).css({ "background-color": "#FFF", "color": "#000" });
 
-            }
+        }
 
 
 
@@ -60,10 +66,18 @@
 
     }
 
-
-  
+    
+    //function view_detail_click(){
+    //    if (document.getElementById("view_details").checked) {
+    //        $("#input_view_detail").val(1);
+    //    }
+    //    else{
+    //        $("#input_view_detail").val(0);
+    //    }
+    //}
 
 </script>
+
 
 
 <body id="body-index" onload="View_Invoice_Onload()">
@@ -95,7 +109,7 @@
                     <div class="bggg-img">
                         <div id="">
 
-
+                            
 
                             <form id="demo-form2" action="@Url.Action("Edit_Sale","Sale")" method="post" data-parsley-validate class="" enctype="multipart/form-data">
 
@@ -104,7 +118,7 @@
                                     <input hidden type="text" id="partial_vat_price_id" name="partial_vat_price_id" value="@ViewBag.invoice.VAT_20"/>
                                     <input hidden type="text" id="partial_gross_id" name="partial_gross_id" value="@ViewBag.invoice.Gross_Total"/>*@
 
-                                <input id="product_list_count" value="@Model.Count" hidden/>
+                                <input id="product_list_count" value="@Model.Count" hidden />
 
                                 <input hidden type="text" id="partial_net_sale_history" name="partial_net_id" />
                                 <input hidden type="text" id="partial_vat_sale_history" name="partial_vat_price_id" />
@@ -124,7 +138,7 @@
                                             <select id="language" value="@ViewBag.invoice.Document_Type.Id" oninput="run_invoice();" @*oninput="run_invoice();checkQuoteNumber()"*@ onblur="" name="document_type" class="select-class-color form-control border_black-1px width-145" style="background:#bcbcc5">
                                                 <option value="@ViewBag.invoice.Document_Type.Id">@ViewBag.invoice.Document_Type.Type</option>
 
-                                               
+
 
 
 
@@ -208,10 +222,21 @@
 
 
                                                 <div class="col-md-5">
-                                                    <label id="hideExcludeVat"><input type="checkbox" id="excludeVat" value="" onclick="excludeVatUnchecked();" />Exclude VAT</label>
+                                                    @*<label id="hideExcludeVat"><input type="checkbox" id="excludeVat" value="" onclick="excludeVatUnchecked();" />Exclude VAT</label>*@
                                                     @*<label><input type="checkbox" id="sold_history_checkbox" value="" />Check Sold History</label><br />*@
 
-                                                    <label hidden id="show_details"><input type="checkbox" id="show_details" value="" />Show Details</label>
+                                                    
+                                                    @if (ViewBag.invoice.Show_Details == 1 && ViewBag.invoice.Document_Type.Id == 2)
+                                                    {
+                                                        <label><input type="checkbox" checked disabled/>Show Details</label>
+                                                    }
+                                                    else if (ViewBag.invoice.Show_Details == 0 && ViewBag.invoice.Document_Type.Id == 2)
+                                                    {
+                                                        <label><input type="checkbox" disabled/>Show Details</label>
+                                                    }
+
+
+                                                    @*<input id="input_view_detail" value="0"/>*@
                                                     @*<label><input type="checkbox" value="" />Show Details</label>*@
                                                 </div>
 
@@ -451,7 +476,7 @@
                                                                id="@String.Concat("invoice_product_id",counter)" value="@obj.Sale.Product_ID" />
 
                                                     </td>
-                                                    <td class="text-center width-27p" style="vertical-align:middle;">
+                                                    <td class="text-center width-36p" style="vertical-align:middle;">
                                                         <a href="#" class="showdiv" onclick="addNewRow(@Model.Count()),rowcounterPlus()">
                                                             <img src="/img/images/plus_new_sale.png">
                                                         </a>
@@ -693,7 +718,7 @@
                                                     </tr>
 
                                                            WITH GIVE REFUND       > *@
-                                                
+
 
                                                 <tr id="refund_tr" style="display:none" class="hide_for_quote">
                                                     @*<td class="">Refund<br /><span>03-08-17</span></td>
@@ -717,7 +742,7 @@
                                                     </tr>
 
                                                 }
-                                                <input value="@sum" id="partial_payment_sum" hidden />
+                                                <input hidden value="@sum" id="partial_payment_sum" />
 
                                                 @{
                                                     decimal balance = @ViewBag.invoice.Gross - sum;
@@ -748,18 +773,20 @@
                                                     <td id="Total_after_refund_td" class="text-right">£0</td>
                                                 </tr>
 
-                                                @if(@ViewBag.invoice.Pay_Status_ID!=1){
+                                                @if (@ViewBag.invoice.Pay_Status_ID != 1)
+                                                {
                                                     <tr class="partial_paid deposit_paid hide_for_quote hide_quotation" style="">
                                                         <td class="bold">Amount left to Pay</td>
                                                         <td id="amount_left_td" class="text-right">@{@balance}</td>
                                                     </tr>
                                                 }
-                                                else{
-                                                <tr class="partial_paid deposit_paid hide_for_quote hide_quotation" style="">
-                                                    <td class="bold">Amount left to Pay</td>
-                                                    <td id="" class="text-right">£0.0</td>
-                                                </tr>
-                                                    }
+                                                else
+                                                {
+                                                    <tr class="partial_paid deposit_paid hide_for_quote hide_quotation" style="">
+                                                        <td class="bold">Amount left to Pay</td>
+                                                        <td id="" class="text-right">£0.0</td>
+                                                    </tr>
+                                                }
                                                 <input type="hidden" value="@balance" id="amount_left_input_field" />
 
 
@@ -785,7 +812,7 @@
 
                                         <div class="empty-height"></div><div class="empty-height"></div>
                                         <div class="col-md-6"></div>
-                                        
+
                                         <!-----------------------HIDING REFUND not COMPLETED-->
                                         @*<div id="Give_Refund_Div" class="col-md-2 pull-right mr--13">
                                                 <a href="#" data-target="#Give_Refund" data-toggle="modal" onclick="give_refund_value_set()" class="btn btn-success blue-btn-style btn-mini bold">Give Refund</a>
@@ -797,6 +824,14 @@
 
 
                                 </div>
+
+
+
+
+
+
+
+
                                 <div class="empty-height"></div><div class="empty-height"></div><div class="empty-height"></div><div class="empty-height"></div><div class="empty-height"></div><div class="empty-height"></div>
                                 <div class="col-md-12 mb-100">
                                     <div class="col-md-3"></div>
@@ -804,7 +839,7 @@
 
                                     <div class="col-md-1 pr-0 text-center">
                                         <a href="~/Sale/Edit_Sale/@ViewBag.invoice.Id">
-                                            <span class=""><img src="~/img/images/save.png" /></span><br />
+                                            <span class=""><img src="~/img/images/edit.png" /></span><br />
                                             <input type="button" value="Edit" />
 
                                         </a>
@@ -837,8 +872,8 @@
                                     </div>
                                     <div class="col-md-1 pr-0 text-center">
                                         <a href="~/Sale/Delete_Invoice_Sale_All/@ViewBag.invoice.Id">
-                                            <span class=""><img src="~/img/images/delete_invoice.png"/></span><br />
-                                            
+                                            <span class="ml-8"><img src="~/img/images/delete_invoice.png" /></span><br />
+
                                             @*<input type="submit" onclick="return submitResult();" value="Delete" />*@
                                             <input type="button" value="Delete" />
 
@@ -851,8 +886,8 @@
 
                                     <div class="col-md-1 text-center">
                                         <a href="~/Sale/New_Invoice">
-                                            <span class=""><img src="~/img/images/exit.png" /></span><br />
-                                            <input type="button" value="Exit" />
+                                            <span class="ml--14"><img src="~/img/images/exit.png" /></span><br />
+                                            <input type="button" value="Exit" class="ml-5" />
 
 
                                         </a>
@@ -869,9 +904,9 @@
                                 <input type="text" class="" id="global_discount_hidden" name="global_discount_hidden" value="0" hidden />
                                 <input type="text" class="" id="total_after_discount_hidden" name="total_after_discount_hidden" hidden />
                                 <label hidden>Left Amount Hidden</label>
-                                <input type="text" class="" id="left_amount_hidden" name="left_amount_hidden" value="@ViewBag.invoice.Amount_Left" hidden/>
+                                <input type="text" class="" id="left_amount_hidden" name="left_amount_hidden" value="@ViewBag.invoice.Amount_Left" hidden />
                                 <label hidden>Amount Paid</label>
-                                <input type="text" class="" id="amount_paid_hidden" name="amount_paid_hidden" value="@ViewBag.invoice.Amount_Paid" hidden/>
+                                <input type="text" class="" id="amount_paid_hidden" name="amount_paid_hidden" value="@ViewBag.invoice.Amount_Paid" hidden />
 
                                 @*<input id="refund_rows_count" type="text" />*@<input id="refund_rows_count" type="text" hidden />
 
@@ -902,6 +937,8 @@
     </div>
 
 
+    <div id="print_doc_body_id"></div>
+
 
     <footer class="black">
 
@@ -914,6 +951,8 @@
     <div class="modal fade" id="Printing_options" tabindex="-1" role="dialog" aria-hidden="false">
         <div class="modal-dialog modal-sm">
             <div class="modal-content modal-style-custom">
+
+                
 
                 <div class="title col-md-12">
                     <span>Message</span>
@@ -1041,15 +1080,197 @@
     </div>
 
     <!------------------------------------------PRINT MODAL---------------------------------------->
+    @*------------------------------------------EMAIL MODAL----------------------------------------*@
 
+    @*@{
+            Html.RenderPartial("Email_Modal/Email_Modal_");
+        }*@
 
     @*------------------------------------------EMAIL MODAL----------------------------------------*@
 
-    @{
-        Html.RenderPartial("Email_Modal/Email_Modal_");
+    @foreach (var v in @ViewBag.config)
+    {
+
+
+
+        <div class="modal fade" id="Email_Modal" tabindex="-1" role="dialog" aria-hidden="false">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content modal-style-custom">
+
+                    <div class="title col-md-12">
+                        <span>Compose Email</span>
+                        <img src="~/img/images/c3.png" class="close mr--13 pull-right" data-dismiss="modal" />
+                    </div>
+
+
+
+
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="x_panel">
+
+                            @using (Html.BeginForm("Send_Email", "Sale", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                            {
+                                <div class="win text-center" id="">
+                                    @*<h3 class="color"><b>Find Customer</b></h3>*@<h3 class="color"><b></b></h3><h3 class="color"><b></b></h3><h3 class="color"><b></b></h3><h3 class="color"><b></b></h3><h3 class="color"><b></b></h3>
+
+                                    <div class="empty-height"></div><div class="empty-height"></div>
+
+                                    <input name="invoice_id" value="@ViewBag.invoice.Id"/>
+
+                                    <div class="row col-md-12" style="margin-top: 5px;">
+                                        <div class="col-md-3"></div>
+                                        <div class="col-md-2 text-left">
+                                            <label>
+                                                Email From
+                                            </label>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <input class="height-28 width-300 text-center" value="@v.Email" readonly />
+                                        </div>
+                                        <div class="col-md-2"></div>
+                                    </div>
+
+
+
+                                    <div class="row col-md-12 mt-5">
+                                        <div class="col-md-3"></div>
+                                        <div class="col-md-2 text-left">
+                                            <label>Email To</label>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <input class="height-28 width-300 text-center" name="to_email" value="email.test.ranglerz@gmail.com" />
+                                        </div>
+                                        <div class="col-md-2"></div>
+                                    </div>
+
+
+
+
+                                    <div class="row col-md-12 mt-5">
+                                        <div class="col-md-3"></div>
+                                        <div class="col-md-2  text-left">
+                                            <label>CC</label>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <input class="height-28 width-300 text-center" name="cc" />
+                                        </div>
+                                        <div class="col-md-2"></div>
+                                    </div>
+
+
+                                    <div class="clearfix"></div>
+
+
+
+
+
+                                    <div class="row col-md-12 mt-5">
+                                        <div class="col-md-3"></div>
+                                        <div class="col-md-2  text-left">
+                                            <label>
+                                                Subject
+                                            </label>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <input class="height-28 width-300 text-center" name="subject" value="@String.Concat("Invoice for ", @ViewBag.invoice.Customer.Name)" />
+                                            @*<input class="height-28 width-300 text-center" name="subject" value="@ViewBag.invoice.Customer.Name" />*@
+                                        </div>
+                                        <div class="col-md-2"></div>
+                                    </div>
+
+                                    @*<input name="body" value="~/Sale/Print_Document/@ViewBag.invoice.Id" />*@
+
+                                    <div class="clearfix"></div>
+
+                                    <div class="empty-height"></div><div class="empty-height"></div><div class="empty-height"></div>
+
+
+                                    <div class="col-md-12">
+
+                                        @*<textarea class="col-md-12 email_textarea pl-0 pr-0" id="email_textarea" name="email_textarea">
+
+                                            </textarea>*@
+                                        @*<textarea class="col-md-12 email_textarea pl-0 pr-0" id="email_textarea" name="email_textarea"></textarea>*@
+
+
+                                        <textarea name="ck_body" id="editor" class="ck_textarea">
+                                            <a style="font-family:Comic Sans MS !important;font-weight:bold" href="@String.Concat(@base_url_client, "/Home/Print_Document/" + @ViewBag.invoice.Id)">Click here for a copy of the Invoice for your reference.</a>
+
+
+
+                                            @*<a class="pl_5" style="font-size:25px" href="/Home/Print_Document/@ViewBag.invoice.Id">Click here for a copy of the Invoice for your reference.</a>*@
+
+
+
+                                            <div>
+                                                <p><span style="color:red;"><b>PLEASE NOTE: </b></span><span style="color:blue;font-size:15px!important;">DO NOT REPLY TO THIS EMAIL AS YOUR REPLY WILL NOT BE READ OR ANSWERED</span></p>
+                                            </div>
+
+                                            <div>
+                                                <p><span style="color:blue;">This is an Automated email from our</span><span style="color:green;"> <b>eSalesPro</b> Software</span></p>
+                                            </div>
+
+
+                                        </textarea>
+
+
+
+
+
+
+                                        <div class=""></div>
+
+
+
+
+
+
+                                    </div>
+
+
+
+
+
+                                    <div class="col-md-12 mt-30">
+                                        <div class="col-md-3"></div>
+
+                                        <div class="col-md-3">
+                                            @*<a href="#" class="btn btn-primary btn-mini center-block mt-0">Ok</a>*@
+                                            <button type="submit" class="btn btn-primary btn-mini center-block" style="width:100%;">OK</button>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <a href="#" class="btn btn_view_payment_status center-block" data-dismiss="modal">Cancel</a>
+                                        </div>
+                                        <div class="col-md-3"></div>
+
+
+
+                                    </div>
+
+
+                                </div>
+                            }
+
+
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="modal-footer"></div>
+                    <div class=""></div>
+
+                </div>
+            </div>
+        </div>
     }
 
-  @*------------------------------------------EMAIL MODAL----------------------------------------*@
+    @*------------------------------------------EMAIL MODAL----------------------------------------*@
+
+
+    @*------------------------------------------EMAIL MODAL----------------------------------------*@
 
 
 
@@ -1433,7 +1654,7 @@
                                         <select name="payment_refund_id" id="payment_method_refund_id" oninput="payment_method_refund()" class="form-control border_black-1px width-145 ml-15 select-class-color pull-left">
                                             @foreach (var method in ViewBag.Payment_Method)
                                             {
-                                            <option value="@method.Id">@method.Type</option>
+                                                <option value="@method.Id">@method.Type</option>
                                             }
                                         </select>
                                     </div>
@@ -1490,487 +1711,499 @@
             </div>
         </div>
     </div>
-        </div>
+    </div>
 
-        @*----------------------------POP UP FOR REFUND AN ITEM AMOUNT MODAL--------------------------------*@
-
-
-
-
-        @*----------------------------POP UP FOR SOLD HISTORY--------------------------------*@
-
-        <div class="modal fade close_modal" id="Sold_History_Modal" tabindex="-1" role="dialog" aria-hidden="false">
-            <div class="modal-dialog modal-md">
-                <div class="modal-content modal-style-custom">
-
-                    <div class="title col-md-12">
-                        <span>Message</span>
-                        <img src="~/img/images/c3.png" class="close mr--13 pull-right" data-dismiss="" onclick="close_modal()" />
-                    </div>
-
-                    <div class="col-md-12 col-sm-12 col-xs-12">
-                        <div class="x_panel">
-
-                            <div id="soldHistory" class="win text-center">
-                                <h3 class="color"><b>Previous Price Offered</b></h3>
-
-                                <div class="empty-height"></div><div class="empty-height"></div>
+    @*----------------------------POP UP FOR REFUND AN ITEM AMOUNT MODAL--------------------------------*@
 
 
 
 
+    @*----------------------------POP UP FOR SOLD HISTORY--------------------------------*@
 
+    <div class="modal fade close_modal" id="Sold_History_Modal" tabindex="-1" role="dialog" aria-hidden="false">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content modal-style-custom">
 
+                <div class="title col-md-12">
+                    <span>Message</span>
+                    <img src="~/img/images/c3.png" class="close mr--13 pull-right" data-dismiss="" onclick="close_modal()" />
+                </div>
 
-                                <div class="empty-height"></div>
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+
+                        <div id="soldHistory" class="win text-center">
+                            <h3 class="color"><b>Previous Price Offered</b></h3>
+
+                            <div class="empty-height"></div><div class="empty-height"></div>
 
 
 
 
 
 
-                                <div class="col-md-12">
-                                    <table class="table table-responsive border_black" id="customer_list_table">
-                                        <thead>
-                                            <tr class="table-heading-fonts table-main-headings">
-                                                <th class="text-center"></th>
-                                                <th class="text-center">Price</th>
-                                                <th class="text-center">VAT</th>
-                                                <th class="text-center">Price+VAT</th>
-                                                <th class="text-center">Date</th>
-                                            </tr>
-                                        </thead>
 
-                                        <tbody class="black-color bold text-center" id="updated_customer_list">
-
-
-                                            <tr>
-                                                <td data-title="User ID"></td>
-                                                <td data-title="User ID"></td>
-                                                <td></td>
-                                                <td data-title="Last Name"></td>
-                                                <td data-title="Email" class="user-emails"></td>
-
-                                            </tr>
-
-                                        </tbody>
-
-
-                                    </table>
-                                </div>
-
-
-                                <div class="col-md-12">
-                                    <div class="col-md-3"></div>
-
-
-                                    <div class="col-md-3"></div>
+                            <div class="empty-height"></div>
 
 
 
-                                </div>
+
+
+
+                            <div class="col-md-12">
+                                <table class="table table-responsive border_black" id="customer_list_table">
+                                    <thead>
+                                        <tr class="table-heading-fonts table-main-headings">
+                                            <th class="text-center"></th>
+                                            <th class="text-center">Price</th>
+                                            <th class="text-center">VAT</th>
+                                            <th class="text-center">Price+VAT</th>
+                                            <th class="text-center">Date</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody class="black-color bold text-center" id="updated_customer_list">
+
+
+                                        <tr>
+                                            <td data-title="User ID"></td>
+                                            <td data-title="User ID"></td>
+                                            <td></td>
+                                            <td data-title="Last Name"></td>
+                                            <td data-title="Email" class="user-emails"></td>
+
+                                        </tr>
+
+                                    </tbody>
+
+
+                                </table>
+                            </div>
+
+
+                            <div class="col-md-12">
+                                <div class="col-md-3"></div>
+
+
+                                <div class="col-md-3"></div>
+
 
 
                             </div>
+
+
                         </div>
                     </div>
-
-                    <div class="modal-footer"></div>
-                    <div class=""></div>
-
                 </div>
+
+                <div class="modal-footer"></div>
+                <div class=""></div>
+
             </div>
         </div>
-        @*----------------------------POP UP END SOLD HISTORY--------------------------------*@
+    </div>
+    @*----------------------------POP UP END SOLD HISTORY--------------------------------*@
 
 
 
-        @*----------------------------POP UP FOR DEPOSIT PAYMENT--------------------------------*@
+    @*----------------------------POP UP FOR DEPOSIT PAYMENT--------------------------------*@
 
-        <div class="modal fade" id="Deposit_Modal" tabindex="-1" role="dialog" aria-hidden="false">
-            <div class="modal-dialog modal-sm">
-                <div class="modal-content modal-style-custom">
+    <div class="modal fade" id="Deposit_Modal" tabindex="-1" role="dialog" aria-hidden="false">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content modal-style-custom">
 
-                    <div class="title col-md-12">
-                        <span>Message</span>
-                        <img src="~/img/images/c3.png" class="close mr--13 pull-right" data-dismiss="modal" />
-                    </div>
+                <div class="title col-md-12">
+                    <span>Message</span>
+                    <img src="~/img/images/c3.png" class="close mr--13 pull-right" data-dismiss="modal" />
+                </div>
 
-                    <div class="col-md-12 col-sm-12 col-xs-12">
-                        <div class="x_panel">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
 
-                            <div class="win text-center">
-                                <h3 class="color"><b>Add Deposit Payment</b></h3>
+                        <div class="win text-center">
+                            <h3 class="color"><b>Add Deposit Payment</b></h3>
 
-                                <div class="empty-height"></div><div class="empty-height"></div>
-
-
+                            <div class="empty-height"></div><div class="empty-height"></div>
 
 
 
 
-                                <div class="empty-height"></div>
 
-                                <div class="col-md-12">
 
-                                    <div class="form-group pull-left">
-                                        <label class="pull-left text-left width-72 font-16" for="middle-name">Amount</label>
-                                        <div class="col-md-3 col-sm-6 col-xs-12">
-                                            <input class="width-145" type="text" onkeypress="validate(event)" required name="deposit" id="partial_amount_deposit">
-                                        </div>
+                            <div class="empty-height"></div>
+
+                            <div class="col-md-12">
+
+                                <div class="form-group pull-left">
+                                    <label class="pull-left text-left width-72 font-16" for="middle-name">Amount</label>
+                                    <div class="col-md-3 col-sm-6 col-xs-12">
+                                        <input class="width-145" type="text" onkeypress="validate(event)" required name="deposit" id="partial_amount_deposit">
                                     </div>
+                                </div>
 
 
 
 
-                                    <div class="form-group pull-left">
-                                        <label class="pull-left text-left width-72 font-16" for="middle-name">Payment Method</label>
-                                        <select name="payment_method_id" class="form-control border_black-1px width-145 ml-15 select-class-color pull-left">
-                                            <option value="@ViewBag.invoice.Payment_Methods.Id">@ViewBag.invoice.Payment_Methods.Type</option>
-                                            @foreach (var method in ViewBag.Payment_Method)
+                                <div class="form-group pull-left">
+                                    <label class="pull-left text-left width-72 font-16" for="middle-name">Payment Method</label>
+                                    <select name="payment_method_id" class="form-control border_black-1px width-145 ml-15 select-class-color pull-left">
+                                        <option value="@ViewBag.invoice.Payment_Methods.Id">@ViewBag.invoice.Payment_Methods.Type</option>
+                                        @foreach (var method in ViewBag.Payment_Method)
+                                        {
+                                            if (@method.Id == @ViewBag.invoice.Payment_Methods.Id)
                                             {
-                                                if (@method.Id == @ViewBag.invoice.Payment_Methods.Id)
-                                                {
-                                                    continue;
-                                                }
-                                                <option value="@method.Id">@method.Type</option>
+                                                continue;
                                             }
+                                            <option value="@method.Id">@method.Type</option>
+                                        }
 
-                                        </select>
-                                    </div>
-
-
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="col-md-1"></div>
-
-                                    <div class="col-md-5">
-                                        <input type="button" onclick="Deposit_Payment()" data-dismiss="modal" value="Add" class="btn btn-success btn-mini center-block width-80" />
-                                    </div>
-
-                                    <div class="col-md-5">
-                                        <a href="" data-dismiss="modal" class="btn btn-primary btn-mini width-80 center-block height-40 mt-0">Cancel</a>
-                                    </div>
-                                    <div class="col-md-1"></div>
-
-
-
+                                    </select>
                                 </div>
 
 
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-1"></div>
 
+                                <div class="col-md-5">
+                                    <input type="button" onclick="Deposit_Payment()" data-dismiss="modal" value="Add" class="btn btn-success btn-mini center-block width-80" />
+                                </div>
+
+                                <div class="col-md-5">
+                                    <a href="" data-dismiss="modal" class="btn btn-primary btn-mini width-80 center-block height-40 mt-0">Cancel</a>
+                                </div>
+                                <div class="col-md-1"></div>
 
 
 
                             </div>
+
+
+
+
+
+
                         </div>
                     </div>
-
-                    <div class="modal-footer"></div>
-                    <div class=""></div>
-
                 </div>
+
+                <div class="modal-footer"></div>
+                <div class=""></div>
+
             </div>
         </div>
+    </div>
 
 
-        @*----------------------------POP UP END DEPOSIT PAYMENT--------------------------------*@
-
-
-
-
-
-
-        @*----------------------------POP UP FOR PARTIAL PAYMENT--------------------------------*@
-
-        <div class="modal fade" id="Partial_Payment_Modal" tabindex="-1" role="dialog" aria-hidden="false">
-            <div class="modal-dialog modal-sm">
-                <div class="modal-content modal-style-custom">
-
-                    <div class="title col-md-12">
-                        <span>Message</span>
-                        <img src="~/img/images/c3.png" class="close mr--13 pull-right" data-dismiss="modal" onclick="close_partial_payment_modal()" />
-                    </div>
-
-                    <div class="col-md-12 col-sm-12 col-xs-12">
-                        <div class="x_panel">
-
-                            <div class="win text-center">
-                                <h3 class="color"><b>Add Partial Payment</b></h3>
-
-                                <div class="empty-height"></div><div class="empty-height"></div>
+    @*----------------------------POP UP END DEPOSIT PAYMENT--------------------------------*@
 
 
 
 
 
 
-                                <div class="empty-height"></div>
+    @*----------------------------POP UP FOR PARTIAL PAYMENT--------------------------------*@
 
-                                <div class="col-md-12">
+    <div class="modal fade" id="Partial_Payment_Modal" tabindex="-1" role="dialog" aria-hidden="false">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content modal-style-custom">
 
-                                    <div class="form-group pull-left">
-                                        <label class="pull-left text-left width-72 font-16" for="middle-name">Amount</label>
-                                        <div class="col-md-3 col-sm-6 col-xs-12">
-                                            <input class="width-145" type="text" onkeypress="validate(event)" name="partial_amount" id="partial_amount">
+                <div class="title col-md-12">
+                    <span>Message</span>
+                    <img src="~/img/images/c3.png" class="close mr--13 pull-right" data-dismiss="modal" onclick="close_partial_payment_modal()" />
+                </div>
+
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+
+                        <div class="win text-center">
+                            <h3 class="color"><b>Add Partial Payment</b></h3>
+
+                            <div class="empty-height"></div><div class="empty-height"></div>
 
 
 
-                                        </div>
+
+
+
+                            <div class="empty-height"></div>
+
+                            <div class="col-md-12">
+
+                                <div class="form-group pull-left">
+                                    <label class="pull-left text-left width-72 font-16" for="middle-name">Amount</label>
+                                    <div class="col-md-3 col-sm-6 col-xs-12">
+                                        <input class="width-145" type="text" onkeypress="validate(event)" name="partial_amount" id="partial_amount">
+
+
+
                                     </div>
-
-
-
-
-
-                                    <div class="form-group pull-left">
-                                        <label class="pull-left text-left width-72 font-16" for="middle-name">Payment Method</label>
-                                        <select name="payment_method_id" class="form-control border_black-1px width-145 ml-15 select-class-color pull-left">
-                                            @foreach (var method in ViewBag.Payment_Method)
-                                            {
-                                                <option value="@method.Id">@method.Type</option>
-                                            }
-
-                                        </select>
-                                    </div>
-
-
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="col-md-1"></div>
-
-                                    <div class="col-md-5">
-                                        <input type="button" onclick="Partial_Payment()" data-dismiss="modal" value="Add" class="btn btn-success btn-mini center-block width-80" />
-                                    </div>
-
-                                    <div class="col-md-5">
-                                        <a href="#" data-dismiss="modal" onclick="close_partial_payment_modal()" class="btn btn-primary btn-mini width-80 center-block height-40 mt-0">Cancel</a>
-                                    </div>
-                                    <div class="col-md-1"></div>
-
-
-
                                 </div>
 
 
 
 
+
+                                <div class="form-group pull-left">
+                                    <label class="pull-left text-left width-72 font-16" for="middle-name">Payment Method</label>
+                                    <select name="payment_method_id" class="form-control border_black-1px width-145 ml-15 select-class-color pull-left">
+                                        @foreach (var method in ViewBag.Payment_Method)
+                                        {
+                                            <option value="@method.Id">@method.Type</option>
+                                        }
+
+                                    </select>
+                                </div>
+
+
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-1"></div>
+
+                                <div class="col-md-5">
+                                    <input type="button" onclick="Partial_Payment()" data-dismiss="modal" value="Add" class="btn btn-success btn-mini center-block width-80" />
+                                </div>
+
+                                <div class="col-md-5">
+                                    <a href="#" data-dismiss="modal" onclick="close_partial_payment_modal()" class="btn btn-primary btn-mini width-80 center-block height-40 mt-0">Cancel</a>
+                                </div>
+                                <div class="col-md-1"></div>
 
 
 
                             </div>
+
+
+
+
+
+
+
                         </div>
                     </div>
-
-                    <div class="modal-footer"></div>
-                    <div class=""></div>
-
                 </div>
+
+                <div class="modal-footer"></div>
+                <div class=""></div>
+
             </div>
         </div>
+    </div>
 
 
-        @*----------------------------POP UP END PARTIAL PAYMENT--------------------------------*@
-
-
-
-        @*----------------------------POP UP FOR OUTSTANDING--------------------------------*@
-
-
-        <div class="modal fade" id="Outstanding_modal" tabindex="-1" role="dialog" aria-hidden="false">
-            <div class="modal-dialog modal-md">
-                <div class="modal-content modal-style-custom">
-
-                    <div class="title col-md-12">
-                        <span>Message</span>
-                        <img src="~/img/images/c3.png" class="close mr--13 pull-right" data-dismiss="modal" />
-                    </div>
-
-                    <div class="col-md-12 col-sm-12 col-xs-12">
-                        <div class="x_panel">
-
-                            <div class="win text-center">
-
-
-                                <div class="empty-height"></div><div class="empty-height"></div>
-
-                                <p class="bold">Are you sure do you wish to pay all outstanding payment</p>
+    @*----------------------------POP UP END PARTIAL PAYMENT--------------------------------*@
 
 
 
-                                <div class="col-md-12">
-                                    <div class="col-md-1"></div>
-                                    <div class="form-group pull-left">
-                                        <label class="control-label pull-left mt-5">Pay Amount</label>
-                                        <input id="outstanding_amount" class="form-control pull-left width-80 ml-5" type="text" name="outstanding_amount" placeholder="0.0" required>
-                                    </div>
+    @*----------------------------POP UP FOR OUTSTANDING--------------------------------*@
 
 
-                                    <div class="pull-left">
-                                        <label class="control-label pull-left mt-5 ml-15 mr-7">Pay Method</label>
+    <div class="modal fade" id="Outstanding_modal" tabindex="-1" role="dialog" aria-hidden="false">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content modal-style-custom">
 
-                                        <select name="payment_method_id" class="form-control border_black-1px width-145 select-class-color">
-                                            @foreach (var method in ViewBag.Payment_Method)
-                                            {
-                                                <option value="@method.Id">@method.Type</option>
-                                            }
+                <div class="title col-md-12">
+                    <span>Message</span>
+                    <img src="~/img/images/c3.png" class="close mr--13 pull-right" data-dismiss="modal" />
+                </div>
 
-                                        </select>
-                                    </div>
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
 
-                                    <div class="col-md-2"></div>
+                        <div class="win text-center">
 
-                                    <div class="clearfix"></div>
 
-                                </div>
+                            <div class="empty-height"></div><div class="empty-height"></div>
 
-                                <div class="col-md-12">
-                                    <div class="col-md-3"></div>
-
-                                    <div class="col-md-3">
-                                        <input type="submit" data-dismiss="modal" onclick="outstanding_balance_function()" value="Pay" class="btn btn-success btn-mini center-block width-123" />
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <a data-dismiss="modal" class="btn btn-primary btn-mini width-123 center-block a-cancel height-40 mt-0">Cancel</a>
-                                    </div>
-                                    <div class="col-md-3"></div>
+                            <p class="bold">Are you sure do you wish to pay all outstanding payment</p>
 
 
 
+                            <div class="col-md-12">
+                                <div class="col-md-1"></div>
+                                <div class="form-group pull-left">
+                                    <label class="control-label pull-left mt-5">Pay Amount</label>
+                                    <input id="outstanding_amount" class="form-control pull-left width-80 ml-5" type="text" name="outstanding_amount" placeholder="0.0" required>
                                 </div>
 
 
+                                <div class="pull-left">
+                                    <label class="control-label pull-left mt-5 ml-15 mr-7">Pay Method</label>
 
+                                    <select name="payment_method_id" class="form-control border_black-1px width-145 select-class-color">
+                                        @foreach (var method in ViewBag.Payment_Method)
+                                        {
+                                            <option value="@method.Id">@method.Type</option>
+                                        }
+
+                                    </select>
+                                </div>
+
+                                <div class="col-md-2"></div>
+
+                                <div class="clearfix"></div>
+
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="col-md-3"></div>
+
+                                <div class="col-md-3">
+                                    <input type="submit" data-dismiss="modal" onclick="outstanding_balance_function()" value="Pay" class="btn btn-success btn-mini center-block width-123" />
+                                </div>
+
+                                <div class="col-md-3">
+                                    <a data-dismiss="modal" class="btn btn-primary btn-mini width-123 center-block a-cancel height-40 mt-0">Cancel</a>
+                                </div>
+                                <div class="col-md-3"></div>
 
 
 
                             </div>
+
+
+
+
+
+
                         </div>
                     </div>
-
-                    <div class="modal-footer"></div>
-                    <div class=""></div>
-
                 </div>
+
+                <div class="modal-footer"></div>
+                <div class=""></div>
+
             </div>
         </div>
+    </div>
 
 
-        @*----------------------------POP UP END OUTSTANDING--------------------------------*@
+    @*----------------------------POP UP END OUTSTANDING--------------------------------*@
 
 
-        @*----------------------------POP UP FOR GLOBAL DISCOUNT--------------------------------*@
+    @*----------------------------POP UP FOR GLOBAL DISCOUNT--------------------------------*@
 
-        <div class="modal fade" id="Global_Discount_Modal" tabindex="-1" role="dialog" aria-hidden="false">
-            <div class="modal-dialog modal-sm">
-                <div class="modal-content modal-style-custom">
+    <div class="modal fade" id="Global_Discount_Modal" tabindex="-1" role="dialog" aria-hidden="false">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content modal-style-custom">
 
-                    <div class="title col-md-12">
-                        <span>Prompt</span>
-                        <img src="~/img/images/c3.png" class="close mr--13 pull-right" data-dismiss="modal" />
-                    </div>
+                <div class="title col-md-12">
+                    <span>Prompt</span>
+                    <img src="~/img/images/c3.png" class="close mr--13 pull-right" data-dismiss="modal" />
+                </div>
 
-                    <div class="col-md-12 col-sm-12 col-xs-12">
-                        <div class="x_panel">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
 
-                            <div class="win text-center">
-                                @*<h3 class="color"><b>Find Customer</b></h3>*@<h3 class="color"><b></b></h3>
+                        <div class="win text-center">
+                            @*<h3 class="color"><b>Find Customer</b></h3>*@<h3 class="color"><b></b></h3>
 
-                                <div class="empty-height"></div><div class="empty-height"></div>
-
-
-
-
-                                <label class="bold">Please Enter Discount Price</label>
-                                <input type="text" name="discount_value" id="discount_value" required />
-
-                                <div class="empty-height"></div>
-
-                                <div class="col-md-12">
-                                    <div class="col-md-1"></div>
-
-                                    <div class="col-md-9">
-                                        <input data-dismiss="modal" type="button" onclick="global_discount()" value="Ok" class="btn btn-success btn-mini center-block width-123" />
-                                    </div>
-
-                                    <div class="col-md-2"></div>
+                            <div class="empty-height"></div><div class="empty-height"></div>
 
 
 
+
+                            <label class="bold">Please Enter Discount Price</label>
+                            <input type="text" name="discount_value" id="discount_value" required />
+
+                            <div class="empty-height"></div>
+
+                            <div class="col-md-12">
+                                <div class="col-md-1"></div>
+
+                                <div class="col-md-9">
+                                    <input data-dismiss="modal" type="button" onclick="global_discount()" value="Ok" class="btn btn-success btn-mini center-block width-123" />
                                 </div>
 
+                                <div class="col-md-2"></div>
+
+
+
                             </div>
+
                         </div>
                     </div>
-
-                    <div class="modal-footer"></div>
-                    <div class=""></div>
-
                 </div>
+
+                <div class="modal-footer"></div>
+                <div class=""></div>
+
             </div>
         </div>
+    </div>
 
 
-        @*----------------------------POP UP END GLOBAL DISCOUNT--------------------------------*@
-
-
-
-
-        @*----------------------------POP UP EXISTING CUSTOMER--------------------------------*@
-
-        @{
-            Html.RenderPartial("Customer_Modal/Existing_Customer_Modal");
-        }
-
-        @*----------------------------POP UP END EXISTING CUSTOMER--------------------------------*
+    @*----------------------------POP UP END GLOBAL DISCOUNT--------------------------------*@
 
 
 
 
+    @*----------------------------POP UP EXISTING CUSTOMER--------------------------------*@
 
-            @*----------------------------POP UP ADD CUSTOMER--------------------------------*@
+    @{
+        Html.RenderPartial("Customer_Modal/Existing_Customer_Modal");
+    }
 
-
-        @{
-            Html.RenderPartial("Customer_Modal/Add_New_Customer_Modal");
-        }
-
-        @*----------------------------POP UP END ADD CUSTOMER--------------------------------*@
-
-
-        @{
-            counter = counter - 1;
-        }
-
-        <input type="hidden" name="totalRows" value="@counter" id="rowCounterrr" />
-        <input type="hidden" value="@counter" id="ApnaApnaRowNumber" />
+    @*----------------------------POP UP END EXISTING CUSTOMER--------------------------------*
 
 
 
-        @*----------------------------POP UP EDIT CUSTOMER--------------------------------*@
-
-        @{
-            Html.RenderPartial("Customer_Modal/Edit_Customer_Modal_Shared");
-        }
-
-        @*----------------------------POP UP END EDIT CUSTOMER--------------------------------*@
 
 
-        @*----------------------------POP UP for POSTCODE CONFIRMATION--------------------------------*@
+        @*----------------------------POP UP ADD CUSTOMER--------------------------------*@
 
-        @{
-            Html.RenderPartial("Customer_Modal/Add_Customer_Postcode");
-        }
 
-        @*----------------------------POP UP END for POSTCODE CONFIRMATION--------------------------------*@
+    @{
+        Html.RenderPartial("Customer_Modal/Add_New_Customer_Modal");
+    }
 
-        <script src="~/Scripts/Sale/Edit_Sale.js"></script>
-        <script src="~/Scripts/Common_JS_Functions/Common_JS.js"></script>
+    @*----------------------------POP UP END ADD CUSTOMER--------------------------------*@
 
-        <script src="~/Scripts/Postcode_Customer/Add_Customer_Postcode.js"></script>
-        <script src="~/Scripts/Postcode_Customer/Edit_Customer_Postcode.js"></script>
+
+    @{
+        counter = counter - 1;
+    }
+
+    <input type="hidden" name="totalRows" value="@counter" id="rowCounterrr" />
+    <input type="hidden" value="@counter" id="ApnaApnaRowNumber" />
 
 
 
-    </body>
+    @*----------------------------POP UP EDIT CUSTOMER--------------------------------*@
+
+    @{
+        Html.RenderPartial("Customer_Modal/Edit_Customer_Modal_Shared");
+    }
+
+    @*----------------------------POP UP END EDIT CUSTOMER--------------------------------*@
+
+
+    @*----------------------------POP UP for POSTCODE CONFIRMATION--------------------------------*@
+
+    @{
+        Html.RenderPartial("Customer_Modal/Add_Customer_Postcode");
+    }
+
+    @*----------------------------POP UP END for POSTCODE CONFIRMATION--------------------------------*@
+
+    <script src="~/Scripts/Sale/Edit_Sale.js"></script>
+    <script src="~/Scripts/Common_JS_Functions/Common_JS.js"></script>
+
+    <script src="~/Scripts/Postcode_Customer/Add_Customer_Postcode.js"></script>
+    <script src="~/Scripts/Postcode_Customer/Edit_Customer_Postcode.js"></script>
+
+
+    <script src="~/content/ckeditor/ckeditor.js"></script>
+    <script src="~/content/ckeditor/samples/js/sample.js"></script>
+    <link rel="stylesheet" href="~/Content/ckeditor/contents.css" />
+
+
+
+    <script>
+        initSample();
+        
+    </script>
+
+    
+
+</body>

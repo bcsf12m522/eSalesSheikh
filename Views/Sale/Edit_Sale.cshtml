@@ -194,7 +194,10 @@
                                                 <div class="col-md-5">
                                                     <label><input type="checkbox" id="sold_history_checkbox" value="" />Check Sold History</label><br />
                                                     <label id="hideExcludeVat"><input type="checkbox" id="excludeVat" value="" onclick="excludeVatUnchecked();" />Exclude VAT</label>
-                                                    <label hidden id="show_details"><input type="checkbox" id="show_details" value="" />Show Details</label>
+                                                    <label hidden id="show_details">
+
+                                                        <input type="checkbox" name="view_details" id="view_details" onclick="view_detail_click()"/>Show Details</label>
+                                                    <input id="input_view_detail" name="input_view_detail" value="@ViewBag.invoice.Show_Details"/>
                                                     @*<label><input type="checkbox" value="" />Show Details</label>*@
                                                 </div>
 
@@ -661,7 +664,7 @@
                                                     </td>
                                                 </tr>
 
-                                                <input type="text"  id="payment_status_value_after_disabled" name="payment_status_value_after_disabled" hidden/>
+                                                <input type="text" hidden id="payment_status_value_after_disabled" name="payment_status_value_after_disabled"/>
                                                 @*<tr class="">
                                                         <td class="bold"></td>
                                                         <td class=" bold text-center"><a href="#" data-target="#Give_Refund" data-toggle="modal">Give Refund</a></td>
@@ -736,7 +739,7 @@
                                                     <td class="bold">Amount left to Pay</td>
                                                     <td id="amount_left_td" class="text-right">@{@balance}</td>
                                                 </tr>
-                                                <input type="" value="@balance" id="amount_left_input_field" />
+                                                <input type="" value="@balance" id="amount_left_input_field" hidden/>
 
 
                                             </table>
@@ -811,10 +814,10 @@
                                 <input type="text" id="gross_invoice" name="gross_invoice_hidden" value="@ViewBag.invoice.Gross_Total" hidden />
                                 <input type="text" class="" id="global_discount_hidden" name="global_discount_hidden" value="0" hidden />
                                 <input type="text" class="" id="total_after_discount_hidden" name="total_after_discount_hidden" hidden />
-                                <label>Left Amount Hidden</label>
-                                <input type="text" class="" id="left_amount_hidden" name="left_amount_hidden" value="@ViewBag.invoice.Amount_Left"/>
-                                <label>Amount Paid</label>
-                                <input type="text" class="" id="amount_paid_hidden" name="amount_paid_hidden" value="@ViewBag.invoice.Amount_Paid"/>
+                                <label hidden>Left Amount Hidden</label>
+                                <input hidden type="text" class="" id="left_amount_hidden" name="left_amount_hidden" value="@ViewBag.invoice.Amount_Left" />
+                                <label hidden>Amount Paid</label>
+                                <input hidden type="text" class="" id="amount_paid_hidden" name="amount_paid_hidden" value="@ViewBag.invoice.Amount_Paid" />
 
                                 @*<input id="refund_rows_count" type="text" />*@<input id="refund_rows_count" type="text" hidden/>
 

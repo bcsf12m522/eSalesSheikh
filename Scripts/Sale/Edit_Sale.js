@@ -143,6 +143,7 @@ function run_invoice() {
     var old_doc = $("#doc_type_page_load").val();
     document.getElementById('new_document_type_changed').value = selectedValue;
     
+    
 
 
 
@@ -170,12 +171,14 @@ function run_invoice() {
         $("#hideExcludeVat").show();
         $("#Give_Refund_Div").show();
         
+        $("#show_details").hide();
+
         //Quote Hide
         $("#quote_number_div").hide();
         $("#new_quote_heading").hide();
 
         //Item Sale Hide
-        $("#show_details").hide();
+        
         $("#item_sale_div").hide();
         $("#new_item_sale_heading").hide();
 
@@ -194,10 +197,14 @@ function run_invoice() {
             $("#quote_number_div").hide();
             $("#item_sale_max").hide();
             $("#invoice_number_max").show();
+            $("#payment_status_id").val(1);
+            payment_status();
+            //alert("3");
         }
 
         make_readonly_on_Invoice(1);
-
+        $("#input_view_detail").val(0);
+        document.getElementById("view_details").checked = false;
     }
 
     else if (selectedValue == 2) {
@@ -275,7 +282,7 @@ function run_invoice() {
         //Quote Hide
         $("#quote_number_div").hide();
         $("#new_quote_heading").hide();
-
+        $("#show_details").hide();
 
         $("#payment_method_div").show();
         $("#global_discount_div").show();
@@ -286,7 +293,7 @@ function run_invoice() {
 
         $(".priceVAT").hide();
 
-        $("#show_details").hide();
+        
         //Item Sale Show
         $("#item_sale_div").show();
         $("#new_item_sale_heading").show();
@@ -301,6 +308,9 @@ function run_invoice() {
             $("#quote_number_div").hide();
             $("#invoice_number_max").hide();
             $("#item_sale_max").show();
+
+            $("#payment_status_id").val(1);
+            payment_status();
         }
 
 
@@ -313,6 +323,9 @@ function run_invoice() {
 
         make_readonly_on_Invoice(3);
 
+
+        $("#input_view_detail").val(0);
+        document.getElementById("view_details").checked = false;
         //$("#item_sale_id").show();
         //$("#invoice_id").hide();
         //$("#quote_id").hide();
@@ -326,6 +339,13 @@ function run_invoice() {
 
         
     }
+
+    var detail = $("#input_view_detail").val();
+    if (detail == 1) {
+        document.getElementById("view_details").checked = true;
+    }
+    
+
 }
 
 
@@ -1739,4 +1759,14 @@ function Partial_Payment_Calculation_on_Edit() {
 
 function close_partial_payment_modal() {
     $("#Partial_Payment_Modal").hide();
+}
+
+
+function view_detail_click() {
+    if (document.getElementById("view_details").checked) {
+        $("#input_view_detail").val(1);
+    }
+    else {
+        $("#input_view_detail").val(0);
+    }
 }

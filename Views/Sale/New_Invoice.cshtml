@@ -30,8 +30,10 @@
                         <div id="edit_invoice">
                             <form id="demo-form2" action="@Url.Action("Create_Sale","Sale")" method="post" data-parsley-validate class="" enctype="multipart/form-data">
 
+
+                                <input hidden id="custom_document_type_value" name="custom_document_type_value"/>
                                 
-                                <input hidden type="text" value="-4" id="customer_list_edit_modal_value" />
+                                <input hidden type="text" value="-4" id="customer_list_edit_modal_value"/>
 
 
                                 <input hidden type="text" id="partial_net_sale_history" name="partial_net_id" />
@@ -146,9 +148,10 @@
                                                 <div class="col-md-5">
                                                     <label><input type="checkbox" id="sold_history_checkbox" value="" />Check Sold History</label><br />
                                                     <label id="hideExcludeVat"><input type="checkbox" id="excludeVat" value="" onclick="excludeVatUnchecked();" />Exclude VAT</label>
-                                                    <label hidden id="show_details"><input type="checkbox" id="show_details" value="" />Show Details</label>
+                                                    <label hidden id="show_details"><input type="checkbox" name="view_details" id="view_details" value="0" onclick="view_detail_click()" />Show Details</label>
+                                                    <input id="input_view_detail" name="input_view_detail" value="0" hidden/>
 
-                                                    </br>
+                                                    <br />
 
                                                     @*<a href="" class="bold" data-target="#hhh" data-toggle="modal">Edit Customers</a>*@
 
@@ -163,14 +166,14 @@
                                                     <div class="form-group" id="invoice_number_div">
                                                         <label class="pull-left width-134" for="middle-name">Invoice Number</label>
                                                         <div class="pull-left">
-                                                            <input class="width-145 text-center" value="@ViewBag.invoice_number" @*onkeypress="validate(event)" onblur="checkInvoiceNumber()"*@ type="text" name="invoice_number" id="invoice_number" required readonly>
+                                                            <input class="width-145 text-center" value="@ViewBag.invoice_number" onkeypress="validate(event)" onblur="checkInvoiceNumber()" type="text" name="invoice_number" id="invoice_number" required>
                                                         </div>
                                                     </div>
 
                                                     <div class="form-group" id="quote_number_div" style="display:none;">
                                                         <label class="pull-left width-134" for="middle-name">Quote Number</label>
                                                         <div class="pull-left">
-                                                            <input class="width-145 text-center" type="text" onblur="checkQuoteNumber()" value="@ViewBag.quote_number" name="quote_number" id="quote_number" readonly>
+                                                            <input class="width-145 text-center" type="text" onblur="checkQuoteNumber()" value="@ViewBag.quote_number" name="quote_number" id="quote_number" onkeypress="validate(event)">
                                                             @*<input class="width-145 text-center" onblur="checkInvoiceNumber()" value="@ViewBag.invoice_number" onkeypress="validate(event)" type="text" name="" id="" required>*@
                                                         </div>
                                                     </div>
@@ -178,7 +181,7 @@
                                                     <div class="form-group" id="item_sale_div" style="display:none;">
                                                         <label class="pull-left width-134" for="middle-name">Item Sale Number</label>
                                                         <div class="pull-left">
-                                                            <input class="width-145 text-center" type="text" onblur="checkItemSaleNumber()" value="@ViewBag.item_sale_number" name="item_sale_number" id="item_sale_number" readonly>
+                                                            <input class="width-145 text-center" type="text" onblur="checkItemSaleNumber()" value="@ViewBag.item_sale_number" name="item_sale_number" id="item_sale_number" onkeypress="validate(event)">
                                                             @*<input class="width-145 text-center" onblur="checkInvoiceNumber()" value="@ViewBag.invoice_number" onkeypress="validate(event)" type="text" name="" id="" required>*@
                                                         </div>
                                                     </div>
@@ -264,7 +267,7 @@
                                                     <td class="border-right-td">
                                                         <textarea class="2 description-text-area unbold width-100p text-center" name="invoice_description1" id="invoice_description1" required="" placeholder="Description"></textarea>
                                                     </td>
-                                                    
+
                                                     <td class="border-right-td"><div class="text-center"><input onkeypress="validate(event)" id="invoice_quantity1" onkeyup="Total(1);checkQuantityAvailable(this.value,1)" placeholder="0" class="3 unbold width-45 text-center" name="invoice_quantity1" type="text" required></div></td>
                                                     <td id="" class="border-right-td priceVAT"><div class="text-center"><input onkeypress="validate(event)" id="invoice_price1" onkeyup="Total(1)" placeholder="0.0" class="4 new-invoice-width-boxes unbold width-68 text-center" name="invoice_price1" type="text" required></div></td>
                                                     <td class="border-right-td hidecolumn text-center"><input onkeypress="validate(event)" id="invoice_price_vat1" onkeyup="Total2(1)" placeholder="0.0" class="5 new-invoice-width-boxes unbold width-78 text-center" name="invoice_price_vat1" type="text" required></td>
@@ -275,10 +278,10 @@
                                                     @*<td class="border-right-td text-center width-78 hidecolumn"><div id="invoice_total_vat1" class="7 total_invoice_background text-center">£0</div></td>*@
 
                                                     <td class="border-right-td text-center"><input onkeyup="Total(1);" onkeypress="validate(event)" id="invoice_discount1" placeholder="0.0" class="8 unbold width-45 text-center" name="invoice_discount1" type="text"></td>
-                                                    
-                                                    <td class="hidden"><input type="text" class="hidden" id="invoice_product_id1" name="invoice_product_id1"/></td>
+
+                                                    <td class="hidden"><input type="text" class="hidden" id="invoice_product_id1" name="invoice_product_id1" /></td>
                                                     <input hidden type="text" id="@String.Concat("serial_number_value_input_checkbox1")" name="@String.Concat("serial_number_value_input_checkbox1")" value="0" />
-                                                    
+
                                                     <td class="text-center width-27p" style="vertical-align:middle;">
                                                         <a href="#" onclick="addNewRow(); rowcounterPlus();" class="showdiv">
                                                             <img src="/img/images/plus_new_sale.png">
@@ -295,13 +298,13 @@
 
                                                     </td>
 
-                                                    <input type="text" id="total_hidden1" name="total_hidden1" hidden/>
-                                                    <input type="text" id="total_vat_hidden1" name="total_vat_hidden1" hidden/>
+                                                    <input type="text" id="total_hidden1" name="total_hidden1" hidden />
+                                                    <input type="text" id="total_vat_hidden1" name="total_vat_hidden1" hidden />
 
 
 
                                                 </tr>
-
+                                                </br>
                                             </tbody>
                                             @for (int i = 1; i <= 1000; i++)
                                             {
@@ -491,8 +494,8 @@
                                 <input type="text" class="" id="global_discount_hidden" name="global_discount_hidden" value="0" hidden/>
                                 <input type="text" class="" id="total_after_discount_hidden" name="total_after_discount_hidden" hidden/>
                                 
-                                <label >Amount Paid</label><input type="text" class="" id="amount_paid_hidden" name="amount_paid_hidden"/>
-                                <label >Amount Left</label><input type="text" class="" id="left_amount_hidden" name="left_amount_hidden"/>
+                                <label hidden>Amount Paid</label><input type="text" class="" id="amount_paid_hidden" name="amount_paid_hidden" hidden/>
+                                <label hidden>Amount Left</label><input type="text" class="" id="left_amount_hidden" name="left_amount_hidden" hidden/>
                                 
 
                                 <input type="text" hidden name="doc_type_page_load" id="doc_type_page_load"/>

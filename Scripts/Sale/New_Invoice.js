@@ -237,6 +237,10 @@ function run_invoice() {
         $("#show_details").hide();
         $("#item_sale_div").hide();
         $("#new_item_sale_heading").hide();
+
+        $("#input_view_detail").val(0);
+        document.getElementById("view_details").checked = false;
+        
     }
 
     else if (selectedValue == 2) {
@@ -304,6 +308,8 @@ function run_invoice() {
         $("#item_sale_div").show();
         $("#new_item_sale_heading").show();
 
+        $("#input_view_detail").val(0);
+        document.getElementById("view_details").checked = false;
 
         //$("#item_sale_id").show();
         //$("#invoice_id").hide();
@@ -754,7 +760,8 @@ function tbody_add_record(id, count) {
     checkSoldHistory(count);
     Total(count);
 
-
+    addNewRow();
+    rowcounterPlus();
 
 
 }
@@ -831,6 +838,7 @@ function global_discount() {
 
 function addNewRow() {
 
+    //alert("ADD_NEW_ROW")
     var doc_value = $("#doc_type_page_load").val();
     //alert("doc_value       " + doc_value);
     
@@ -913,9 +921,10 @@ function productList(e, char, serialnumber) {
             success: function (data) {
 
                 document.getElementById('productList').innerHTML = data;
+                
             },
             error: function (response) {
-                //alert("productList");
+                //alert("ERRORRRRRRRRRRRRRRRRRRRRR");
             }
         })
     }
@@ -1174,6 +1183,7 @@ function checkInvoiceNumber() {
         cache: false,
         success: function (data) {
             //alert(data);
+            $("#custom_document_type_value").val(data);
             if (data == "False") {
 
                 document.getElementById("invoice_number").value = "";
@@ -1210,11 +1220,20 @@ function checkQuoteNumber() {
         type: "Get",
         cache: false,
         success: function (data) {
+            $("#custom_document_type_value").val(data);
 
             if (data == "False") {
-
                 document.getElementById("quote_number").value = "";
-                alert("Quote_number already exist !")
+                
+                swal({
+                    title: "Quote NUMBER EXIST",
+                    text: "Quote Number Exist, Enter Some other Number",
+                    type: "warning",
+                    confirmButtonColor: '#DD6B55',
+                    confirmButtonText: 'Okay',
+                },
+    function () {
+    });
             }
         },
         error: function (response) {
@@ -1237,7 +1256,7 @@ function checkItemSaleNumber() {
         type: "Get",
         cache: false,
         success: function (data) {
-
+            $("#custom_document_type_value").val(data);
             if (data == "False") {
 
                 document.getElementById("item_sale_number").value = "";
@@ -1678,3 +1697,45 @@ function serial_number_checkbox() {
 //function close_serial_number_modal() {
 //    $("#Serial_Number_Modal").hide();
 //}
+
+
+
+var addButton = $('.add_button');
+var wrapper = $('.field_wrapper');
+var counter = 2;
+$(addButton).click(function () {
+    //alert("asasas");
+    //$("#maintable").append('<tr class="font-15 id remove_div"><td class="border-right-td"><div class="text-center"><input placeholder="Code" class="yoyo unbold width-110 text-center" id="codeforProduct' + counter + '" name="yoyoyoyoyoyoyoy" onkeyup="productList(event,this.value,@ViewBag.serialNumber);Total(counter)" type="text" required></div></td><td class="border-right-td"><textarea class="2 description-text-area unbold width-100p text-center" id="invoice_description ' + counter + '" name="invoice_description" required="" placeholder="Description"></textarea></td><td class="border-right-td"><div class="text-center"> <input onkeypress="validate(event);" id="invoice_quantity' + counter + '" onkeyup="Total(@counter);checkQuantityAvailable(this.value,@counter);" placeholder="0" class="3 unbold width-45 text-center" name="invoice_quantity" type="text" required></div></td><td class="border-right-td"><div class="text-center"> <input onkeypress="validate(event)" id="invoice_price' + counter + '" onkeyup="Total(@counter)" placeholder="0.0" class="4 new-invoice-width-boxes unbold width-68 text-center" name="invoice_price" onkeyup="Total(@counter)" type="text" required></div></td><td class="border-right-td hidecolumn text-center"> <input onkeypress="validate(event)" id="invoice_price_vat' + counter + '" onkeyup="Total2(@counter)" placeholder="0.0" class="5 new-invoice-width-boxes unbold width-78 text-center" name="invoice_price_vat" type="text" required></td><td class="border-right-td text-center"><input readonly id="invoice_total' + counter + '" placeholder="0.0" class="6 new-invoice-width-boxes unbold width-68 text-center" name="invoice_total" type="text"></td><td class="border-right-td hidecolumn text-center"> <input readonly id="invoice_total_vat' + counter + '" placeholder="0.0" class="7 new-invoice-width-boxes unbold width-78 text-center" name="invoice_total_vat" type="text"></td>@*<td class="text-center border-right-td width-68" style="display:none"><div id="@String.Concat(" invoice_total ",counter)" class="6 total_invoice_background text-center">£0</div></td><td class="border-right-td text-center width-78 hidecolumn" style="display:none"><div id="@String.Concat(" invoice_total_vat ",counter)" class="7 total_invoice_background text-center">£0</div></td>*@<td class="border-right-td"><div class="text-center"> <input onkeypress="validate(event)" onkeyup="Total(@counter);" id="@String.Concat(" invoice_discount ",@counter)" placeholder="0.0" class="8 unbold width-45 text-center" name="@String.Concat(" invoice_discount ",counter)" type="text"></div></td><td class="hidden" style="display:none"> <input type="text" class="hidden" name="@String.Concat(" invoice_product_id ",counter)" id="@String.Concat(" invoice_product_id ",counter)" /></td><td class="text-center width-27p" style="vertical-align:middle;"> <a href="#" class="showdiv"> <img src="/img/images/plus_new_sale.png"> </a> <a href="#" class="remove" onclick="RemoveAddedRow(@counter)"> <img src="/img/images/cross_new_sale.png"> </a> <a href="#" id="@String.Concat(" serial_number ",counter)" onclick="serial_number_click(@counter)"> <img src="/img/images/barcode_new_sale.png"> </a> <a href="#" data-target="#" data-toggle="modal" id="@String.Concat(" img",counter)" onclick="image_click(@counter)"><img src="~/img/images/findpost.png"/></a></td> <input type="hidden" id="@String.Concat(" total_hidden ", counter)" name="@String.Concat(" total_hidden ", counter)"/> <input type="hidden" id="@String.Concat(" total_vat_hidden ", counter)" name="@String.Concat(" total_vat_hidden ", counter)"/> <input type="text" class="remove_div" id="@String.Concat(" serial_number_value_input_checkbox ", counter)" name="@String.Concat(" serial_number_value_input_checkbox ", counter)" value="0" hidden/></tr>');
+    
+
+    //jQuery('#from_medical_date' + hospital_counter).datepicker({
+    //    format: 'dd-mm-yyyy',
+    //    autoclose: true,
+    //    todayHighlight: true
+    //});
+
+    //jQuery('#to_medical_date' + hospital_counter).datepicker({
+    //    format: 'dd-mm-yyyy',
+    //    autoclose: true,
+    //    todayHighlight: true
+    //});
+
+
+
+    counter = +counter + +1;
+});
+
+$(wrapper).on('click', '.remove_button', function (e) {
+
+    e.preventDefault();
+    $(this).closest('.r').remove();
+});
+
+function view_detail_click() {
+    if (document.getElementById("view_details").checked) {
+        $("#input_view_detail").val(1);
+    }
+    else {
+        $("#input_view_detail").val(0);
+    }
+}

@@ -108,6 +108,10 @@
     font-size: 18px;
 }
 
+.font-19 {
+    font-size: 19px;
+}
+
 .margin-0{
     margin:0;
 }
@@ -243,6 +247,15 @@
 .ml-9 {
     margin-left: 18px;
 }
+
+.ml--14{
+    margin-left:-14px;
+}
+
+.ml-8{
+    margin-left:8px;
+}
+
 
 .pl-40{
     padding-left:40px;
@@ -1060,6 +1073,11 @@
     width:27%;
 }
 
+.width-36p{
+    width:36% !important;
+}
+
+
 .margin_checkox{
     margin-right:2px !important;
 }
@@ -1682,3 +1700,32 @@ left: -200px;
 ul.enlarge img, ul.enlarge span{
 behavior: url(pie/PIE.htc); 
 }
+
+.pl_5{
+    padding-left:5px;
+}
+
+.pt-30{
+    padding-top:30px;
+}
+
+
+.red-color{
+    color:red!important;
+}
+
+.blue-color{
+    color:red!important;
+}
+
+.green-color{
+    color:red!important;
+}
+
+
+
+/*.ck_textarea {
+    background-color: #FFF;
+    text-align: left;
+    padding-top: 15px;
+}*/
