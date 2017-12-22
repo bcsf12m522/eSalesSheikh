@@ -560,6 +560,10 @@
     margin: 43px 0px 15px 80px;
 }
 
+.category_custom_styling{
+    padding:0;
+}
+
 .margin-stock-modal {
     margin: 25px 0px 15px 80px;
 }
@@ -1019,6 +1023,20 @@
     padding-top:4px!important;
 }
 
+.pt_15{
+    padding-top:15px!important;
+}
+
+.pt_9{
+    padding-top:9px!important;
+}
+
+
+.pl_15{
+    padding-left:15px!important;
+}
+
+
 .mr-14{
     margin-right:14px;
 }
@@ -1458,6 +1476,11 @@
             display: inline-block;
             max-height: 100%;
             vertical-align: middle;
+        }
+
+         .static_fileupload .thumbnail > img {
+            width:225px !important;
+            height:225px !important;
         }
 
     .fileupload .btn {

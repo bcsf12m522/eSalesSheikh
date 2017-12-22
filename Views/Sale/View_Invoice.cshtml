@@ -1088,6 +1088,8 @@
 
     @*------------------------------------------EMAIL MODAL----------------------------------------*@
 
+
+
     @foreach (var v in @ViewBag.config)
     {
 
@@ -1115,7 +1117,7 @@
 
                                     <div class="empty-height"></div><div class="empty-height"></div>
 
-                                    <input name="invoice_id" value="@ViewBag.invoice.Id"/>
+                                    <input name="invoice_id" value="@ViewBag.invoice.Id" hidden/>
 
                                     <div class="row col-md-12" style="margin-top: 5px;">
                                         <div class="col-md-3"></div>
@@ -1172,7 +1174,7 @@
                                             </label>
                                         </div>
                                         <div class="col-md-5">
-                                            <input class="height-28 width-300 text-center" name="subject" value="@String.Concat("Invoice for ", @ViewBag.invoice.Customer.Name)" />
+                                            <input class="height-28 width-300 text-center" name="subject" value="@String.Concat(@ViewBag.invoice.Document_Type.Type, " for ", @ViewBag.invoice.Customer.Name)" />
                                             @*<input class="height-28 width-300 text-center" name="subject" value="@ViewBag.invoice.Customer.Name" />*@
                                         </div>
                                         <div class="col-md-2"></div>

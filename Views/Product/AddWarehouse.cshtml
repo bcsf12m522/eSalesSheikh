@@ -61,7 +61,7 @@
                                             <th class="text-center">Shelf No</th>
                                             <th class="text-center">Address</th>
                                             <th class="text-center">Status</th>
-                                            <th class="text-center">Actions</th>
+                                            @*<th class="text-center">Actions</th>*@
 
                                         </tr>
                                     </thead>
@@ -78,14 +78,14 @@
                                             <td data-title="User ID">@v.shelf_number</td>
                                             <td data-title="User ID">@v.Address</td>
 
-                                            @if (@v.Is_active == 1)
+                                            @*@if (@v.Is_active == 1)
                                             {
                                                 <td class="gg">Active</td>
                                             }
                                             else
                                             {
                                                 <td class="red">Deactive</td>
-                                            }
+                                            }*@
 
 
                                             <td data-title="Actions" class="text-center buttons-block">
@@ -162,7 +162,7 @@
     @*----------------------------POP UP for ADD LOCATION--------------------------------*@
 
     <div class="modal fade bs-example-modal-md z-999999999999999999999999" id="create_warehouse" tabindex="-1" role="dialog" aria-hidden="false">
-        <div class="modal-dialog modal-lg-2">
+        <div class="modal-dialog modal-lg-6">
             <div class="modal-content modal-style-custom">
 
                 <div class="title col-md-12">
@@ -178,35 +178,37 @@
 
                             <form action="~/Product/AddWarehouse" class="form-horizontal form-label-left" method="post">
 
-                                <div class="col-md-12 margin-category">
+                                <div class="col-md-12 pt-30">
 
-                                    <div class="form-group">
+                                    <div class="col-md-12 form-group">
                                         <label class="supplier-create-texts font-16" for="middle-name">Name</label>
-                                        <div class="col-md-3 col-sm-6 col-xs-12">
-                                            <input class="width-200" type="text" name="name" id="category">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input class="" type="text" name="name" id="category">
                                         </div>
                                     </div>
 
-                                    <div class="form-group">
+                                    <div class="col-md-12 form-group">
                                         <label class="supplier-create-texts font-16" for="middle-name">Shelf No.</label>
-                                        <div class="col-md-3 col-sm-6 col-xs-12">
-                                            <input class="width-200" type="text" name="shelf" id="">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input class="" type="text" name="shelf" id="">
                                         </div>
                                     </div>
 
-                                    <div class="form-group">
+                                    <div class="col-md-12 form-group">
                                         <label class="supplier-create-texts font-16" for="middle-name">Address</label>
-                                        <div class="col-md-3 col-sm-6 col-xs-12">
-                                            <input class="width-200" type="text" name="address" id="category">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input class="" type="text" name="address" id="category">
                                         </div>
                                     </div>
 
 
                                 </div>
+                                <div class="clearfix"></div>
+                                <div class="empty-height"></div><div class="empty-height"></div>
 
                                 <div class="col-md-12">
-                                    <div class="col-md-3"></div>
-
+                                    
+                                    <div class="col-md-2"></div>
                                     <div class="col-md-3">
                                         <input type="submit" value="Save" class="btn btn-success btn-mini center-block width-123" />
                                     </div>
@@ -214,7 +216,7 @@
                                     <div class="col-md-3">
                                         <a href="" onclick="cancel_btn()" class="btn btn-primary blue-btn-style btn-mini width-123 center-block a-cancel height-40 mt-0 ml-22">Cancel</a>
                                     </div>
-                                    <div class="col-md-3"></div>
+                                    <div class="col-md-4"></div>
 
 
 

@@ -335,7 +335,7 @@ function run_invoice() {
         //var b = $("#language option:selected").text();
         //alert(b);
 
-        //$("#language").val("Item Sale");
+        //$("#language").val("Item Sale");//$("#language").val("Item Sale");
 
         
     }

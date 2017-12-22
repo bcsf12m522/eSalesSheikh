@@ -200,3 +200,17 @@ $(document).ready(function () {
 });
 
 //---------------Data Table ---------------//
+
+
+
+//-----------------Category Modal Open----------------
+
+//function category_modal_open() {
+//    $("#create_category_modal").addClass("in").show("slow");
+//}
+
+
+
+
+//-----------------Category Modal Open----------------
+
