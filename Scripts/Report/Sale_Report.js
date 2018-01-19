@@ -1,4 +1,36 @@
-﻿function findByUser() {
+﻿$(document).ready(function () {
+    $("#table_div_Load").hide();
+
+    $("#loader_div").show();
+    $("#customer_summary").hide();
+    $("#date_click_div").hide();
+
+    $.ajax({
+
+        url: '/Report/SaleReportToday_Yesterday/',
+        data: {},
+        type: 'Get',
+        cache: false,
+        success: function (data) {
+            //alert("SUCCESS");
+
+            $("#date_click_div").show();
+            document.getElementById('date_click_div').innerHTML = data;
+            $("#loader_div").hide();
+
+            $('#table_on_dates').dataTable();
+
+            //$("#table_on_dates_length").hide();
+            //$("#table_on_dates_filter").hide();
+
+        },
+        error: function (response) {
+            //alert("ERROR");
+        }
+    })
+});
+
+function findByUser() {
     $("#table_div_Load").hide();
 
     $("#loader_div").show();
@@ -293,38 +325,9 @@ function Delete_Sale_by_Ajax(ID,del_id) {
 }
 
 
-function Loading_Sales_Report() {
-    //alert("ASASASAS");
-    $("#table_div_Load").hide();
 
-    $("#loader_div").show();
-    $("#customer_summary").hide();
-    $("#date_click_div").hide();
 
-    $.ajax({
 
-        url: '/Report/SaleReportToday_Yesterday/',
-        data: {  },
-        type: 'Get',
-        cache: false,
-        success: function (data) {
-            //alert("SUCCESS");
-            
-            $("#date_click_div").show();
-            document.getElementById('date_click_div').innerHTML = data;
-            $("#loader_div").hide();
-
-            $('#table_on_dates').dataTable();
-
-            //$("#table_on_dates_length").hide();
-            //$("#table_on_dates_filter").hide();
-
-        },
-        error: function (response) {
-            //alert("ERROR");
-        }
-    })
-}
 
 function Delete_Sale_Error() {
     swal({

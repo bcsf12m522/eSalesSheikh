@@ -30,16 +30,16 @@
                 <div class="customer-border"></div>
 
                 <div class="form-group">
-                    <label class="customer-create-texts" for="middle-name">Phone <span class="required">*</span></label>
+                    <label class="customer-create-texts" for="middle-name">Phone</label>
                     <div class="col-md-3 col-sm-6 col-xs-12">
-                        <input type="text" name="phone" value="@Model.phone" required>
+                        <input type="text" name="phone" value="@Model.phone" onkeypress="validation_phones(event)">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="customer-create-texts" for="middle-name">Email <span class="required">*</span></label>
+                    <label class="customer-create-texts" for="middle-name">Email</label>
                     <div class="col-md-3 col-sm-6 col-xs-12">
-                        <input type="text" name="email" value="@Model.Email" required>
+                        <input type="text" name="email" value="@Model.Email">
                     </div>
                 </div>
 
@@ -62,16 +62,16 @@
 
 
                 <div class="form-group">
-                    <label class="customer-create-texts" for="middle-name">Account No<span class="required">*</span></label>
+                    <label class="customer-create-texts" for="middle-name">Account No</label>
                     <div class="col-md-3 col-sm-6 col-xs-12">
-                        <input type="text" name="account_no" value="@Model.Account_No" required>
+                        <input type="text" name="account_no" value="@Model.Account_No">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="customer-create-texts" for="">Notes<span class="required">*</span></label>
+                    <label class="customer-create-texts" for="">Notes</label>
                     <div class="col-md-3 col-sm-6 col-xs-12">
-                        <textarea class="width-193" name="notes" required>@Model.Notes</textarea>
+                        <textarea class="width-193" name="notes">@Model.Notes</textarea>
                     </div>
                 </div>
 
@@ -83,7 +83,7 @@
                     <label class="customer-create-texts" for="middle-name">Type<span class="required">*</span></label>
                     <div class="col-md-3 col-sm-6 col-xs-12">
 
-                        <select id="customer_type" name="customer_type" class="form-control width-192">
+                        <select id="customer_type" name="customer_type" class="form-control width-192" required>
                             <option value="@Model.Customer_Type.Id">@Model.Customer_Type.Type</option>
                             @foreach (var customer_type in ViewBag.Customer_Type)
                             {
@@ -96,24 +96,24 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="customer-create-texts" for="middle-name">Opening Balance<span class="required">*</span></label>
+                    <label class="customer-create-texts" for="middle-name">Opening Balance</label>
                     <div class="col-md-3 col-sm-6 col-xs-12">
-                        <input type="text" name="opening_balance" value="@Model.Opening_Balance" required>
+                        <input type="text" name="opening_balance" value="@Model.Opening_Balance" onkeypress="validation_numeric(event)">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="customer-create-texts" for="middle-name">Credit Limit<span class="required">*</span></label>
+                    <label class="customer-create-texts" for="middle-name">Credit Limit</label>
                     <div class="col-md-3 col-sm-6 col-xs-12">
-                        <input type="text" id="new_credit_limit_entered_" name="credit_limit" value="@Model.Credit_Limit_Old" required onkeypress="validate(event)" onchange="abc123()">
+                        <input type="text" id="new_credit_limit_entered_" name="credit_limit" value="@Model.Credit_Limit_Old" required onkeypress="validation_numeric(event)" onchange="abc123()">
                     </div>
                 </div>
 
 
                 <div class="form-group">
-                    <label class="customer-create-texts" for="middle-name">Available Credit Limit<span class="required">*</span></label>
+                    <label class="customer-create-texts" for="middle-name">Available Credit Limit</label>
                     <div class="col-md-3 col-sm-6 col-xs-12">
-                        <input type="text" id="available_credit_limit_" name="" disabled value="@Model.Credit_Limit" required>
+                        <input type="text" id="available_credit_limit_" name="" readonly value="@Model.Credit_Limit">
                     </div>
                 </div>
             </div>
@@ -124,9 +124,9 @@
             <div class="col-md-6">
 
                 <div class="form-group">
-                    <label class="customer-create-texts width-178" for="middle-name">Address<span class="required">*</span></label>
+                    <label class="customer-create-texts width-178" for="middle-name">Address</label>
                     <div class="col-md-3 col-sm-6 col-xs-12">
-                        <input class="ml--50" type="text" name="billing_street" id="edit_customer_street_postcode" value="@Model.Billing_Street" required>
+                        <input class="ml--50" type="text" name="billing_street" id="edit_customer_street_postcode" value="@Model.Billing_Street">
                         <input class="ml--50" type="text" name="billing_town" id="edit_customer_town_postcode" value="@Model.Billing_Town">
                         <input class="ml--50" type="text" name="billing_county" id="edit_customer_county_postcode" value="@Model.Billing_County">
                         <input class="ml--50" type="text" name="billing_country" id="edit_customer_country_postcode" value="@Model.Billing_Country">
@@ -135,7 +135,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="customer-create-texts width-178" for="middle-name">Postcode<span class="required">*</span></label>
+                    <label class="customer-create-texts width-178" for="middle-name">Postcode</label>
                     <div class="col-md-3 col-sm-6 col-xs-12">
                         <input class="ml--50" type="text" name="billing_postcode" id="postcode_edit" value="@Model.Billing_Postcode" onkeypress="Postcode_Enter_Click_Edit(event)">
                         <a href="#" onclick="postcode_testing_edit()"><img src="~/img/images/ssearch.png" id="input_img" /></a>
@@ -157,9 +157,9 @@
 
                 <div id="aaa" class="Shipping_Address_Div none">
                     <div class="form-group">
-                        <label class="customer-create-texts width-178" for="middle-name">Shipping Address<span class="required">*</span></label>
+                        <label class="customer-create-texts width-178" for="middle-name">Shipping Address</label>
                         <div class="col-md-3 col-sm-6 col-xs-12">
-                            <input class="ml--50" type="text" name="shipping_street" id="shipping_street_edit" required value="@Model.Shipping_Street">
+                            <input class="ml--50" type="text" name="shipping_street" id="shipping_street_edit" value="@Model.Shipping_Street">
                             <input class="ml--50" type="text" name="shipping_town" id="shipping_town_edit" value="@Model.Shipping_Town">
                             <input class="ml--50" type="text" name="shipping_county" id="shipping_county_edit" value="@Model.Shipping_County">
                             <input class="ml--50" type="text" name="shipping_country" id="shipping_country_edit" value="@Model.Billing_Country">

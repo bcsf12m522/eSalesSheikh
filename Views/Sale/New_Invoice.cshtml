@@ -1,4 +1,8 @@
-﻿<body id="body-index" onload="SetDate()">
+﻿<script type="text/javascript">
+    var vat_percent=@ViewBag.config.Vat_Percentage;
+</script>
+<body id="body-index" onload="SetDate()">
+
     <div id="sticky-footer-wrap">
 
         @*-----------------Top Navigation Start---------------*@@*-----------------Top Navigation Start---------------*@
@@ -29,7 +33,6 @@
                     <div class="bggg-img hide_invoice">
                         <div id="edit_invoice">
                             <form id="demo-form2" action="@Url.Action("Create_Sale","Sale")" method="post" data-parsley-validate class="" enctype="multipart/form-data">
-
 
                                 <input hidden id="custom_document_type_value" name="custom_document_type_value"/>
                                 
@@ -127,6 +130,7 @@
                                             <div class="col-md-2 pull-left pl-0 pr-0">
                                                 <input type="text" name="exist_customer_idd" class="hidden" id="exist_customer_id"/>
                                                 <input type="text" name="credit_limit_input" class="" id="credit_limit_input" hidden/>
+                                                <input type="text" name="customer_type_selected" class="" id="customer_type_selected" hidden/>
                                                 <ul class="list-style-type-custom">
                                                     <li id="type_customer" class="bold font-18 black-color"></li>
                                                     <li id="customer_name"></li>
@@ -146,9 +150,9 @@
 
 
                                                 <div class="col-md-5">
-                                                    <label><input type="checkbox" id="sold_history_checkbox" value="" />Check Sold History</label><br />
-                                                    <label id="hideExcludeVat"><input type="checkbox" id="excludeVat" value="" onclick="excludeVatUnchecked();" />Exclude VAT</label>
-                                                    <label hidden id="show_details"><input type="checkbox" name="view_details" id="view_details" value="0" onclick="view_detail_click()" />Show Details</label>
+                                                    <label><input type="checkbox" id="sold_history_checkbox" value="@ViewBag.config.Sold_History" />Check Sold History</label><br />
+                                                    <label id="hideExcludeVat"><input disabled type="checkbox" id="excludeVat" value="@ViewBag.config.Exclude_Vat" onclick="excludeVatUnchecked();" />Exclude VAT</label>
+                                                    <label hidden id="show_details"><input type="checkbox" name="view_details" id="view_details" value="@ViewBag.config.Show_Details" onclick="view_detail_click()" />Show Details</label>
                                                     <input id="input_view_detail" name="input_view_detail" value="0" hidden/>
 
                                                     <br />
@@ -271,8 +275,8 @@
                                                     <td class="border-right-td"><div class="text-center"><input onkeypress="validate(event)" id="invoice_quantity1" onkeyup="Total(1);checkQuantityAvailable(this.value,1)" placeholder="0" class="3 unbold width-45 text-center" name="invoice_quantity1" type="text" required></div></td>
                                                     <td id="" class="border-right-td priceVAT"><div class="text-center"><input onkeypress="validate(event)" id="invoice_price1" onkeyup="Total(1)" placeholder="0.0" class="4 new-invoice-width-boxes unbold width-68 text-center" name="invoice_price1" type="text" required></div></td>
                                                     <td class="border-right-td hidecolumn text-center"><input onkeypress="validate(event)" id="invoice_price_vat1" onkeyup="Total2(1)" placeholder="0.0" class="5 new-invoice-width-boxes unbold width-78 text-center" name="invoice_price_vat1" type="text" required></td>
-                                                    <td class="border-right-td priceVAT text-center"><input readonly id="invoice_total1" placeholder="0.0" class="6 new-invoice-width-boxes unbold width-68 text-center" name="" type="text" required></td>
-                                                    <td class="border-right-td hidecolumn text-center"><input readonly id="invoice_total_vat1" placeholder="0.0" class="7 new-invoice-width-boxes unbold width-78 text-center" name="" type="text" required></td>
+                                                    <td class="border-right-td text-center priceVAT"><input readonly id="invoice_total1" placeholder="0.0" class="6 new-invoice-width-boxes unbold width-68 text-center" name="" type="text" required></td>
+                                                    <td class="border-right-td hidecolumn  text-center"><input readonly id="invoice_total_vat1" placeholder="0.0" class="7 new-invoice-width-boxes unbold width-78 text-center" name="" type="text" required></td>
 
                                                     @*<td class="text-center border-right-td width-68"><div id="invoice_total1" class="6 total_invoice_background text-center">£0</div></td>*@
                                                     @*<td class="border-right-td text-center width-78 hidecolumn"><div id="invoice_total_vat1" class="7 total_invoice_background text-center">£0</div></td>*@
@@ -282,7 +286,7 @@
                                                     <td class="hidden"><input type="text" class="hidden" id="invoice_product_id1" name="invoice_product_id1" /></td>
                                                     <input hidden type="text" id="@String.Concat("serial_number_value_input_checkbox1")" name="@String.Concat("serial_number_value_input_checkbox1")" value="0" />
 
-                                                    <td class="text-center width-27p" style="vertical-align:middle;">
+                                                    <td class="text-center width-36p" style="vertical-align:middle;">
                                                         <a href="#" onclick="addNewRow(); rowcounterPlus();" class="showdiv">
                                                             <img src="/img/images/plus_new_sale.png">
                                                         </a>
@@ -1230,21 +1234,57 @@
 
 
 
+@*----------------------------POP UP END SessionManagement--------------------------------*@
+
+@{
+    Html.RenderPartial("Session_Logout_Modal/Logout_Modal");
+}
+
+@*----------------------------POP UP END SessionManagement--------------------------------*@
+
 
 @*----------------------------POP UP END SERIAL NUMBER CUSTOMER--------------------------------*@
 <script>
+    $(document).ready(function () {
+        var exclude = @ViewBag.config.Exclude_Vat;
+        var sold = @ViewBag.config.Sold_History;
+        var detail = @ViewBag.config.Show_Details;
 
+        //alert("EXCLUDE "+$("#excludeVat").val());
+        //alert("SOLD " +$("#sold_history_checkbox").val());
+
+
+        if(exclude == 1) {
+            //alert("exculde" + exclude);
+            document.getElementById("excludeVat").checked = true;
+            $(".priceVAT").hide();
+            $("#net_tr").hide();
+            $("#vat_tr").hide();
+
+        }
+        if(sold == 1) {
+            document.getElementById("sold_history_checkbox").checked = true;
+            //alert("sold" + sold);
+        }
+
+        if(detail == 1) {
+            document.getElementById("view_details").checked = true;
+            //alert("sold" + sold);
+        }
+
+        //alert(a);
+    })
     //function batch_scan_function(quant) {
-        
+
     //    var loop_size = $("#quantity_for_loop").val();
-        
+
     //    var checkbox = document.getElementById("batch_scan_checkbox");
 
     //    if(loop_size != 1 || loop_size != 0 ){
     //        //alert("IF loop_size " + loop_size);
     //        $('#batch_scan_checkbox').prop('checked', true);
 
-          
+
     //    }
     //    else{
     //        loop_size = 1;
@@ -1253,7 +1293,7 @@
     //    }
     //}
 
-   
+
 
 
 </script>

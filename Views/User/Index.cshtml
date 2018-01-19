@@ -27,8 +27,6 @@
 
                 <div class="right-side-custom">
                     <div class="bggg-img">
-                        <a href="~/User/EbayOrderManagerButtonClick">Ebay <span class="sr-only">(current)</span></a>
-                        @*<h3 id="time_"></h3>*@
 
                         <div class="">
                             <div class="title">
@@ -91,42 +89,11 @@
         }
     </footer>
 
-    <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="false">
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content modal-style-custom"> 
-
-                <div class="title">
-                    <span class="ml-15">Alert</span>
-                    <img src="~/img/images/c3.png" class="close" data-dismiss="modal" />
-                </div>
-
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                    <div class="x_panel">
-
-                        <div class="text-center" align="center">
-                            <br>
-                            <label class="control-label col-md-12 black-color mt-15">
-                                Attendance logging for <span> @Session["username"]</span>
-                            </label>
-
-                            <div class="col-md-12">
-                                <a href="" class="btn btn-success btn-mini center-block mt-15">OK</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="modal-footer">
-
-
-                </div>
-
-
-
-            </div>
-        </div>
-    </div>
-
+@*----------------------------POP UP END SessionManagement--------------------------------*@
+@{
+    Html.RenderPartial("Session_Logout_Modal/Logout_Modal");
+}
+@*----------------------------POP UP END SessionManagement--------------------------------*@
 
     
 

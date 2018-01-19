@@ -138,10 +138,12 @@ function close_modal_confirm_postcode() {
 function Custom_List() {
     //alert("CUSTOM_LIST")
 
+
     $("#loader_div").show();
     $("#customer_table_div").hide();
     $("#customer_summary").hide();
     var type_ID = document.getElementById("customer_type_dropdown").value;
+    $('#chuss').DataTable().destroy();
     //alert(type_ID)
 
     $.ajax({
@@ -156,7 +158,11 @@ function Custom_List() {
             $("#customer_table_div").show();
             $("#loader_div").hide();
             document.getElementById('updated_customer_list').innerHTML = data;
-            $('#chuss').DataTable();
+            
+            $('#chuss').DataTable({
+                "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]]
+            });
+            $(".print_btn_view").show();
 
 
         },
@@ -167,3 +173,66 @@ function Custom_List() {
     })
 }
 
+var tableToExcel = (function () {
+
+    var uri = 'data:application/vnd.ms-excel;base64,'
+      , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'
+      , base64 = function (s) { return window.btoa(unescape(encodeURIComponent(s))) }
+      , format = function (s, c) { return s.replace(/{(\w+)}/g, function (m, p) { return c[p]; }) }
+
+    return function (table, name) {
+        if (!table.nodeType) table = document.getElementById(table)
+
+        var ctx = { worksheet: name || 'Worksheet', table: table.innerHTML }
+
+        window.location.href = uri + base64(format(template, ctx));
+
+
+    }
+
+
+
+})()
+
+
+
+
+function printData() {
+    var divToPrint = document.getElementById("customer_table_div");
+
+    $(".print_btn_hide_cols").hide();
+    
+    $("#chuss_filter").hide();
+    $("#chuss_length").hide();
+    $("#chuss_info").hide();
+    $("#chuss_paginate").hide();
+
+    
+    $("#chuss").css("border", "2px solid black");
+
+    $("th").css('background', '#404040');
+    $("th").css('color', '#FFF');
+
+    $("td").css('background', '#e6e6e6');
+
+    
+    //alert(divToPrint);
+
+    $(".print_page_heading").show();
+    newWin = window.open("");
+    newWin.document.write(divToPrint.outerHTML);
+    newWin.print();
+    newWin.close();
+    $(".print_btn_hide_cols").show();
+    $(".print_page_heading").hide();
+
+    $("#chuss_filter").show();
+    $("#chuss_length").show();
+    $("#chuss_info").show();
+    $("#chuss_paginate").show();
+
+}
+
+$('.print_btn_view').on('click', function () {
+    printData();
+})

@@ -33,7 +33,7 @@
                         <div class="col-md-12">
 
                             <div class="col-md-3 mt-20 pull-left pl-0">
-                                <a href="/Home/Epos" class="btn btn-success blue-btn-style btn-mini bold">Back to EPOS Main Panel</a>
+                                <a href="/User/Epos" class="btn btn-primary blue-btn-style btn-mini bold">Back to EPOS Main Panel</a>
                             </div>
 
                             <div class="col-md-3"></div>
@@ -74,14 +74,15 @@
                                 <table border="0" class="table table-responsive border_black" id="supplier_table">
                                     <thead>
                                         <tr class="table-heading-fonts table-main-headings">
-                                            <th class="text-center">ID</th>
+                                            @*<th class="text-center">ID</th>*@
                                             <th class="text-center">Salesman</th>
+                                            <th class="text-center">Company Name</th>
                                             <th class="text-center">Phone</th>
                                             <th class="text-center">Email</th>
-                                            <th class="text-center">Address</th>
+                                            @*<th class="text-center">Address</th>*@
                                             <th class="text-center">Postcode</th>
 
-                                            <th class="text-center">Status</th>
+                                            @*<th class="text-center">Status</th>*@
 
                                             @*<th>Pay Rate</th>
                     <th>Role</th>
@@ -91,27 +92,28 @@
                                         </tr>
                                     </thead>
                                     <tbody class="black-color bold text-center">
-
+                                      
                                         @foreach (var v in Model)
                                         {
                                             @*<tr data-toggle="modal" data-target="#EditModal">*@
 
                                             <tr>
-                                                <td class="border-right-td text-center" data-title="User ID">@v.Id</td>
-                                                <td class="border-right-td text-center" data-title="User ID">@v.Name</td>
-                                                <td class="border-right-td text-center" data-title="First Name">@v.Phone</td>
-                                                <td class="border-right-td text-center" data-title="Last Name">@v.Email</td>
-                                                <td class="border-right-td text-center" data-title="Email">@v.Street</td>
-                                                <td class="border-right-td text-center" data-title="Date Registered">@v.Post_Code</td>
+                                                @*<td class="border-right-td text-center" data-title="User ID">@v.Id</td>*@
+                                                <td class="text-center" data-title="User ID">@v.Name</td>
+                                                <td class="text-center" data-title="User ID">@v.Company.Company_Name</td>
+                                                <td class="text-center" data-title="First Name">@v.Phone</td>
+                                                <td class="text-center" data-title="Last Name">@v.Email</td>
+                                                @*<td class="border-right-td text-center" data-title="Email">@v.Street</td>*@
+                                                <td class="text-center" data-title="Date Registered">@v.Post_Code</td>
 
-                                                @if (@v.Is_Active == 1)
+                                                @*@if (@v.Is_Active == 1)
                                                 {
                                                     <td class="gg border-right-td">Active</td>
                                                 }
                                                 else
                                                 {
                                                     <td class="red border-right-td">Deactive</td>
-                                                }
+                                                }*@
 
                                                 <td data-title="Actions" class="text-center buttons-block width-140">
                                                     @*<a class="btn btn-sm btn-info bold" href="" data-toggle="modal" data-target="#EditModal" onclick="GetEditedObject(@v.Id)">*@
@@ -198,6 +200,13 @@
         }
     </footer>
 
+    @*----------------------------POP UP END SessionManagement--------------------------------*@
+
+    @{
+        Html.RenderPartial("Session_Logout_Modal/Logout_Modal");
+    }
+
+    @*----------------------------POP UP END SessionManagement--------------------------------*@
 
     @*----------------------------POP UP ADD SUPPLIER--------------------------------*@
 

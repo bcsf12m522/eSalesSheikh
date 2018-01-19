@@ -27,7 +27,7 @@
         </div>
 
         <div class="col-md-2 pull-right pr-0">
-            <a href="#" data-target="#View_Payment_Status_Modal" data-toggle="modal" class="btn btn_view_payment_status btn-mini bold width-170 pull-right">View Payment Status</a>
+            <a onclick="payment_status_by_default()" href="#" data-target="#View_Payment_Status_Modal" data-toggle="modal" class="btn btn_view_payment_status btn-mini bold width-170 pull-right">View Payment Status</a>
             
         </div>
 
@@ -263,93 +263,103 @@
                     <span>Message</span>
                     <img src="~/img/images/c3.png" class="close mr--13 pull-right" data-dismiss="modal" />
                 </div>
-                <div class="col-md-12">
 
-                    <div class="col-md-6 pl-0 pr-0 pull-left">
-                        <h3 class="color"><b>Customer Payment Statement</b></h3>
-                    </div>
-                    <div class="pull-right mt-15">
-                        <div class="pull-left">
-                            <label class="black-color mr-3 mt-5">From :</label>
-                        </div>
-                        <div class="pull-left">
-                            <input required type="date" id="fff_date" oninput="showDateOption()" class="date_width_height_Customer_Summary mr-3" name="from_date">
-                        </div>
-                        <div class="pull-left">
-                            <label class="black-color mr-3 mt-5">To :</label>
-                        </div>
-                        <div class="pull-left">
-                            <input required type="date" disabled id="toooooo_date" oninput="show_selected_date();payment_status_by_date()" class="date_width_height_Customer_Summary" name="to_date">
-                        </div>
-
-                    </div>
-
-                    <div class="clearfix"></div>
-
-                </div>
-
-                <div class=""></div>
-
-
-                <div class="" id="view_payment_div" style="display:none;">
-                    <div class="col-md-12 mt-20 font-15">
-                        <label class="bold pull-left black-color">Customer Name : </label>
-                        <label class="pull-left black-color unbold ml-10" id="customer_name_on_Payment_status"></label>
-
-                        <div class="clearfix"></div>
-
-                        <label class="bold pull-left black-color">Date Range : </label>
-                        <label class="pull-left black-color unbold ml-10" id="from_date_click"></label>
-
-                        <label class="bold pull-left black-color ml-10">to</label>
-                        <label class="pull-left black-color unbold ml-10" id="to_date_click"></label>
-
-                        <div class="clearfix"></div>
-
-                    </div>
-
-                    <div class="clearfix"></div>
-
-                    <div class="col-md-12 black-color" id="updated_div">
-                        @*<div class="col-md-12">
-                                <h3 class="bold">Payment History</h3>
-                                <div class="col-md-12">
-                                    <p class="margin-0"><b>Invoice-27;</b> Total: £74</p>
-                                    <ul style="list-style:none; padding:0;margin:0">
-                                        <li>Paid in £70 on 10-05-17</li>
-                                        <li>Paid in £4 on 10-05-17</li>
-                                    </ul>
-                                    <p>Fully Paid <em>£2 Overpay</em></p>
-                                </div>
-                            </div>
-
-                            <div class="col-md-12">
-                                <h3 class="bold col-md-12">Invoice History</h3>
-                                <div class="col-md-6">
-                                </div>
-                            </div>
-
-                            <div class="col-md-12">
-                                <h3 class="bold col-md-12">Debts / Money Owed</h3>
-                                <div class="col-md-6">
-                                </div>
-                            </div>*@
-
-                    </div>
-
+                <div id="print_div">
 
                     <div class="col-md-12">
 
-                        <div class="col-md-5"></div>
+                        <div class="col-md-6 pl-0 pr-0 pull-left">
+                            <h3 class="color"><b>Customer Payment Statement</b></h3>
+                        </div>
+                        <div class="pull-right mt-15 print_btn_hide_columnsssssss">
+                            <div class="pull-left">
+                                <label class="black-color mr-3 mt-5">From :</label>
+                            </div>
+                            <div class="pull-left">
+                                <input required type="date" id="fff_date" oninput="showDateOption()" class="date_width_height_Customer_Summary mr-3" name="from_date">
+                            </div>
+                            <div class="pull-left">
+                                <label class="black-color mr-3 mt-5">To :</label>
+                            </div>
+                            <div class="pull-left">
+                                <input required type="date" disabled id="toooooo_date" oninput="show_selected_date();payment_status_by_date()" class="date_width_height_Customer_Summary" name="to_date">
+                            </div>
 
-                        <div class="col-md-2 pr-0">
-                            <a href="#" onclick="view_payment_status()" class="btn btn-primary width-134 blue-btn-style btn-mini bold pull-right">Ok</a>
+
                         </div>
 
-                        <div class="col-md-5"></div>
+                        <div class="clearfix"></div>
 
                     </div>
 
+                    <div class=""></div>
+
+
+                    <div class="" id="view_payment_div" style="display:none;">
+                        <div class="col-md-12 mt-20 font-15">
+                            <label class="bold pull-left black-color">Customer Name : </label>
+                            <label class="pull-left black-color unbold ml-10" id="customer_name_on_Payment_status"></label>
+
+                            <div class="clearfix"></div>
+
+                            <label class="bold pull-left black-color">Date Range : </label>
+                            <label class="pull-left black-color unbold ml-10" id="from_date_click">@DateTime.Now.AddMonths(-1).ToShortDateString()</label>
+
+                            <label class="bold pull-left black-color ml-10">to</label>
+                            <label class="pull-left black-color unbold ml-10" id="to_date_click">@DateTime.Now.ToShortDateString()</label>
+
+                            <div class="col-md-3 pull-right pr-0">
+                                <a href="#" class="btn pull-right btn-primary blue-btn-style btn-mini text-center width-170 bold print_btn_hide_columnsssssss print_btn_view_payment">Print</a>
+                            </div>
+                            <div class="clearfix"></div>
+
+
+
+                        </div>
+
+                        <div class="clearfix"></div>
+
+                        <div class="col-md-12 black-color" id="updated_div">
+                            @*<div class="col-md-12">
+                        <h3 class="bold">Payment History</h3>
+                        <div class="col-md-12">
+                            <p class="margin-0"><b>Invoice-27;</b> Total: £74</p>
+                            <ul style="list-style:none; padding:0;margin:0">
+                                <li>Paid in £70 on 10-05-17</li>
+                                <li>Paid in £4 on 10-05-17</li>
+                            </ul>
+                            <p>Fully Paid <em>£2 Overpay</em></p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <h3 class="bold col-md-12">Invoice History</h3>
+                        <div class="col-md-6">
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <h3 class="bold col-md-12">Debts / Money Owed</h3>
+                        <div class="col-md-6">
+                        </div>
+                    </div>*@
+
+                        </div>
+
+
+                        <div class="col-md-12">
+
+                            <div class="col-md-5"></div>
+
+                            <div class="col-md-2 pr-0">
+                                <a href="#" onclick="view_payment_status()" class="btn btn-primary width-134 blue-btn-style btn-mini bold pull-right print_btn_hide_columnsssssss">Ok</a>
+                            </div>
+
+                            <div class="col-md-5"></div>
+
+                        </div>
+
+                    </div>
                 </div>
                 <div class=""></div>
 

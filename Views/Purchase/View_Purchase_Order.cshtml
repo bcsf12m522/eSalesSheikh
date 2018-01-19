@@ -1,8 +1,17 @@
 ﻿@model List<eSalesPro.Models.PO_Sale_Invoice>
 
-<script>
-    function View_PO_Onload() {
+@{
 
+    var base_url_live = eSalesPro.AppConstants.AppConstant.base_url_sheikh;
+    var base_url_client_testing = eSalesPro.AppConstants.AppConstant.base_url_client_testing;
+    var base_url_local = eSalesPro.AppConstants.AppConstant.base_url_local;
+
+    var base_url_client_live = eSalesPro.AppConstants.AppConstant.base_url_client_live;
+
+}
+
+<script>
+    $(document).ready(function () {
         //-----Invoice Object Disabled
         var count = $("#product_list_count").val();
 
@@ -11,7 +20,7 @@
         $("#payment_piriority_id").prop("disabled", true).css({ "background-color": "#bcbcc5", "color": "#000" });
         $("#po_status").prop("disabled", true).css({ "background-color": "#bcbcc5", "color": "#000" });
 
-        
+
 
         $("#purchase_number").prop("disabled", true).css({ "background-color": "#FFF", "color": "#000" });
         $("#purchase_invoice_no").prop("disabled", true).css({ "background-color": "#FFF", "color": "#000" });
@@ -53,15 +62,11 @@
         var today = day + "-" + month + "-" + year;
 
         //document.getElementById('edit_date').valueAsDate = new Date();
-
-
-        
-
-    }
+    });
 
 </script>
 
-<body id="body-index" onload="View_PO_Onload()">
+<body id="body-index">
     <div id="sticky-footer-wrap">
 
 
@@ -672,7 +677,7 @@
 
                                     </div>
                                     <div class="col-md-1 pr-0 text-center">
-                                        <a href="~/Purchase/Print_Purchase_Order/@ViewBag.purchase.Id" target="_blank" class="pointer_hand">
+                                        <a href="~/Home/Print_Purchase_Order/@ViewBag.purchase.Id" target="_blank" class="pointer_hand">
                                             <span class=""><img src="~/img/images/print_document.png" /></span><br />
                                             <input type="button" value="Print" />
 
@@ -761,19 +766,212 @@
     </footer>
 
 
-  
+    @*----------------------------POP UP END SessionManagement--------------------------------*@
+
+    @{
+        Html.RenderPartial("Session_Logout_Modal/Logout_Modal");
+    }
+
+    @*----------------------------POP UP END SessionManagement--------------------------------*@
 
 
     @*------------------------------------------EMAIL MODAL----------------------------------------*@
 
-    @{
+    @*@{
         Html.RenderPartial("Email_Modal/Email_Modal_");
+    }*@
+
+    @*------------------------------------------EMAIL MODAL----------------------------------------*@
+
+
+    @*------------------------------------------EMAIL MODAL----------------------------------------*@
+
+    @foreach (var v in @ViewBag.config)
+    {
+        <div class="modal fade" id="Email_Modal" tabindex="-1" role="dialog" aria-hidden="false">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content modal-style-custom">
+
+                    <div class="title col-md-12">
+                        <span>Compose Email</span>
+                        <img src="~/img/images/c3.png" class="close mr--13 pull-right" data-dismiss="modal" />
+                    </div>
+
+
+
+
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="x_panel">
+
+                            @using (Html.BeginForm("Send_Email", "Sale", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                            {
+                                <div class="win text-center" id="">
+                                    @*<h3 class="color"><b>Find Customer</b></h3>*@<h3 class="color"><b></b></h3><h3 class="color"><b></b></h3><h3 class="color"><b></b></h3><h3 class="color"><b></b></h3><h3 class="color"><b></b></h3>
+
+                                    <div class="empty-height"></div><div class="empty-height"></div>
+
+                                    <input name="invoice_id" value="@ViewBag.purchase.Id" hidden />
+
+                                    <div class="row col-md-12" style="margin-top: 5px;">
+                                        <div class="col-md-3"></div>
+                                        <div class="col-md-2 text-left">
+                                            <label>
+                                                Email From
+                                            </label>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <input class="height-28 width-300 text-center" value="@v.Email" readonly />
+                                        </div>
+                                        <div class="col-md-2"></div>
+                                    </div>
+
+
+
+                                    <div class="row col-md-12 mt-5">
+                                        <div class="col-md-3"></div>
+                                        <div class="col-md-2 text-left">
+                                            <label>Email To</label>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <input class="height-28 width-300 text-center" name="to_email" type="email" value="@ViewBag.purchase.Supplier.Email" required/>
+                                        </div>
+                                        <div class="col-md-2"></div>
+                                    </div>
+
+
+
+
+                                    <div class="row col-md-12 mt-5">
+                                        <div class="col-md-3"></div>
+                                        <div class="col-md-2  text-left">
+                                            <label>CC</label>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <input type="email" multiple class="height-28 width-300 text-center" name="cc" />
+                                        </div>
+                                        <div class="col-md-2"></div>
+                                    </div>
+
+
+                                    <div class="clearfix"></div>
+
+
+
+
+
+                                    <div class="row col-md-12 mt-5">
+                                        <div class="col-md-3"></div>
+                                        <div class="col-md-2  text-left">
+                                            <label>
+                                                Subject
+                                            </label>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <input class="height-28 width-300 text-center" name="subject" value="Purchase" />
+                                        </div>
+                                        <div class="col-md-2"></div>
+                                    </div>
+
+
+                                    <div class="clearfix"></div>
+
+                                    <div class="empty-height"></div><div class="empty-height"></div><div class="empty-height"></div>
+
+
+                                    <div class="col-md-12">
+
+
+                                        <textarea name="ck_body" id="editor" class="ck_textarea">
+                                            <a style="font-family:Comic Sans MS !important;font-weight:bold" href="@String.Concat(@base_url_client_testing, "/Home/Print_Document/" + @ViewBag.purchase.Id)">Click here for a copy of the Invoice for your reference.</a>
+
+
+
+                                            @*<a class="pl_5" style="font-size:25px" href="/Home/Print_Document/@ViewBag.invoice.Id">Click here for a copy of the Invoice for your reference.</a>*@
+
+
+
+                                            <div>
+                                                <p><span style="color:red;"><b>PLEASE NOTE: </b></span><span style="color:blue;font-size:15px!important;">DO NOT REPLY TO THIS EMAIL AS YOUR REPLY WILL NOT BE READ OR ANSWERED</span></p>
+                                            </div>
+
+                                            <div>
+                                                <p><span style="color:blue;">This is an Automated email from our</span><span style="color:green;"> <b>eSalesPro</b> Software</span></p>
+                                            </div>
+
+
+                                        </textarea>
+
+
+
+
+
+
+                                        <div class=""></div>
+
+
+
+
+
+
+                                    </div>
+
+
+
+
+
+                                    <div class="col-md-12 mt-30">
+                                        <div class="col-md-3"></div>
+
+                                        <div class="col-md-3">
+                                            @*<a href="#" class="btn btn-primary btn-mini center-block mt-0">Ok</a>*@
+                                            <button type="submit" class="btn btn-primary btn-mini center-block" style="width:100%;">OK</button>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <a href="#" class="btn btn_view_payment_status center-block" data-dismiss="modal">Cancel</a>
+                                        </div>
+                                        <div class="col-md-3"></div>
+
+
+
+                                    </div>
+
+
+                                </div>
+                            }
+
+                            <script>
+                                function email_submission() {
+                                    alert();
+
+
+                                    @*var emails = emailList.split(",");
+                                    var valid = true;
+                                    var regex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+                                    for (var i = 0; i < emails.length; i++) {
+                                        if( emails[i] == "" || ! regex.test(emails[i])){
+                                            valid = false;
+                                        }*@
+
+
+                                }
+                            </script>
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="modal-footer"></div>
+                    <div class=""></div>
+
+                </div>
+            </div>
+        </div>
     }
 
     @*------------------------------------------EMAIL MODAL----------------------------------------*@
-
-
-
 
 
 
@@ -802,6 +1000,10 @@
 
     @*----------------------------POP UP END ADD SUPPLIER--------------------------------*@
 
+
+    <script>
+        initSample();
+    </script>
 
 
 

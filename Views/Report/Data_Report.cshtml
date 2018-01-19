@@ -1,4 +1,6 @@
-﻿<body id="body-index" onload="startTime();">
+﻿@model List<eSalesPro.Models.Sale_Invoice>
+
+<body id="body-index" onload="startTime();">
 
     <div id="sticky-footer-wrap">
 
@@ -52,7 +54,7 @@
                                     <div class="empty-height"></div><div class="empty-height"></div>
                                     <div class="col-md-12">
                                         <div class="col-md-3 pull-left form-group">
-                                            <select name="" onchange="sku_order_func(this.value); report_dropdown()" id="sku_order_report_select" class="form-control border_black-1px select-class-color">
+                                            <select name="" onchange="sku_order_func(this.value);" id="sku_order_report_select" class="form-control border_black-1px select-class-color">
                                                 <option v class="option-color" value="1">Order Report</option>
                                                 <option class="option-color" value="2">SKU Report</option>
                                             </select>
@@ -118,7 +120,7 @@
 
                                     <div class="empty-height"></div>
 
-                                    <div class="col-md-12">
+                                    <div class="col-md-12 data_report_checkboxes none">
                                         <div class="pull-left ml-15"><label class="black-color"><input id="transaction_no_checkbox" onclick="Transaction_No_Checkboxes()" type="checkbox" checked />Invoice No</label></div>
                                         <div class="pull-left"><label class="black-color margin_label"><input id="trans_type_checkbox" onclick="Transaction_Type_Checkboxes()" type="checkbox" checked class="margin_checkox" />Document Type</label></div>
                                         <div class="pull-left"><label class="black-color margin_label"><input id="buyer_name_checkbox" onclick="Buyer_Name_Checkboxes()" type="checkbox" checked class="margin_checkox" />Buyer Name</label></div>
@@ -137,14 +139,13 @@
                                     <div class="empty-height"></div>
 
                                     <div class="col-md-12">
-                                        <div class="col-md-3 pull-left"></div>
-                                        <div class="col-md-3 pull-left"></div>
-                                        <div class="col-md-3 pull-left">
-                                            <a href="#" id="print_btn" onclick="" class="width-200 none btn btn-primary blue-btn-style btn-mini bold pull-right">Print Report</a>
+                                        @*<div class="col-md-3 pull-left"></div>
+                                        <div class="col-md-3 pull-left"></div>*@
+                                        <div class="col-md-3 pull-right">
+                                            <a href="#" id="print_btn" onclick="print_data_report()" class="width-200 none btn btn-primary blue-btn-style btn-mini bold pull-right">Print Report</a>
+                                            <a href="#" id="print_btn_sku" onclick="print_data_report_sku()" class="width-200 none btn btn-success blue-btn-style btn-mini bold pull-right">Print Report</a>
                                         </div>
-                                        <div class="col-md-3 pull-left">
-                                            <a href="#" onclick="queries_query()" class="width-200 btn btn-primary blue-btn-style btn-mini bold pull-right">Generate Report</a>
-                                        </div>
+                                        
                                     </div>
 
 
@@ -164,12 +165,21 @@
 
                         <div class="empty-height"></div><div class="empty-height"></div><div class="empty-height"></div>
 
+
+
+                        
+
                         <div class="col-md-12" id="data_report_table_div" style="display:none">
+
+                            <div class="col-md-3 pl-0 pr-0 pull-left print_page_heading">
+                                <h3 style="font-size:24px;color:#000 !important;padding-bottom:15px" class="bold">Data Report List<small></small></h3>
+                            </div>
+
                             <table border="0" class="table table-responsive border_black" id="data_report_table">
                                 <thead>
 
                                     <tr class="table-heading-fonts table-main-headings">
-                                        <th class="Transaction_no_tr text-center">Invoice No.</th>
+                                        <th class="Transaction_no_tr text-center">Number</th>
                                         <th class="Trans_type_tr text-center">Document Type</th>
                                         <th class="Name_tr text-center">Name</th>
                                         <th class="Address_tr text-center">Address</th>
@@ -184,7 +194,9 @@
 
                                 </thead>
 
-                                <tbody class="black-color bold" id="updatedDiv"></tbody>
+                                <tbody class="black-color bold" id="updatedDiv">
+                                 
+                                </tbody>
 
                             </table>
                             <div class="clearfix"></div>
@@ -193,7 +205,10 @@
 
 
                         <div class="col-md-12 row_highlighter" id="sku_report_table_div" style="display:none">
-                            <table border="0" class="table table-responsive border_black" id="">
+                            <div class="col-md-3 pl-0 pr-0 pull-left print_page_heading">
+                                <h3 style="font-size:24px;color:#000 !important;padding-bottom:15px" class="bold">Data Report SKU List<small></small></h3>
+                            </div>
+                            <table border="0" class="table table-responsive border_black" id="data_sku_table">
                                 <thead>
 
                                     <tr class="table-heading-fonts table-main-headings">
@@ -239,7 +254,13 @@
             }
         </footer>
 
-        
+        @*----------------------------POP UP END SessionManagement--------------------------------*@
+
+        @{
+            Html.RenderPartial("Session_Logout_Modal/Logout_Modal");
+        }
+
+        @*----------------------------POP UP END SessionManagement--------------------------------*@
 
         </div>
 
@@ -251,7 +272,12 @@
         <script src="~/scripts/report/data_report.js"></script>
 
     <script>
-      
+        $(document).ready(function () {
+            $('#data_report_table').DataTable({
+                "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]]
+            });
+        })
+
         @*$('body').on('click', '.abs', function () {
             var idd = $(this).data("id");
             //alert("IDD" + idd);

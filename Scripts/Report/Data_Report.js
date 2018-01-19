@@ -108,14 +108,20 @@ function Payment_Status_Checkboxes() {
     }
 }
 
-$(document).ready(function () {
-    $('#data_report_table').dataTable();
-});
+//$(document).ready(function () {
+//    $('#data_report_table').dataTable();
+//});
 
 function findByDate() {
 
     var to = document.getElementById('to_date').value;
     var from = document.getElementById('from_date').value;
+
+    $("#loader_div").show();
+    $("#data_report_table_div").hide();
+    $('#data_report_table').DataTable().destroy();
+    $("#print_btn_sku").hide();
+
     $.ajax({
 
         url: '/Report/DataReportByDate/',
@@ -124,6 +130,17 @@ function findByDate() {
         cache: false,
         success: function (data) {
             document.getElementById('updatedDiv').innerHTML = data;
+            $(".data_report_checkboxes").show();
+            
+            $("#data_report_table_div").show();
+            $("#loader_div").hide();
+
+            $('#data_report_table').DataTable({
+                "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]]
+            });
+
+            $("#print_btn").show();
+
         },
         error: function (response) {
 
@@ -133,6 +150,10 @@ function findByDate() {
 }
 
 function report_dropdown() {
+    
+    $("#data_report_table_div").hide();
+    //$('#data_report_table').DataTable().destroy();
+    $("#print_btn_sku").hide();
     
     var val = document.getElementById('sku_order_report_select').value;
     //alert(val);
@@ -146,6 +167,16 @@ function report_dropdown() {
         success: function (data) {
             //alert("SUCCESS1");
             document.getElementById('updatedDiv_SKU').innerHTML = data;
+            $(".data_report_checkboxes").show();
+            
+            $("#data_report_table_div").show();
+            $("#loader_div").hide();
+            $('#data_report_table').DataTable({
+                "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]]
+            });
+
+            $("#print_btn_sku").show();
+
         },
         error: function (response) {
             //alert("errorresponse");
@@ -155,7 +186,15 @@ function report_dropdown() {
 }
 
 function findBySKU() {
-    $("#data_report_table_div").show();
+
+    $("#loader_div").show();
+    $("#data_report_table_div").hide();
+    $('#data_report_table').DataTable().destroy();
+
+    
+    
+    $("#print_btn_sku").hide();
+
     var sku_input = document.getElementById('SKU').value;
     //alert(sku_input);
 
@@ -168,6 +207,14 @@ function findBySKU() {
         success: function (data) {
 
             document.getElementById('updatedDiv').innerHTML = data;
+            $(".data_report_checkboxes").show();
+            $("#data_report_table_div").show();
+            
+            $("#print_btn").show();
+            
+
+            $("#loader_div").hide();
+            $('#data_sku_table').DataTable();
         },
         error: function (response) {
 
@@ -178,7 +225,11 @@ function findBySKU() {
 
 function findByDocType(id) {
     //alert(id);
-    $("#data_report_table_div").show();
+    
+    $("#loader_div").show();
+    $("#data_report_table_div").hide();
+    $('#data_report_table').DataTable().destroy();
+    $("#print_btn_sku").hide();
 
     $.ajax({
 
@@ -187,7 +238,18 @@ function findByDocType(id) {
         type: 'Get',
         cache: false,
         success: function (data) {
+            $("#data_report_table_div").show();
             document.getElementById('updatedDiv').innerHTML = data;
+            $(".data_report_checkboxes").show();
+            
+            $("#loader_div").hide();
+            
+            $('#data_report_table').DataTable({
+                "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]]
+            });
+
+            $("#print_btn").show();
+
         },
         error: function (response) {
 
@@ -197,7 +259,11 @@ function findByDocType(id) {
 }
 
 function findByPayType(id) {
-    $("#data_report_table_div").show();
+    
+    $("#loader_div").show();
+    $("#print_btn_sku").hide();
+    $("#data_report_table_div").hide();
+    $('#data_report_table').DataTable().destroy();
 
     $.ajax({
 
@@ -207,6 +273,22 @@ function findByPayType(id) {
         cache: false,
         success: function (data) {
             document.getElementById('updatedDiv').innerHTML = data;
+            $(".data_report_checkboxes").show();
+
+            
+
+            $("#print_btn_sku").hide();
+
+            
+
+            $("#data_report_table_div").show();
+            $("#loader_div").hide();
+            $('#data_report_table').DataTable({
+                "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]]
+            });
+
+            $("#print_btn").show();
+
         },
         error: function (response) {
             
@@ -217,13 +299,32 @@ function findByPayType(id) {
 
 function sku_order_func(id) {
     //alert("ID" + id);
+
+    $('#data_sku_table').DataTable().destroy();
+
+
     if (id == 1) {
         $("#data_report_table_div").show();
         $("#sku_report_table_div").hide();
+
+        report_dropdown()
     }
-    else if(id==2){
+    else if (id == 2) {
+        //alert();
+        
         $("#data_report_table_div").hide();
         $("#sku_report_table_div").show();
+
+        
+
+        //$("#print_btn").hide();
+        $("#print_btn_sku").show();
+
+        
+
+        $('#data_sku_table').DataTable({
+            "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]]
+        });
     }
 
     
@@ -233,6 +334,9 @@ function sku_order_func(id) {
 function findByCustomerDetails() {
     $("#loader_div").show();
     $("#data_report_table_div").hide();
+    $('#data_report_table').DataTable().destroy();
+    $("#print_btn_sku").hide();
+
     var customer_id = document.getElementById('customer_details_id').value;
     //alert(sku_input);
 
@@ -246,6 +350,14 @@ function findByCustomerDetails() {
             $("#loader_div").hide();
             $("#data_report_table_div").show();
             document.getElementById('updatedDiv').innerHTML = data;
+            $(".data_report_checkboxes").show();
+            
+            $("#loader_div").hide();
+            $('#data_report_table').DataTable({
+                "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]]
+            });
+
+            $("#print_btn").show();
         },
         error: function (response) {
 
@@ -326,5 +438,75 @@ function queries_query() {
     //    }
 
     //})
+
+}
+
+function print_data_report() {
+    var divToPrint = document.getElementById("data_report_table_div");
+
+    //$('#data_report_table').DataTable().destroy();
+
+
+    $("#data_report_table_filter").hide();
+    $("#data_report_table_length").hide();
+    $("#data_report_table_info").hide();
+    $("#data_report_table_paginate").hide();
+
+
+    $("#data_report_table").css("border", "2px solid black");
+    $("td").css("border", "1px solid black");
+
+    $("th").css('background', '#404040');
+    $("th").css('color', '#FFF');
+
+    $("td").css('background', '#e6e6e6');
+
+    $("td").css("border", "0px solid black");
+
+   
+
+    newWin = window.open("");
+    newWin.document.write(divToPrint.outerHTML);
+    newWin.print();
+    //$('#data_report_table').DataTable();
+
+    $("#data_report_table_filter").show();
+    $("#data_report_table_length").show();
+    $("#data_report_table_info").show();
+    $("#data_report_table_paginate").show();
+    
+}
+
+
+function print_data_report_sku() {
+    var divToPrint = document.getElementById("sku_report_table_div");
+
+    $("#data_sku_table_filter").hide();
+    $("#data_sku_table_length").hide();
+    $("#data_sku_table_info").hide();
+    $("#data_sku_table_paginate").hide();
+
+
+    $("#data_sku_table").css("border", "2px solid black");
+    $("td").css("border", "1px solid black");
+
+    $("th").css('background', '#404040');
+    $("th").css('color', '#FFF');
+
+    $("td").css('background', '#e6e6e6');
+
+    $("td").css("border", "0px solid black");
+
+
+
+    newWin = window.open("");
+    newWin.document.write(divToPrint.outerHTML);
+    newWin.print();
+    
+
+    $("#data_sku_table_filter").show();
+    $("#data_sku_table_length").show();
+    $("#data_sku_table_info").show();
+    $("#data_sku_table_paginate").show();
 
 }

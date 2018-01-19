@@ -7,10 +7,10 @@
 <tr id="@String.Concat("rowId"+counter)" class="font-15 id remove_div">
     <td class="border-right-td"><div class="text-center"><input placeholder="Code" style="max-width:90px" class="yoyo unbold text-center" id="@String.Concat("codeforProduct",counter)" name="@String.Concat("yoyoyoyoyoyoyoy", counter)" onkeyup="productList(event,this.value,@ViewBag.serialNumber);Total(counter)" type="text"></div></td>
 
-    <td class="border-right-td"><div class="text-center"><input onkeypress="validate(event)" id="@String.Concat("supplier_code", counter)" name="@String.Concat("supplier_code", counter)" onkeyup="" placeholder="Supplier" class="new-invoice-width-boxes unbold width-68 text-center" type="text"></div></td>
+    <td class="border-right-td"><div class="text-center"><input id="@String.Concat("supplier_code", counter)" name="@String.Concat("supplier_code", counter)" placeholder="Supplier" class="new-invoice-width-boxes unbold width-68 text-center" type="text"></div></td>
 
     <td class="border-right-td">
-        <textarea class="2 description-text-area unbold width-100p text-center" id="@String.Concat("invoice_description",counter)" name="@String.Concat("invoice_description",counter)" required="" placeholder="Description"></textarea>
+        <textarea class="2 description-text-area unbold width-100p text-center" id="@String.Concat("invoice_description",counter)" name="@String.Concat("invoice_description",counter)"  placeholder="Description"></textarea>
     </td>
     <td class="border-right-td"><div class="text-center"><input onkeypress="validate(event);" id="@String.Concat("invoice_quantity",counter)" name="@String.Concat("invoice_quantity",counter)" onkeyup="Total(@counter);checkQuantityAvailable(this.value,@counter);" placeholder="0" class="3 unbold width-45 text-center" type="text"></div></td>
     <td class="border-right-td received_div" style="display:none"><div class="text-center"><input onkeypress="validate(event)" id="@String.Concat("invoice_receieved_quantity", counter)" onkeyup="TotalReceived1(@counter);" placeholder="0" class="3 unbold width-65 text-center" name="@String.Concat("invoice_receieved_quantity", counter)" type="text"></div></td>

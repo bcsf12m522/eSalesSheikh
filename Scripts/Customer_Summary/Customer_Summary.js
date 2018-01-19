@@ -92,6 +92,7 @@ function customer_invoice_list(id) {
 function customer_item_sale_list(id) {
     
     var customerID = id;
+
     //alert("addsd "+customerID);
 
     $.ajax({
@@ -115,7 +116,7 @@ function customer_item_sale_list(id) {
     })
 }
 
-function show_customer_summary() {
+     {
     $("#customer_summary").removeClass("none");
     $("#customer_summary").addClass("showDiv");
 
@@ -215,3 +216,67 @@ function payment_status_by_date() {
     })
 
 }
+
+
+function payment_status_by_default() {
+    
+    $("#loader_div_payment").show();
+    $(".hide_all_divs").hide();
+    var iDD = $("#id").text();
+   
+
+    //alert(iDD);
+    //alert("form " + from_date);
+    //alert("to " + to_date);
+
+    $.ajax({
+        url: "/Customer/Customer_Payment_Status_Default/",
+        data: { id: iDD },
+        cache: false,
+        type: "Get",
+        success: function (data) {
+
+            document.getElementById("updated_div").innerHTML = data;
+            //$("#PleaseWait").removeClass('showDiv');
+            //$("#PleaseWait").addClass('hideDiv');
+            //$('#item_history_table').dataTable();
+            $("#loader_div_payment").hide();
+            $(".hide_all_divs").show();
+            
+            $("#view_payment_div").show();
+        },
+        error: function (response) {
+            alert("Error" + response);
+        }
+
+    })
+
+}
+
+
+function printData() {
+    var divToPrint = document.getElementById("print_div");
+
+    $(".print_btn_hide_columnsssssss").hide();
+
+    
+    newWin = window.open("");
+    newWin.document.write(divToPrint.outerHTML);
+
+    $(".print_btn_hide_columnsssssss").show();
+    newWin.print();
+    
+    newWin.close();
+    $(".print_btn_hide_columnsssssss").show();
+    //$("#view_payment_div").show();
+    
+    $(".print_btn_view").show();
+    $("#print_div").show();
+    
+    //$("#print_div").removeAttr("border", "2px solid black");
+  
+}
+
+$('.print_btn_view_payment').on('click', function () {
+    printData();
+})

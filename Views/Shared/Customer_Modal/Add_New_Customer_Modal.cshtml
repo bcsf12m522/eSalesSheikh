@@ -43,16 +43,16 @@
                                     <div class="customer-border"></div>
 
                                     <div class="form-group">
-                                        <label class="customer-create-texts" for="middle-name">Phone <span class="required">*</span></label>
+                                        <label class="customer-create-texts" for="middle-name">Phone</label>
                                         <div class="col-md-3 col-sm-6 col-xs-12">
-                                            <input type="text" name="phone" required>
+                                            <input type="text" name="phone" onkeypress="validation_phones(event)">
                                         </div>
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="customer-create-texts" for="middle-name">Email <span class="required">*</span></label>
+                                        <label class="customer-create-texts" for="middle-name">Email</label>
                                         <div class="col-md-3 col-sm-6 col-xs-12">
-                                            <input type="text" name="email" required>
+                                            <input type="text" name="email">
                                         </div>
                                     </div>
 
@@ -75,16 +75,16 @@
 
 
                                     <div class="form-group">
-                                        <label class="customer-create-texts" for="middle-name">Account No<span class="required">*</span></label>
+                                        <label class="customer-create-texts" for="middle-name">Account No</label>
                                         <div class="col-md-3 col-sm-6 col-xs-12">
-                                            <input type="text" name="account_no" required>
+                                            <input type="text" name="account_no">
                                         </div>
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="customer-create-texts" for="">Notes<span class="required">*</span></label>
+                                        <label class="customer-create-texts" for="">Notes</label>
                                         <div class="col-md-3 col-sm-6 col-xs-12">
-                                            <textarea class="width-193" name="notes" required></textarea>
+                                            <textarea class="width-193" name="notes"></textarea>
                                         </div>
                                     </div>
 
@@ -109,17 +109,17 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="customer-create-texts" for="middle-name">Opening Balance<span class="required">*</span></label>
+                                        <label class="customer-create-texts" for="middle-name">Opening Balance</label>
                                         <div class="col-md-3 col-sm-6 col-xs-12">
-                                            <input type="text" name="opening_balance" required>
+                                            <input type="text" name="opening_balance" onkeypress="validation_numeric(event)">
                                         </div>
                                     </div>
 
 
                                     <div class="form-group">
-                                        <label class="customer-create-texts" for="middle-name">Credit Limit<span class="required">*</span></label>
+                                        <label class="customer-create-texts" for="middle-name">Credit Limit</label>
                                         <div class="col-md-3 col-sm-6 col-xs-12">
-                                            <input type="text" name="credit_limit" required>
+                                            <input type="text" name="credit_limit" onkeypress="validation_numeric(event)">
                                         </div>
                                     </div>
                                 </div>
@@ -130,9 +130,9 @@
                                     `
 
                                     <div class="form-group">
-                                        <label class="customer-create-texts width-178" for="middle-name">Address<span class="required">*</span></label>
+                                        <label class="customer-create-texts width-178" for="middle-name">Address</label>
                                         <div class="col-md-3 col-sm-6 col-xs-12">
-                                            <input class="ml--50" type="text" name="billing_street" id="add_street_postcode" required>
+                                            <input class="ml--50" type="text" name="billing_street" id="add_street_postcode">
                                             <input class="ml--50" type="text" name="billing_town" id="add_town_postcode">
                                             <input class="ml--50" type="text" name="billing_county" id="add_county_postcode">
                                             <input class="ml--50" type="text" name="billing_country" id="add_country_postcode">
@@ -141,7 +141,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="customer-create-texts width-178" for="middle-name">Postcode<span class="required">*</span></label>
+                                        <label class="customer-create-texts width-178" for="middle-name">Postcode</label>
                                         <div class="col-md-3 col-sm-6 col-xs-12">
                                             <input class="ml--50" type="text" id="postcode_add" name="billing_postcode" onkeypress="Postcode_Enter_Click(event)">
                                             <a href="#" onclick="postcode_testing()"><img src="~/img/images/ssearch.png" id="input_img" /></a>
@@ -163,9 +163,9 @@
 
                                     <div id="" class="Shipping_Address_Div_New none">
                                         <div class="form-group">
-                                            <label class="customer-create-texts width-178" for="middle-name">Shipping Address<span class="required">*</span></label>
+                                            <label class="customer-create-texts width-178" for="middle-name">Shipping Address</label>
                                             <div class="col-md-3 col-sm-6 col-xs-12">
-                                                <input class="ml--50" type="text" name="shipping_street" id="shipping_street_add" required>
+                                                <input class="ml--50" type="text" name="shipping_street" id="shipping_street_add">
                                                 <input class="ml--50" type="text" name="shipping_town" id="shipping_town_add">
                                                 <input class="ml--50" type="text" name="shipping_county" id="shipping_county_add">
                                                 <input class="ml--50" type="text" name="shipping_country" id="shipping_country_add">
@@ -177,7 +177,7 @@
 
 
                                         <div class="form-group">
-                                            <label class="customer-create-texts width-178" for="middle-name">Postcode<span class="required">*</span></label>
+                                            <label class="customer-create-texts width-178" for="middle-name">Postcode</label>
                                             <div class="col-md-3 col-sm-6 col-xs-12">
                                                 <input class="ml--50" type="text" name="shipping_postcode" id="shipping_postcode_add">
                                                 <a href="#"><img src="~/img/images/ssearch.png" id="input_img" /></a>

@@ -1,5 +1,5 @@
 ﻿function edit_supp(Id) {
-    var page = $("#pageValue").val();
+    //var page = $("#pageValue").val();
     
 
     //alert("ASASASDADADASDAS");
@@ -7,16 +7,19 @@
     $.ajax({
 
         url: '/Supplier/Edit_Supplier_Values/',
-        data: { id: Id , pageValue: page },
+        data: { id: Id },
         cache: false,
         type: 'Get',
         success: function (data) {
             //alert("SUCCESS");
             document.getElementById('updated_div').innerHTML = data;
             $("#EdittttModal").addClass("in").show("slow");
-            if (page == "Purchase") {
-                $("#Existing_Supplier_Modal").hide();
-            }
+
+            $("#Existing_Supplier_Modal").hide();
+
+            //if (page == "Purchase") {
+            //    $("#Existing_Supplier_Modal").hide();
+            //}
             
         },
         error: function (response) {

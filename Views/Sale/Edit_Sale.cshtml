@@ -4,7 +4,13 @@
     var kamran = 0;
     var new_value = 0;
 }
+<script type="text/javascript">
+    var exclude = @ViewBag.config.Exclude_Vat;
+    var sold = @ViewBag.config.Sold_History;
+    var detail = @ViewBag.config.Show_Details;
+    var vat_percent=@ViewBag.config.Vat_Percentage;
 
+</script>
 
 <body id="body-index" onload="Edit_Sale_Onload()">
     <div id="sticky-footer-wrap">
@@ -147,8 +153,8 @@
 
 
 
-                                                <div class="col-md-6 pull-left">
-                                                    <a href="#" data-toggle="modal" data-target="#CreateModal">
+                                                @*<div class="col-md-6 pull-left">
+                                                    <a href="#" disabled data-toggle="modal" data-target="#CreateModal">
                                                         <span class=""><img src="~/img/images/add_customer.png" /></span><br />
                                                         <span class="bold">New Customer</span>
 
@@ -160,7 +166,7 @@
                                                         <span class=""><img src="~/img/images/search_customer.png" /></span><br />
                                                         <span class="bold">Existing Customer</span>
                                                     </a>
-                                                </div>
+                                                </div>*@
                                                 <div class="clearfix"></div>
 
 
@@ -173,6 +179,7 @@
                                             <div class="col-md-2 pull-left pl-0 pr-0">
                                                 <input type="text" name="exist_customer_idd" class="hidden" id="exist_customer_id" value="@ViewBag.invoice.Customer.Id" />
                                                 <input type="text" name="credit_limit_input" class="hidden" id="credit_limit_input" value="@ViewBag.invoice.Customer.Credit_Limit"/>
+                                                <input type="text" name="customer_type_selected" class="" id="customer_type_selected" value="@ViewBag.invoice.Customer.Customer_Type.Id" hidden/>
                                                 <ul class="list-style-type-custom">
                                                     <li id="type_customer" class="bold font-18 black-color">@ViewBag.invoice.Customer.Customer_Type.Type</li>
                                                     <li id="customer_name">@ViewBag.invoice.Customer.Name</li>
@@ -192,11 +199,11 @@
 
 
                                                 <div class="col-md-5">
-                                                    <label><input type="checkbox" id="sold_history_checkbox" value="" />Check Sold History</label><br />
-                                                    <label id="hideExcludeVat"><input type="checkbox" id="excludeVat" value="" onclick="excludeVatUnchecked();" />Exclude VAT</label>
+                                                    <label><input type="checkbox" id="sold_history_checkbox" value="@ViewBag.config.Sold_History"/>Check Sold History</label><br />
+                                                    <label id="hideExcludeVat"><input disabled type="checkbox" id="excludeVat" value="@ViewBag.config.Exclude_Vat"/>Exclude VAT</label>
                                                     <label hidden id="show_details">
 
-                                                        <input type="checkbox" name="view_details" id="view_details" onclick="view_detail_click()"/>Show Details</label>
+                                                        <input type="checkbox" name="view_details" id="view_details" onclick="view_detail_click()" value="@ViewBag.invoice.Show_Details"/>Show Details</label>
                                                         <input id="input_view_detail" name="input_view_detail" value="@ViewBag.invoice.Show_Details" hidden/>
                                                     @*<label><input type="checkbox" value="" />Show Details</label>*@
                                                 </div>
@@ -434,7 +441,7 @@
                                                                id="@String.Concat("invoice_product_id",counter)" value="@obj.Sale.Product_ID" />
 
                                                     </td>
-                                                    <td class="text-center width-27p" style="vertical-align:middle;">
+                                                    <td class="text-center width-36p" style="vertical-align:middle;">
                                                         <a href="#" class="showdiv" onclick="addNewRow(@Model.Count()),rowcounterPlus()">
                                                             <img src="/img/images/plus_new_sale.png">
                                                         </a>
@@ -737,7 +744,7 @@
                                                 
                                                 <tr class="partial_paid deposit_paid hide_for_quote hide_quotation" style="">
                                                     <td class="bold">Amount left to Pay</td>
-                                                    <td id="amount_left_td" class="text-right">@{@balance}</td>
+                                                    <td id="amount_left_td" class="text-right">@*@{@balance}*@£0</td>
                                                 </tr>
                                                 <input type="" value="@balance" id="amount_left_input_field" hidden/>
 
@@ -809,9 +816,9 @@
 
 
                                 <input id="counters" hidden value="" type="text" />
-                                <input type="text" id="net_invoice_hidden" name="net_invoice_hidden" value="@ViewBag.invoice.Net_Price" hidden />
-                                <input type="text" id="vat_invoice" name="vat_invoice_hidden" value="@ViewBag.invoice.VAT_20" hidden />
-                                <input type="text" id="gross_invoice" name="gross_invoice_hidden" value="@ViewBag.invoice.Gross_Total" hidden />
+                                <input type="text" id="net_invoice_hidden" name="net_invoice_hidden" value="@ViewBag.invoice.Net_Price" hidden/>
+                                <input type="text" id="vat_invoice" name="vat_invoice_hidden" value="@ViewBag.invoice.VAT_20" hidden/>
+                                <input type="text" id="gross_invoice" name="gross_invoice_hidden" value="@ViewBag.invoice.Gross_Total" hidden/>
                                 <input type="text" class="" id="global_discount_hidden" name="global_discount_hidden" value="0" hidden />
                                 <input type="text" class="" id="total_after_discount_hidden" name="total_after_discount_hidden" hidden />
                                 <label hidden>Left Amount Hidden</label>

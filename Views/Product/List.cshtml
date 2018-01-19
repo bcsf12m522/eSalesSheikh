@@ -1,4 +1,7 @@
 ﻿@model  List<eSalesPro.Models.Product>
+<script type="text/javascript">
+    var vat_percent=@ViewBag.config.Vat_Percentage;
+</script>
 <body id="body-index">
     @{
         byte[] buffer = Guid.NewGuid().ToByteArray();
@@ -47,11 +50,11 @@
                                     </div>*@
 
                                 <div class="col-md-2 pull-right pr-0">
-                                    <a href="/Product/Stock_Taking_List" class="btn btn-primary pull-right blue-btn-style btn-mini width-170 bold">Update Stocktaking</a>
+                                    <a href="/Product/Stock_Taking_List" class="btn btn-success pull-right blue-btn-style btn-mini width-170 bold">Update Stocktaking</a>
                                 </div>
 
                                 <div class="col-md-3 pull-right">
-                                    <a href="/Home/Epos" class="btn btn-primary pull-right btn-mini blue-btn-style width-170 bold">Import / Export</a>
+                                    <a href="~/Product/Export_Product_List" target="_blank" class="btn btn-success pull-right btn-mini blue-btn-style width-170 bold">Export</a>
                                 </div>
 
 
@@ -78,14 +81,15 @@
                         <div class="col-md-12 col-lg-12">
 
                             <div class="col-md-3 col-lg-3 width-280 pull-left pl-0">
-                                <a href="~/Home/Epos" class="btn btn-primary btn-mini blue-btn-style bold">Back to EPOS Main Panel</a>
+                                <a href="~/User/Epos" target="_blank" class="btn btn-primary btn-mini blue-btn-style bold">Back to EPOS Main Panel</a>
                             </div>
 
                             <div class="col-md-3 col-lg-2 pull-left">
                                 <a href="#" data-toggle="modal" data-target="#CreateModal" class="btn btn-primary blue-btn-style btn-mini width-200 ml--72 bold">Add New Item</a>
-
                             </div>
-                            <div class="col-md-3 col-lg-3"></div>
+                            <div class="col-md-3 col-lg-3 pull-right pr-0">
+                                <a href="#" target="_blank" class="btn btn-primary pull-right btn-mini blue-btn-style width-170 bold print_btn_view">Print</a>
+                            </div>
                             <div class="col-md-3 col-lg-3"></div>
 
                             <div class="clearfix"></div>
@@ -120,82 +124,94 @@
                         @*<section id="no-more-tables">*@
 
                         <div class="col-md-12" style="overflow-x:scroll;overflow-y:hidden">
-                            <table border="0" class="table table-responsive border_black" id="product_list_tableeee">
-                                <thead>
-                                    <tr class="table-heading-fonts font-15 table-main-headings">
-                                        <th>Image</th>
-                                        <th class="text-center">SKU</th>
-                                        <th class="text-center">Description</th>
-                                        <th class="text-center">Quantity</th>
-                                        <th class="text-center">Normal</th>
-                                        <th class="text-center">Trade</th>
-                                        <th class="text-center">Premium</th>
-                                        <th class="text-center">Other</th>
-                                        <th class="text-center">Cost</th>
+                            <div id="product_print_div">
+
+                                <div class="col-md-3 pl-0 pr-0 pull-left none print_page_heading">
+                                    <h3 style="font-size:26px" class="bold">Product List<small></small></h3>
+                                </div>
+
+
+                                <table border="0" class="table table-responsive border_black" id="product_list_tableeee">
+                                    <thead>
+                                        <tr class="table-heading-fonts font-15 table-main-headings">
+                                            <th class="export_hide print_btn_hide_cols">Image</th>
+                                            <th class="text-center">SKU</th>
+                                            <th class="text-center">Description</th>
+                                            <th class="text-center">Quantity</th>
+                                            <th class="text-center">Normal</th>
+                                            <th class="text-center">Trade</th>
+                                            <th class="text-center">Premium</th>
+                                            <th class="text-center">Other</th>
+                                            <th class="text-center">Cost</th>
 
 
 
-                                        <th class="normal_total text-center" style="display:none">Total Normal</th>
-                                        <th class="trade_total text-center" style="display:none">Total Trade</th>
-                                        <th class="premium_total text-center" style="display:none">Total Premium</th>
-                                        <th class="other_total text-center" style="display:none">Total Other</th>
-                                        <th class="cost_total text-center" style="display:none">Total Cost</th>
+                                            <th class="normal_total text-center" style="display:none">Total Normal</th>
+                                            <th class="trade_total text-center" style="display:none">Total Trade</th>
+                                            <th class="premium_total text-center" style="display:none">Total Premium</th>
+                                            <th class="other_total text-center" style="display:none">Total Other</th>
+                                            <th class="cost_total text-center" style="display:none">Total Cost</th>
+                                            @*<th class="normal_total text-center">Total Normal</th>
+                        <th class="trade_total text-center">Total Trade</th>
+                        <th class="premium_total text-center">Total Premium</th>
+                        <th class="other_total text-center">Total Other</th>
+                        <th class="cost_total text-center">Total Cost</th>*@
 
-                                        <th class="text-center">Actions</th>
+                                            <th class="text-center export_hide print_btn_hide_cols">Actions</th>
 
 
-                                    </tr>
-                                </thead>
+                                        </tr>
+                                    </thead>
 
 
 
-                                <tbody class="bold tbody-font-style font-14 text-center">
+                                    <tbody class="bold tbody-font-style font-14 text-center">
 
-                                    @foreach (var v in Model)
+                                        @foreach (var v in Model)
                                     {
-
-                                        <tr class="">
+                                        if (@v.Quantity.Quantity1 <= @v.Warn_Level) {
+                                        <tr style="background-color:red !important;">
 
                                             @if (v.Image != null)
-                                            {
                                                 {
-                                                    var base64 = Convert.ToBase64String(v.Image);
-                                                    var imgsrc = string.Format("data:image/gif;base64,{0}", base64);
+                                                    {
+                                                        var base64 = Convert.ToBase64String(v.Image);
+                                                        var imgsrc = string.Format("data:image/gif;base64,{0}", base64);
 
 
-                                                    <td>
+                                                <td class="export_hide print_btn_hide_cols">
 
 
-                                                        @*<img class="img-circle max_width_50" src="@imgsrc" />*@
+                                                    @*<img class="img-circle max_width_50" src="@imgsrc" />*@
 
-                                                        @*<img class="img-circle max_width_50" src="@imgsrc" />*@
-
-
-                                                        <ul class="enlarge" style="margin:0px; padding:0px;">
-                                                            <li style="margin: 0px;">
-                                                                <img src="@imgsrc" class="img-circle max_width_45_height_40" />
-                                                                <span style="margin:0px; padding:0px;"><img src="@imgsrc" alt="" width="250" height="250" /></span>
-                                                            </li>
-                                                        </ul>
+                                                    @*<img class="img-circle max_width_50" src="@imgsrc" />*@
 
 
+                                                    <ul class="enlarge export_hide" style="margin:0px; padding:0px;">
+                                                        <li style="margin: 0px;">
+                                                            <img src="@imgsrc" class="img-circle max_width_45_height_40 export_hide" />
+                                                            <span style="margin:0px; padding:0px;"><img src="@imgsrc export_hide" alt="" width="250" height="250" /></span>
+                                                        </li>
+                                                    </ul>
 
 
-                                                    </td>
+
+
+                                                </td>
+                                                    }
                                                 }
-                                            }
 
 
-                                            else
-                                            {
-                                                <td>
+                                                else
+                                                {
+                                                <td class="export_hide print_btn_hide_cols">
 
 
-                                                    <img class="img-circle max_width_50" src="~/img/images/new_img.png" />
+                                                    <img class="img-circle max_width_50 export_hide" src="~/img/images/new_img.png" />
 
                                                     @*<img class="img-circle max_width_50" src="@imgsrc" /><span><img src="@imgsrc" /></span>*@
                                                 </td>
-                                            }
+                                                }
 
 
 
@@ -217,25 +233,112 @@
                                             <td class="other_total" style="display:none">@v.Other_VAT</td>
                                             <td class="cost_total" style="display:none">@v.Cost_VAT</td>
 
+                                            @*<td class="normal_total">@v.Normal_VAT</td>
+                        <td class="trade_total">@v.Trade_VAT</td>
+                        <td class="premium_total">@v.Premium_VAT</td>
+                        <td class="other_total">@v.Other_VAT</td>
+                        <td class="cost_total">@v.Cost_VAT</td>*@
 
 
 
-                                            <td>
+                                            <td class="export_hide print_btn_hide_cols">
                                                 <a href="#" data-toggle="modal" data-target="#EditModal" class="btn btn-sm btn-success bold" onclick="GetProduct(@v.Id)">Edit</a>
                                                 <a class="btn btn-sm btn-danger bold" href="~/Product/Delete/@v.Id">
                                                     Delete
                                                 </a>
                                             </td>
                                         </tr>
+                                        }
+                                        else
+                                        {
+                                        <tr class="">
+
+                                            @if (v.Image != null)
+                                                {
+                                                    {
+                                                        var base64 = Convert.ToBase64String(v.Image);
+                                                        var imgsrc = string.Format("data:image/gif;base64,{0}", base64);
+
+
+                                                <td class="export_hide print_btn_hide_cols">
+
+
+                                                    @*<img class="img-circle max_width_50" src="@imgsrc" />*@
+
+                                                    @*<img class="img-circle max_width_50" src="@imgsrc" />*@
+
+
+                                                    <ul class="enlarge export_hide" style="margin:0px; padding:0px;">
+                                                        <li style="margin: 0px;">
+                                                            <img src="@imgsrc" class="img-circle max_width_45_height_40 export_hide" />
+                                                            <span style="margin:0px; padding:0px;"><img src="@imgsrc export_hide" alt="" width="250" height="250" /></span>
+                                                        </li>
+                                                    </ul>
+
+
+
+
+                                                </td>
+                                                    }
+                                                }
+
+
+                                                else
+                                                {
+                                                <td class="export_hide print_btn_hide_cols">
+
+
+                                                    <img class="img-circle max_width_50 export_hide" src="~/img/images/new_img.png" />
+
+                                                    @*<img class="img-circle max_width_50" src="@imgsrc" /><span><img src="@imgsrc" /></span>*@
+                                                </td>
+                                                }
+
+
+
+
+
+                                            <td data-title="User ID">@v.Custom_Label_</td>
+                                            <td data-title="First Name">@v.Item_Title</td>
+                                            <td>@v.Quantity.Quantity1</td>
+                                            <td data-title="Last Name">@v.Price_Normal</td>
+                                            <td data-title="Email" class="user-emails">@v.Price_Trade</td>
+                                            <td data-title="Date Registered">@v.Price_Premium</td>
+                                            <td class="">@v.Price_Others</td>
+                                            <td class="">@v.Cost_Price</td>
+
+
+                                            <td class="normal_total" style="display:none">@v.Normal_VAT</td>
+                                            <td class="trade_total" style="display:none">@v.Trade_VAT</td>
+                                            <td class="premium_total" style="display:none">@v.Premium_VAT</td>
+                                            <td class="other_total" style="display:none">@v.Other_VAT</td>
+                                            <td class="cost_total" style="display:none">@v.Cost_VAT</td>
+
+                                            @*<td class="normal_total">@v.Normal_VAT</td>
+                        <td class="trade_total">@v.Trade_VAT</td>
+                        <td class="premium_total">@v.Premium_VAT</td>
+                        <td class="other_total">@v.Other_VAT</td>
+                        <td class="cost_total">@v.Cost_VAT</td>*@
+
+
+
+                                            <td class="export_hide print_btn_hide_cols">
+                                                <a href="#" data-toggle="modal" data-target="#EditModal" class="btn btn-sm btn-success bold" onclick="GetProduct(@v.Id)">Edit</a>
+                                                <a class="btn btn-sm btn-danger bold" href="~/Product/Delete/@v.Id">
+                                                    Delete
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        }
                                     }
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
 
-                            <div class="empty-height"></div><div class="empty-height"></div><div class="empty-height"></div><div class="empty-height"></div><div class="empty-height"></div><div class="empty-height"></div><div class="empty-height"></div><div class="empty-height"></div><div class="empty-height"></div>
+                                <div class="empty-height"></div><div class="empty-height"></div><div class="empty-height"></div><div class="empty-height"></div><div class="empty-height"></div><div class="empty-height"></div><div class="empty-height"></div><div class="empty-height"></div><div class="empty-height"></div>
 
 
-                            <div class="clearfix"></div>
-
+                                <div class="clearfix"></div>
+                            </div>
 
                         </div>
 
@@ -256,6 +359,14 @@
         }
     </footer>
 
+
+    @*----------------------------POP UP END SessionManagement--------------------------------*@
+    
+    @{
+        Html.RenderPartial("Session_Logout_Modal/Logout_Modal");
+    }
+    
+    @*----------------------------POP UP END SessionManagement--------------------------------*@
 
     @*----------------------------POP UP for BARCODE--------------------------------*@
 
@@ -745,16 +856,16 @@
                                         <div class="form-group">
                                             <div>
                                                 <div class="">
-                                                    <label class="supplier-create-texts" for="middle-name">Normal Price <span class="required">*</span></label>
+                                                    <label class="supplier-create-texts" for="middle-name">Normal Price<span class="required">*</span></label>
                                                     <div class="col-md-3 col-sm-6 col-xs-12">
-                                                        <input id="NormalPrice" onkeypress="validate(event)" onkeyup="Normal_Price_Calculating_VAT(1);" class="width-170" type="text" name="normal_price" required>
+                                                        <input id="NormalPrice" onkeypress="validation_numeric(event)" onkeyup="Normal_Price_Calculating_VAT(1);" class="width-170" type="text" name="normal_price" required>
                                                     </div>
                                                 </div>
 
                                                 <div class="">
-                                                    <label class="vat-texts">+VAT=</label>
+                                                    <label class="vat-texts">+VAT= <span class="required">*</span></label>
                                                     <div class="col-md-3 col-sm-6 col-xs-12">
-                                                        <input id="NormalTotal" onkeypress="validate(event)" onkeyup="Normal_Price_by_Vat(1)" type="text" class="width-170" name="normal_vat" required>
+                                                        <input id="NormalTotal" onkeypress="validation_numeric(event)" onkeyup="Normal_Price_by_Vat(1)" type="text" class="width-170" name="normal_vat" required>
                                                     </div>
                                                 </div>
 
@@ -771,16 +882,16 @@
                                         <div class="form-group">
                                             <div>
                                                 <div class="">
-                                                    <label class="supplier-create-texts" for="middle-name">Trade Price <span class="required">*</span></label>
+                                                    <label class="supplier-create-texts" for="middle-name">Trade Price<span class="required">*</span></label>
                                                     <div class="col-md-3 col-sm-6 col-xs-12">
-                                                        <input id="TradePrice" onkeypress="validate(event)" onkeyup="Trade_Price_Calculating_VAT(1);" class="width-170" type="text" name="trade_price" required>
+                                                        <input id="TradePrice" onkeypress="validation_numeric(event)" onkeyup="Trade_Price_Calculating_VAT(1);" class="width-170" type="text" name="trade_price" required>
                                                     </div>
                                                 </div>
 
                                                 <div class="">
-                                                    <label class="vat-texts">+VAT=</label>
+                                                    <label class="vat-texts">+VAT= <span class="required">*</span></label>
                                                     <div class="col-md-3 col-sm-6 col-xs-12">
-                                                        <input id="TradeTotal" onkeypress="validate(event)" onkeyup="Trade_Price_by_Vat(1)" type="text" class="width-170" name="trade_vat" required>
+                                                        <input id="TradeTotal" onkeypress="validation_numeric(event)" onkeyup="Trade_Price_by_Vat(1)" type="text" class="width-170" name="trade_vat" required>
                                                     </div>
                                                 </div>
 
@@ -797,16 +908,16 @@
                                         <div class="form-group">
                                             <div>
                                                 <div class="">
-                                                    <label class="supplier-create-texts" for="middle-name">Premium Price <span class="required">*</span></label>
+                                                    <label class="supplier-create-texts" for="middle-name">Premium Price<span class="required">*</span></label>
                                                     <div class="col-md-3 col-sm-6 col-xs-12">
-                                                        <input id="PremiumPrice" onkeypress="validate(event)" class="width-170" onkeyup="Premium_Price_Calculating_VAT(1)" type="text" name="premium_price" required>
+                                                        <input id="PremiumPrice" onkeypress="validation_numeric(event)" class="width-170" onkeyup="Premium_Price_Calculating_VAT(1)" type="text" name="premium_price" required>
                                                     </div>
                                                 </div>
 
                                                 <div class="">
-                                                    <label class="vat-texts">+VAT=</label>
+                                                    <label class="vat-texts">+VAT= <span class="required">*</span></label>
                                                     <div class="col-md-3 col-sm-6 col-xs-12">
-                                                        <input id="PremiumTotal" onkeypress="validate(event)" onkeyup="Premium_Price_by_Vat(1)" type="text" class="width-170" name="premium_vat" required>
+                                                        <input id="PremiumTotal" onkeypress="validation_numeric(event)" onkeyup="Premium_Price_by_Vat(1)" type="text" class="width-170" name="premium_vat" required>
                                                     </div>
                                                 </div>
 
@@ -822,16 +933,16 @@
                                         <div class="form-group">
                                             <div>
                                                 <div class="">
-                                                    <label class="supplier-create-texts" for="middle-name">Other Price <span class="required">*</span></label>
+                                                    <label class="supplier-create-texts" for="middle-name">Other Price<span class="required">*</span></label>
                                                     <div class="col-md-3 col-sm-6 col-xs-12">
-                                                        <input id="OtherPrice" onkeypress="validate(event)" class="width-170" onkeyup="Other_Price_Calculating_VAT(1);" type="text" name="other_price" required>
+                                                        <input id="OtherPrice" onkeypress="validation_numeric(event)" class="width-170" onkeyup="Other_Price_Calculating_VAT(1);" type="text" name="other_price" required>
                                                     </div>
                                                 </div>
 
                                                 <div class="">
-                                                    <label class="vat-texts">+VAT=</label>
+                                                    <label class="vat-texts">+VAT= <span class="required">*</span></label>
                                                     <div class="col-md-3 col-sm-6 col-xs-12">
-                                                        <input id="OtherTotal" onkeypress="validate(event)" onkeyup="Other_Price_by_Vat(1)" type="text" class="width-170" name="other_vat" required>
+                                                        <input id="OtherTotal" onkeypress="validation_numeric(event)" onkeyup="Other_Price_by_Vat(1)" type="text" class="width-170" name="other_vat" required>
                                                     </div>
                                                 </div>
 
@@ -856,16 +967,16 @@
                                                 <div class="">
                                                     <label class="supplier-create-texts font-16 black-color" for="middle-name">Total Quantity<span class="required">*</span></label>
                                                     <div class="col-md-3 col-sm-6 col-xs-12">
-                                                        <input class="width-170" onkeypress="validate(event)" type="text" name="total_quantity" required>
+                                                        <input class="width-170" onkeypress="validation_numeric(event)" type="text" name="total_quantity" required>
                                                     </div>
                                                 </div>
 
-                                                <div class="">
+                                                @*<div class="">
                                                     <a href="#" data-toggle="modal" data-target="#transfer_stock">
                                                         <img class="stock-transfer-img" src="~/img/images/stock_transfer.png" />
                                                         <label class="mr-60 font-16">Transfer Stock</label>
                                                     </a>
-                                                </div>
+                                                </div>*@
 
                                                 <div class="clearfix"></div>
 
@@ -880,18 +991,34 @@
 
 
                                         <div class="form-group">
-                                            <div>
+                                            <div style="position:relative">
                                                 <div class="">
-                                                    <label class="supplier-create-texts" for="middle-name">Warehouse Locations<span class="required">*</span></label>
+                                                    <label class="supplier-create-texts mt-10" for="middle-name">Warehouse Locations</label>
                                                 </div>
 
+
+
+
                                                 <div class="">
+
+
+
                                                     <a href="#" class="add_new_warehouse showDiv  mb-10">
-                                                        <img class="stock-transfer-img" src="~/img/images/plus.png" />
-                                                        <label class="mr-160 font-16">Add New Locations</label>
+                                                        <img class="pull-left width-35" src="~/img/images/plus.png" />
+                                                        <div class="clearfix"></div>
+                                                        @*<label class="mr-160 font-16">Add New Locations</label>*@
+                                                    </a>
+
+                                                </div>
+                                                <div class="clearfix"></div>
+
+                                                <div class="">
+                                                    <a href="~/Product/AddWarehouse/" target="_blank" class="">
+                                                        <img class="edit_warehouse_class" src="~/img/images/pencil48.png" />
                                                     </a>
                                                 </div>
 
+                                               
 
 
                                             </div>
@@ -899,12 +1026,13 @@
                                         </div>
 
 
-                                        <div class="remove_warehouse_div">
+                                        @*<div class="remove_warehouse_div">
                                             <div class="form-group pull-left pl-0">
                                                 <label class="control-label pull-left">Location:</label>
 
 
-                                                <select name="ware_house_name" required class="form-control width-170 pull-left">
+                                                <select name="ware_house_name" class="form-control width-170 pull-left">
+                                                    <option class="text-center">-- Select --</option>
                                                     @foreach (var warehouse in ViewBag.Warehouses)
                                                     {
                                                         <option value="@warehouse.Id">@warehouse.Name </option>
@@ -922,10 +1050,10 @@
 
 
 
-                                            <div class="pull-left">
+                                            @*<div class="pull-left">
                                                 <label class="control-label pull-left ml-22 mr-5">Shelf No :</label>
-                                                <select name="ware_shelf_number" required class="form-control width-94 pull-left">
-
+                                                <select name="ware_shelf_number" class="form-control width-94 pull-left">
+                                                    <option class="text-center"> -- Select --</option>
                                                     @foreach (var warehouse in ViewBag.Warehouses)
                                                     {
                                                         <option value="@warehouse.Id">@warehouse.shelf_number </option>
@@ -936,28 +1064,28 @@
 
 
 
-                                            </div>
+                                            </div>*@
 
-                                            <div id="addedRows"></div>
+                                            @*<div id="addedRows"></div>
 
 
                                             <div class="form-group pull-left">
-                                                <label class="control-label pull-left ml-22">QTY:</label>
+                                                <label class="control-label pull-left ml-45">QTY:</label>
 
 
-                                                <input id="" class="form-control pull-left width-78 ml-5" type="text" name="ware_house_qty" placeholder="" required="" title="admin">
+                                                <input onkeypress="validation_numeric(event)" id="" class="form-control pull-left width-78 ml-5" type="text" name="ware_house_qty" placeholder="Qty" title="admin">
 
 
 
                                             </div>
                                             <div>
-                                                <a class=""><img class="del-img-size" src="~/img/images/delete.png" /></a>
+                                                <a class="pull-left ml-30"><img class="del-img-size" src="~/img/images/delete.png" /></a>
                                             </div>
 
 
-                                        </div>
+                                        </div>*@
 
-
+                                        <div class="clearfix"></div>
 
 
                                         <div class="empty-height"></div>
@@ -966,9 +1094,9 @@
 
 
                                         <div class="form-group">
-                                            <label class="supplier-create-texts" for="middle-name">Warn Level<span class="required">*</span></label>
+                                            <label class="supplier-create-texts" for="middle-name">Warn Level</label>
                                             <div class="col-md-3 col-sm-6 col-xs-12">
-                                                <input class="width-400" type="text" name="warn_level" required>
+                                                <input class="width-400" onkeypress="validation_numeric(event)" type="text" name="warn_level">
                                             </div>
                                         </div>
 
@@ -978,9 +1106,9 @@
                                         <div class="form-group">
                                             <div>
                                                 <div class="">
-                                                    <label class="supplier-create-texts" for="middle-name">Barcode<span class="required">*</span></label>
+                                                    <label class="supplier-create-texts" for="middle-name">Barcode</label>
                                                     <div class="col-md-3 col-sm-6 col-xs-12">
-                                                        <input id="barcode_code" class="width-170" type="text" name="barcode_code" required>
+                                                        <input id="barcode_code" class="width-170" type="text" name="barcode_code">
                                                     </div>
                                                 </div>
 
@@ -1018,9 +1146,9 @@
 
 
                                         <div class="form-group">
-                                            <label class="supplier-create-texts" for="middle-name">Supplier Code<span class="required">*</span></label>
+                                            <label class="supplier-create-texts" for="middle-name">Supplier Code</label>
                                             <div class="col-md-3 col-sm-6 col-xs-12">
-                                                <input class="width-400" type="text" name="supplier_code" required>
+                                                <input class="width-400" type="text" name="supplier_code">
                                             </div>
                                         </div>
 
@@ -1028,16 +1156,16 @@
                                         <div class="form-group">
                                             <div>
                                                 <div class="">
-                                                    <label class="supplier-create-texts" for="middle-name">Cost Price <span class="required">*</span></label>
+                                                    <label class="supplier-create-texts" for="middle-name">Cost Price</label>
                                                     <div class="col-md-3 col-sm-6 col-xs-12">
-                                                        <input id="CostPrice" onkeyup="Cost_Price_Calculating_VAT(1)" class="width-170" onkeypress="validate(event)" type="text" name="cost_price" required>
+                                                        <input id="CostPrice" onkeyup="Cost_Price_Calculating_VAT(1)" class="width-170" onkeypress="validation_numeric(event)" type="text" name="cost_price">
                                                     </div>
                                                 </div>
 
                                                 <div class="">
                                                     <label class="vat-texts">+VAT=</label>
                                                     <div class="col-md-3 col-sm-6 col-xs-12">
-                                                        <input id="CostTotal" type="text" onkeypress="validate(event)" onkeyup="Cost_Price_by_Vat(1)" class="width-170" name="cost_vat" required>
+                                                        <input id="CostTotal" type="text" onkeypress="validation_numeric(event)" onkeyup="Cost_Price_by_Vat(1)" class="width-170" name="cost_vat">
                                                     </div>
                                                 </div>
 
@@ -1051,16 +1179,16 @@
                                         <div class="form-group">
                                             <div>
                                                 <div class="">
-                                                    <label class="supplier-create-texts" for="middle-name">Quantity in Box (Inner) <span class="required">*</span></label>
+                                                    <label class="supplier-create-texts" for="middle-name">Quantity in Box (Inner)</label>
                                                     <div class="col-md-3 col-sm-6 col-xs-12">
-                                                        <input class="width-170" onkeypress="validate(event)" type="text" name="inner" required>
+                                                        <input class="width-170" onkeypress="validation_numeric(event)" type="text" name="inner">
                                                     </div>
                                                 </div>
 
                                                 <div class="">
                                                     <label class="vat-texts">(Outer)</label>
                                                     <div class="col-md-3 col-sm-6 col-xs-12">
-                                                        <input type="text" onkeypress="validate(event)" class="width-170" name="outer" required>
+                                                        <input type="text" onkeypress="validation_numeric(event)" class="width-170" name="outer">
                                                     </div>
                                                 </div>
 
@@ -1091,11 +1219,15 @@
                                                 </select>
                                             </div>
 
-                                            <div class="">
+                                            <div class="" style="position:relative">
                                                 <a href="#" id="myModal_id" data-toggle="modal" data-target="#create_category_modal">
                                                     @*<a href="#" id="myModal_id">*@
                                                     <img class="plus-img" src="~/img/images/plus.png" />
                                                 </a>
+                                                <a href="~/Product/List_Product_Categories/" target="_blank" class="">
+                                                    <img class="edit_category_class" src="/img/images/pencil48.png">
+                                                </a>
+                                                <div class="clear"></div>
                                             </div>
 
                                             <div class="clear"></div>
@@ -1114,19 +1246,19 @@
                                         <div class="form-group">
                                             <label class="supplier-create-texts" for="middle-name">Courier Type</label>
                                             <div class="col-md-3 col-sm-6 col-xs-12">
-                                                <input class="width-400" type="text" name="courier_type" required>
+                                                <input class="width-400" type="text" name="courier_type">
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label class="supplier-create-texts" for="middle-name">Tax Type</label>
                                             <div class="col-md-3 col-sm-6 col-xs-12">
-                                                <input class="width-400" type="text" name="tax_type" required>
+                                                <input class="width-400" type="text" name="tax_type">
                                             </div>
                                         </div>
 
                                         <div class="form-group">
-                                            <label class="supplier-create-texts" for="middle-name">Notes<span class="required">*</span></label>
+                                            <label class="supplier-create-texts" for="middle-name">Notes</label>
                                             <div class="col-md-3 col-sm-6 col-xs-12">
                                                 <textarea class="width-400" name="notes"></textarea>
                                             </div>
@@ -1406,12 +1538,52 @@
         </div>
     </div>
 
+    @*<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.1.0/css/buttons.dataTables.min.css" type="text/css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css" type="text/css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/select/1.1.0/css/select.dataTables.min.css" type="text/css" />
+
+    
+
+
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script type="text/javascript" src="https://datatables.net/release-datatables/media/js/jquery.js"></script>
+<script type="text/javascript" src="https://datatables.net/release-datatables/media/js/jquery.dataTables.js"></script>
+<script type="text/javascript" scr="https://datatables.net/release-datatables/extensions/TableTools/js/dataTables.tableTools.js"></script>
+
+<script src="https://cdn.datatables.net/buttons/1.1.0/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+<script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+<script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.1.0/js/buttons.html5.min.js"></script>*@
+
+    
 
 
     @*----------------------------POP UP END CATEGORY--------------------------------*@
 
 
-    <script>
+    <script type="text/javascript">
+        var tableToExcel = (function () {
+            //$(".export_hide").hide();
+            //alert("sadsad");
+        var uri = 'data:application/vnd.ms-excel;base64,'
+          , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'
+          , base64 = function (s) { return window.btoa(unescape(encodeURIComponent(s))) }
+          , format = function (s, c) { return s.replace(/{(\w+)}/g, function (m, p) { return c[p]; }) }
+        return function (table, name) {
+            if (!table.nodeType) table = document.getElementById(table)
+            var ctx = { worksheet: name || 'Worksheet', table: table.innerHTML }
+            window.location.href = uri + base64(format(template, ctx))
+        }
+        })()
+
+
+        $(document).ready(function () {
+            var oTable = $('#product_list_tableeee').DataTable({
+                "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]]
+            });
+
+        });
 
 
     </script>
@@ -1470,8 +1642,9 @@
     </script>
 
     <script>
-        $('.add_new_warehouse').click(function () {
-            $(this).after('<div class="ml-16 remove_warehouse_div"><div class="form-group pull-left"><label class="control-label pull-left">Location:</label><select name="ware_house_name" required class="form-control width-170 pull-left">@foreach (var warehouse in ViewBag.Warehouses){<option value="@warehouse.Id">@warehouse.Name </option>}</select></div><div class="pull-left"><label class="control-label pull-left ml-22 mr-5">Shelf No :</label><select name="ware_shelf_number" required class="form-control width-94 pull-left">@foreach (var warehouse in ViewBag.Warehouses){<option value="@warehouse.Id">@warehouse.shelf_number </option>}</select></div><div id="addedRows"></div><div class="form-group pull-left"><label class="control-label pull-left ml-22">QTY:</label><input id="" class="form-control pull-left width-78 ml-5" type="text" name="ware_house_qty" placeholder="" required="" title="admin"></div><div><a class="kashif" onclick="removeWarehouse()"><img class="del-img-size" style="margin-left:-14px;" src="/img/images/delete.png" /></a></div><div class="clearfix"></div></div>');
+    $('.add_new_warehouse').click(function () {
+            @*$(this).after('<div class="ml-16 remove_warehouse_div"><div class="form-group pull-left"><label class="control-label pull-left">Location:</label><select name="ware_house_name" required class="form-control width-170 pull-left">@foreach (var warehouse in ViewBag.Warehouses){<option value="@warehouse.Id">@warehouse.Name </option>}</select></div><div class="pull-left"><label class="control-label pull-left ml-22 mr-5">Shelf No :</label><select name="ware_shelf_number" required class="form-control width-94 pull-left">@foreach (var warehouse in ViewBag.Warehouses){<option value="@warehouse.Id">@warehouse.shelf_number </option>}</select></div><div id="addedRows"></div><div class="form-group pull-left"><label class="control-label pull-left ml-22">QTY:</label><input id="" class="form-control pull-left width-78 ml-5" type="text" name="ware_house_qty" placeholder="" required="" title="admin"></div><div><a class="kashif" onclick="removeWarehouse()"><img class="del-img-size" style="margin-left:-14px;" src="/img/images/delete.png" /></a></div><div class="clearfix"></div></div>');*@
+        $(this).after('<div class="ml-16 remove_warehouse_div"><div class="form-group pull-left"><label class="control-label pull-left">Location:</label><select name="ware_house_name" required class="form-control width-170 pull-left"><option class="text-center">-- Select --</option>@foreach (var warehouse in ViewBag.Warehouses){<option value="@warehouse.Id">@warehouse.Name </option>}</select></div><div id="addedRows"></div><div class="form-group pull-left ml-22 mr-5"><label class="control-label pull-left ml-7">QTY:</label><input id="" class="form-control pull-left width-78 ml-5" type="text" name="ware_house_qty" placeholder="Qty" required="" title="admin"></div><div><a class="kashif pull-left" onclick="removeWarehouse()"><img class="del-img-size" style="margin-left:9px;" src="/img/images/delete.png" /></a></div><div class="clearfix"></div></div>');
         });
 
         //function removeWarehouse()
@@ -1503,7 +1676,24 @@
     </script>
 
 
+    <script>
+    function delete_btn(id) {
+        //alert(id);
+        
+        $("#remove_p_warehouse_" + id).remove();
+    }
+    </script>
 
+    <script>
+    $('.add_new_warehouse_edit').click(function () {
+        alert("dsaddadsa");
+        
+    });
+
+    //function removeWarehouse()
+
+  
+    </script>
 
     <script>
         function cancel_btn() {
@@ -1783,6 +1973,41 @@
             $("#show_warehouse").removeClass("none");
             $("#show_warehouse").addClass("showDiv");
         }
+    </script>
+
+
+    <script>
+        function warehouse_add_more() {
+            //alert("dssadsad");
+            $(".new_rows_add_warehouse").append('<div class="remove_warehouse_divsssss"><div class="form-group pull-left pl-0"><label class="control-label pull-left">Location:</label><select name="ware_house_name" class="form-control width-170 pull-left"><option class="text-center">-- Select --</option>@foreach (var warehouse in ViewBag.Warehouses){<option value="@warehouse.Id">@warehouse.Name</option>}</select></div><div class="form-group pull-left ml-22 mr-5"><label class="control-label pull-left ml-7">QTY:</label><input onkeypress="validation_numeric(event)" id="" class="form-control pull-left width-78 ml-5" type="text" name="ware_house_qty" placeholder="Qty" title="admin"></div><div><a class="del_rows_p_w pull-left" onclick="p_w_delete_row()"><img class="del-img-size" style="margin-left:11px;" onclick="pw_del()" src="/img/images/delete.png"/></a></div></div><div class="clearfix"></div>');
+        }
+
+
+        $(document).on('click', '.del_rows_p_w', function p_w_delete_row() {
+
+            $(this).closest(".remove_warehouse_divsssss").remove();
+
+            //$(this).parent('div').remove();
+
+
+            //function removeWarehouse(){
+            //    $(this).closest(".remove_warehouse_div").remove();
+            //}
+
+        });
+
+
+
+
+
+        //function pw_del(){
+        //    $(this).find('.remove_warehouse_divsssss').remove();
+        //}
+
+        //$('.remove_warehouse_divsssss').click(function () {
+        //    alert('del');
+            
+        //});
     </script>
 
 </body>

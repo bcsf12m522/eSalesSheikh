@@ -5,7 +5,19 @@
 
     <tr data-id="@v.Invoice.Id" class="text-center abs">
 
-        <td class="Transaction_no_tr" data-title="User ID">@v.Invoice.Invoice_Number</td>
+        @if (v.Invoice.Doc_Type_ID == 1)
+        {
+            <td class="Transaction_no_tr" data-title="User ID">@v.Invoice.Invoice_Number</td>
+        }
+        else if (v.Invoice.Doc_Type_ID == 2)
+        {
+            <td class="Transaction_no_tr" data-title="User ID">@v.Invoice.Quote_Number</td>
+        }
+        else if (v.Invoice.Doc_Type_ID == 3)
+        {
+            <td class="Transaction_no_tr" data-title="User ID">@v.Invoice.Item_Sale_Number</td>
+        }
+
         <td class="Trans_type_tr" data-title="User ID">@v.Invoice.Document_Type.Type</td>
         <td class="Name_tr" data-title="User ID">@v.Invoice.Customer.Name</td>
         <td class="Address_tr" data-title="User ID">@v.Invoice.Customer.Billing_Street</td>
@@ -21,5 +33,5 @@
 }
 
 <script>
- 
+
 </script>

@@ -1,4 +1,20 @@
-﻿function rowcounterPlus() {
+﻿$(document).ready(function () {
+    var date = new Date();
+
+    var day = date.getDate();
+    var month = date.getMonth() + 1;
+    var year = date.getFullYear();
+
+    if (month < 10) month = "0" + month;
+    if (day < 10) day = "0" + day;
+
+    var today = day + "-" + month + "-" + year;
+
+    document.getElementById('purchase_order_date').valueAsDate = new Date();
+});
+
+
+function rowcounterPlus() {
 
     var number = document.getElementById('rowCounterrr').value;
 
@@ -142,7 +158,7 @@ function hhh() {
 
 function addNewRow() {
 
-
+    
     arguments.callee.myStaticVar = arguments.callee.myStaticVar || 2;
     var count = arguments.callee.myStaticVar++;
     document.getElementById("counters").value = count;
@@ -200,9 +216,11 @@ function tbody_add_record(id, count) {
     var quantity = document.getElementById('partial_row4' + id);
     var quantity_inner = quantity.innerHTML;
 
-    var price = document.getElementById('partial_row5' + id);
+    var price = document.getElementById('partial_row4' + id);
     var price_inner = price.innerHTML;
     $("#invoice_price" + count).val(price_inner);
+
+    //alert("Price" + price);
 
     var percent_price = ((20 / 100)) * price_inner;
     total_price_with_vat = +percent_price + +price_inner;
@@ -233,13 +251,24 @@ function tbody_add_record(id, count) {
     //alert("Total(count);");
 
     Total(count);
+
+    //alert("START");
+
     TotalReceived1(count);
-    checkFilterSupplier(count);
+
+    //alert("START1");
+
+
+    //Commented on January 2,2018
+    //checkFilterSupplier(count);
+    
+    //alert("START2");
     
 
+    addNewRow();
+    rowcounterPlus();
     
-    
-
+    //alert("END");
 
 
 
@@ -377,6 +406,7 @@ function productList(e, char, serialnumber) {
 
 
 function Total(rownum) {
+    var vat_percent_val = +(vat_percent / 100) + +1;
 
     //alert("TOTAL");
     //alert("ROWCount Total " + document.getElementById('rowCounterrr').value);
@@ -386,9 +416,8 @@ function Total(rownum) {
 
     var price = document.getElementById('invoice_price' + rownum).value;
 
-    var price_vat = ((20 / 100)) * price;
+    var priceVatTotal = (price * vat_percent_val).toFixed(3);
 
-    var priceVatTotal = +price + +price_vat;
 
     
     var total = quantity * price;
@@ -452,14 +481,20 @@ function Total(rownum) {
     var a1 = a2.toFixed(2);
 
     $("#sub_total_td").html("£" + a1);
-    
-    var total_vat = (((20 / 100)) * a1).toFixed(2);
+
+    var gross_without_parse = (a1 * vat_percent_val);
+
+    var total_vat = (gross_without_parse - a1).toFixed(2);
+
+    var gross = gross_without_parse.toFixed(1);
 
 
-    var gross1 = (+a1 + +total_vat);
 
-    var gross2 = gross1 - 0;
-    var gross = gross2.toFixed(2);
+
+    //var gross1 = (+a1 + +total_vat);
+
+    //var gross2 = gross1 - 0;
+    //var gross = gross2.toFixed(2);
 
     
 
@@ -486,12 +521,15 @@ function Total(rownum) {
 
 
 function Total2(rownum) {
+    var vat_percent_val = +(vat_percent / 100) + +1;
+
+
     //alert("TOTAL 2");
     //alert("ROWCount Total 2" + document.getElementById('rowCounterrr').value);
     var quantity = document.getElementById('invoice_quantity' + rownum).value;
 
     var priceVat = document.getElementById('invoice_price_vat' + rownum).value;
-    var price = (priceVat / 1.2);
+    var price = (priceVat / vat_percent_val).toFixed(2);
     //alert("Price " + price);
     //alert("PRICE VAt" + priceVat);
     //alert("PRICE" + price);
@@ -542,16 +580,27 @@ function Total2(rownum) {
     $("#sub_total_td").html("£" + a1);
 
     
+
+
+
+
+
+    var gross_without_parse = (a1 * vat_percent_val);
+
+    var total_vat = (gross_without_parse - a1).toFixed(2);
+
+    var gross = gross_without_parse.toFixed(1);
+
     
 
-    var total_vat = (((20 / 100)) * a1).toFixed(2);
+    //var total_vat = (((20 / 100)) * a1).toFixed(2);
 
     
 
-    var gross1 = (+a1 + +total_vat);
+    //var gross1 = (+a1 + +total_vat);
 
-    var gross2 = gross1 - 0;
-    var gross = gross2.toFixed(2);
+    //var gross2 = gross1 - 0;
+    //var gross = gross2.toFixed(2);
     //alert("VAT" + total_vat);
     //alert("Total" + gross);
 
@@ -579,6 +628,8 @@ function Total2(rownum) {
 
 function TotalReceived1(rownum) {
     //alert("RCVD1");
+    var vat_percent_val = +(vat_percent / 100) + +1;
+
 
     //alert("ROWCount TotalReceived1" + document.getElementById('rowCounterrr').value);
     var received_quantity = document.getElementById('invoice_receieved_quantity' + rownum).value;
@@ -624,16 +675,17 @@ function TotalReceived1(rownum) {
     $("#received_sub_total_td").html("£" + total_sum);
 
 
-    var total_vat1 = (((20 / 100)) * total_sum);
 
-    var total_vat2 = total_vat1 - 0;
-    var total_vat = total_vat2.toFixed(2);
+    var gross1 = total_sum * vat_percent_val;
+    //alert("grosstest" + grosstest);
 
-    var gross1 = +total_sum + +total_vat;
+    var total_vat1 = gross1 - total_sum;
 
-    var gross2 = gross1 - 0;
+    var total_vat = total_vat1.toFixed(2);
 
-    var gross = gross2.toFixed(2);
+    //alert("total_vat" + total_vat);
+
+    var gross = gross1.toFixed(1);
 
     //alert("VAT:" + total_vat);
     //alert("Total" + gross);
@@ -662,12 +714,15 @@ function TotalReceived1(rownum) {
 
 
 function TotalReceived2(rownum) {
+    var vat_percent_val = +(vat_percent / 100) + +1;
+
+
     //alert("RCVD2");
     //alert("ROWCount TotalReceived2" + document.getElementById('rowCounterrr').value);
     var received_quantity = document.getElementById('invoice_receieved_quantity' + rownum).value;
     //alert("RCVD" + received_quantity);
     var priceVat = document.getElementById('invoice_price_vat' + rownum).value;
-    var price = (5 / 6) * (priceVat);
+    var price = (priceVat/vat_percent_val);
     //alert(price);
 
 
@@ -709,30 +764,17 @@ function TotalReceived2(rownum) {
 
     //alert("SUM" + sum_received);
 
+    var gross1 = total_sum * vat_percent_val;
 
+    //alert("grosstest" + grosstest);
 
-    var total_vat1 = (((20 / 100)) * sum_received).toFixed(2);
+    var total_vat1 = gross1 - total_sum;
 
-    var total_vat2 = total_vat1 - 0;
+    var total_vat = total_vat1.toFixed(2);
 
-    var total_vat = total_vat2.toFixed(2);
+    //alert("total_vat" + total_vat);
 
-    
-
-    var gross1 = +sum_received + +total_vat;
-
-    var gross2 = gross1 - 0;
-
-    var gross = gross2.toFixed(2);
-
-    //alert("VAT:" + total_vat);
-    //alert("Total" + gross);
-
-    //alert("GLOBAL VALUE :" + global_discount);
-    //var discounted = gross - global_discount;
-
-    //alert("VAT" + total_vat);
-    //alert("Total" + gross);
+    var gross = gross1.toFixed(1);
 
     $("#received_vat_td").html(total_vat);
     $("#received_total_td").html(gross);

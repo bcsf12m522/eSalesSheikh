@@ -1,5 +1,5 @@
 ﻿@model List<eSalesPro.Models.Purchase_Order>
-<body id="body-index" onload="Loading_Purchase_Report()">
+<body id="body-index">
     <div id="sticky-footer-wrap">
 
         @*-----------------Top Navigation Start---------------*@
@@ -114,7 +114,7 @@
                         <div class="col-md-12 mt-15">
 
                             <div class="col-md-3 pull-left padding-all-0">
-                                <a href="~/Home/Epos" class="btn blue-btn-style btn-primary btn-mini bold">Back to EPOS Main Panel</a>
+                                <a href="~/User/Epos" class="btn blue-btn-style btn-primary btn-mini bold">Back to EPOS Main Panel</a>
                             </div>
 
                             <div class="col-md-3"></div>
@@ -179,6 +179,14 @@
             Html.RenderPartial("Footer_View");
         }
     </footer>
+
+    @*----------------------------POP UP END SessionManagement--------------------------------*@
+
+    @{
+        Html.RenderPartial("Session_Logout_Modal/Logout_Modal");
+    }
+
+    @*----------------------------POP UP END SessionManagement--------------------------------*@
 
     <script src="~/scripts/report/purchase_order_report.js"></script>
 

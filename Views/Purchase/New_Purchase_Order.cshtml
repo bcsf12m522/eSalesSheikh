@@ -1,4 +1,7 @@
-﻿<body id="body-index" onload="SetDatePurchaseOrder()">
+﻿<script type="text/javascript">
+    var vat_percent=@ViewBag.config.Vat_Percentage;
+</script>
+<body id="body-index" onload="SetDatePurchaseOrder()">
     <div id="sticky-footer-wrap">
 
         @*-----------------Top Navigation Start---------------*@
@@ -34,6 +37,7 @@
                                 </div>
 
                                 <div class="clearfix"></div>
+
 
                                 <div id="invoice_id" class="hideDocument">
 
@@ -203,7 +207,7 @@
 
 
                                     <div class="col-md-12">
-                                          
+
 
                                         <table border="0" class="table table-responsive border_black" style="width:100%" id="maintable">
                                             <thead>
@@ -225,15 +229,15 @@
                                             <tbody class="black-color">
 
                                                 <tr id="rowId1" class="font-15 id remove_div">
-                                                    <td class="border-right-td"><div class="text-center"><input style="max-width:90px" placeholder="Code" class="yoyo unbold text-center" id="codeforProduct1" name="yoyoyoyoyoyoyoy1" onkeyup="productList(event,this.value);" type="text" required></div></td>
-                                                    <td class="border-right-td"><div class="text-center"><input onkeypress="validate(event)" id="supplier_code1" onkeyup="" placeholder="Supplier" class="4 new-invoice-width-boxes unbold width-68 text-center" name="supplier_code1" type="text" required></div></td>
+                                                    <td class="border-right-td"><div class="text-center"><input style="max-width:90px" placeholder="Code" class="yoyo unbold text-center" id="codeforProduct1" name="yoyoyoyoyoyoyoy1" onkeyup="productList(event,this.value);" type="text"></div></td>
+                                                    <td class="border-right-td"><div class="text-center"><input onkeypress="validate(event)" id="supplier_code1" onkeyup="" placeholder="Supplier" class="4 new-invoice-width-boxes unbold width-68 text-center" name="supplier_code1" type="text"></div></td>
                                                     <td class="border-right-td">
                                                         <textarea class="2 description-text-area unbold width-100p text-center" name="invoice_description1" id="invoice_description1" required="" placeholder="Description"></textarea>
                                                     </td>
-                                                    <td class="border-right-td"><div class="text-center"><input onkeypress="validate(event)" id="invoice_quantity1" onkeyup="Total(1);checkQuantityAvailable(this.value,1)" placeholder="0" class="3 unbold width-45 text-center" name="invoice_quantity1" type="text" required></div></td>
+                                                    <td class="border-right-td"><div class="text-center"><input onkeypress="validate(event)" id="invoice_quantity1" onkeyup="Total(1);checkQuantityAvailable(this.value,1)" placeholder="0" class="3 unbold width-45 text-center" name="invoice_quantity1" type="text"></div></td>
                                                     <td class="border-right-td received_div" style="display:none"><div class="text-center"><input onkeypress="validate(event)" id="invoice_receieved_quantity1" onkeyup="TotalReceived1(1);" placeholder="0" class="3 unbold width-65 text-center" name="invoice_receieved_quantity1" type="text"></div></td>
-                                                    <td class="border-right-td"><div class="text-center"><input onkeypress="validate(event)" id="invoice_price1" onkeyup="Total(1);TotalReceived1(1)" placeholder="0.0" class="4 new-invoice-width-boxes unbold width-68 text-center" name="invoice_price1" type="text" required></div></td>
-                                                    <td class="border-right-td hidecolumn text-center"><input onkeypress="validate(event)" id="invoice_price_vat1" onkeyup="Total2(1);TotalReceived2(1)" placeholder="0.0" class="5 new-invoice-width-boxes unbold width-78 text-center" name="invoice_price_vat1" type="text" required></td>
+                                                    <td class="border-right-td"><div class="text-center"><input onkeypress="validate(event)" id="invoice_price1" onkeyup="Total(1);TotalReceived1(1)" placeholder="0.0" class="4 new-invoice-width-boxes unbold width-68 text-center" name="invoice_price1" type="text"></div></td>
+                                                    <td class="border-right-td hidecolumn text-center"><input onkeypress="validate(event)" id="invoice_price_vat1" onkeyup="Total2(1);TotalReceived2(1)" placeholder="0.0" class="5 new-invoice-width-boxes unbold width-78 text-center" name="invoice_price_vat1" type="text"></td>
                                                     <td class="border-right-td  text-center"><input readonly id="invoice_total1" placeholder="0.0" class="6 new-invoice-width-boxes unbold width-68 text-center" name="invoice_total1" type="text"></td>
                                                     <td class="border-right-td hidecolumn text-center"><input readonly id="invoice_total_vat1" placeholder="0.0" class="7 new-invoice-width-boxes unbold width-78 text-center" name="invoice_total_vat1" type="text"></td>
 
@@ -278,8 +282,7 @@
                                             </tbody>
                                             @for (int i = 1; i <= 1000; i++)
                                             {
-
-                                            <tbody class="black-color" id="@String.Concat("newrow",i)"></tbody>
+                                                <tbody class="black-color" id="@String.Concat("newrow",i)"></tbody>
                                             }
                                         </table>
 
@@ -562,6 +565,13 @@
         }
     </footer>
 
+    @*----------------------------POP UP END SessionManagement--------------------------------*@
+
+    @{
+        Html.RenderPartial("Session_Logout_Modal/Logout_Modal");
+    }
+
+    @*----------------------------POP UP END SessionManagement--------------------------------*@
 
     @*----------------------------POP UP FOR PARTIAL PAYMENT--------------------------------*@
 
@@ -675,8 +685,6 @@
     @*----------------------------POP UP END EXISTING CUSTOMER--------------------------------*@
 
 
-
-    
 
     
 

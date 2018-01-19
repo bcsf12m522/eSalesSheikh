@@ -90,6 +90,22 @@
     </footer>
     <!-- Javascript -->
     <!-- Sparklines -->
+    <script type="text/javascript">
+    var count = 0; // needed for safari
+    window.onload = function () {
+
+        if (typeof history.pushState === "function") {
+            history.pushState("back", null, null);
+            window.onpopstate = function () {
+                //alert();
+                history.pushState('back', null, null);
+                //if(count == 1){window.location.href = '{{ url(route_name() . '/all-hospitals') }}';}
+                //window.location.href = '{{ url(route_name() . '/all-hospitals' ) }}'
+            };
+        }
+    }
+    setTimeout(function(){count = 1;},200);
+    </script>
 
 </body>
 <!-- Mirrored from radmin.squareturtle.com/1.1.0/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 20 Mar 2017 10:09:05 GMT -->

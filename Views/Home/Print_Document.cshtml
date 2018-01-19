@@ -24,12 +24,13 @@
             left: 0;
             top: 15px;
             width: 180px;
-            height: 60px;
+            height: 52px;
         }
+
 
         .head {
             text-align: center;
-            font-size: 38px;
+            font-size: 28px;
         }
 
         .contact-details {
@@ -59,7 +60,7 @@
         }*/
 
         .bgcolor {
-            background-color: #bfbfbf;
+            background-color: #bfbfbf !important;
         }
 
         .detail-info,
@@ -70,7 +71,7 @@
 
         .firstrow {
             text-transform: uppercase;
-            background-color: #bfbfbf;
+            background-color: #bfbfbf !important;
             color: #000;
             font-weight: bold;
             text-align: center;
@@ -79,8 +80,9 @@
 
         .tbl-image {
             margin: 5px 0 1px;
-            width: 50px;
-            border-radius: 50%;
+            width: 30px;
+            height: 22px;
+            border-radius: 25%;
         }
 
         .infotablefirst tr td,
@@ -90,12 +92,34 @@
         .infotablefifth tr td {
             padding-left: 5px !important;
         }
+
+        .font_size_unbold {
+            font-size: 11px !important;
+        }
+
+        .font_size_bold {
+            font-size: 11px !important;
+        }
+
+
+        .terms_condition_font {
+            font-size: 9px !important;
+        }
+
+        .terms_condition_padding {
+            padding:0 5px 0 5px !important;
+        }
+        
+
+        .description_tr_font_size {
+            font-size: 10px !important;
+        }
     </style>
 </head>
 
 
 
-<body onload="window.print()">
+<body>
 
     @*@{
             var doc_type=v.Invoice.Doc_Type_ID;
@@ -122,7 +146,7 @@
                     }
                     else if (ViewBag.invoice.Doc_Type_ID == 1)
                     {
-                        <img src="~/img/images/default-image.jpg" alt="" class="logo" />
+                        <img src="~/img/images/default_image_print.png" alt="" class="logo" />
                     }
                     else if (config.Image != null && ViewBag.invoice.Doc_Type_ID == 2 && ViewBag.invoice.Show_Details == 1)
                     {
@@ -134,23 +158,23 @@
                     }
                     else if (ViewBag.invoice.Doc_Type_ID == 2 && ViewBag.invoice.Show_Details == 1)
                     {
-                        <img src="~/img/images/default-image.jpg" alt="" class="logo" />
+                        <img src="~/img/images/default_image_print.png" alt="" class="logo" />
                     }
                 }
 
             }
-            <h2 class="head">@ViewBag.invoice.Document_Type.Type</h2>
+            <h2 class="head">@ViewBag.invoice.Document_Type.Type.ToUpper()</h2>
         </div>
         <div class="head-info">
             @foreach (var config in @ViewBag.config)
             {
                 if (@ViewBag.invoice.Doc_Type_ID == 1)
                 {
-                    <p class="contact-details pull-left">@config.Shop_No  @config.Street_Name<br />@config.City, @config.PostCode<br /><strong>Phone:</strong>@config.Phone_No<br /><strong>Mob:</strong> @config.Mobile</p>
+                    <p class="contact-details pull-left font-12 bold pt_4">@config.Shop_No  @config.Street_Name<br />@config.City, @config.PostCode<br /><strong>Phone:</strong>@config.Phone_No<br /><strong>Mob:</strong> @config.Mobile</p>
                 }
                 else if (ViewBag.invoice.Doc_Type_ID == 2 && ViewBag.invoice.Show_Details == 1)
                 {
-                    <p class="contact-details pull-left">@config.Shop_No  @config.Street_Name<br />@config.City, @config.PostCode<br /><strong>Phone:</strong>@config.Phone_No<br /><strong>Mob:</strong> @config.Mobile</p>
+                    <p class="contact-details pull-left font-12 bold pt_4">@config.Shop_No  @config.Street_Name<br />@config.City, @config.PostCode<br /><strong>Phone:</strong>@config.Phone_No<br /><strong>Mob:</strong> @config.Mobile</p>
                 }
             }
             <div class="top-right-info pull-right">
@@ -158,69 +182,69 @@
                     <tr>
                         @if (@ViewBag.invoice.Doc_Type_ID == 1)
                         {
-                            <td width="140px">Invoice No:</td>
-                            <td width="150px">@ViewBag.invoice.Invoice_Number</td>
+                            <td width="140px" class="font_size_bold">Invoice No:</td>
+                            <td width="150px" class="unbold font_size_unbold">@ViewBag.invoice.Invoice_Number</td>
                         }
 
                         else if (@ViewBag.invoice.Doc_Type_ID == 2)
                         {
-                            <td width="140px">Quote No:</td>
-                            <td width="150px">@ViewBag.invoice.Quote_Number</td>
+                            <td width="140px" class="font_size_bold">Quote No:</td>
+                            <td width="150px" class="unbold font_size_unbold">@ViewBag.invoice.Quote_Number</td>
                         }
 
                         else if (@ViewBag.invoice.Doc_Type_ID == 3)
                         {
-                            <td width="140px">Item Sale No:</td>
-                            <td width="150px">@ViewBag.invoice.Item_Sale_Number</td>
+                            <td width="140px" class="font_size_bold">Item Sale No:</td>
+                            <td width="150px" class="unbold font_size_unbold">@ViewBag.invoice.Item_Sale_Number</td>
                         }
                     </tr>
 
                     <tr>
-                        <td>Date</td>
-                        <td>@ViewBag.invoice.Created_at.ToShortDateString()</td>
+                        <td class="font_size_bold">Date</td>
+                        <td class="unbold font_size_unbold">@ViewBag.invoice.Created_at.ToShortDateString()</td>
                     </tr>
                     <tr>
-                        <td>Account No:</td>
-                        <td>@ViewBag.invoice.Customer.Account_No</td>
+                        <td class="font_size_bold">Account No:</td>
+                        <td class="unbold font_size_unbold">@ViewBag.invoice.Customer.Account_No</td>
                     </tr>
                     <tr>
-                        <td>Purchase Order No:</td>
-                        <td>@ViewBag.invoice.Purchase_Order_Number</td>
+                        <td class="font_size_bold">Purchase Order No:</td>
+                        <td class="unbold font_size_unbold">@ViewBag.invoice.Purchase_Order_Number</td>
                     </tr>
                 </table>
                 <div class="clearfix"></div>
                 <div>&nbsp;</div>
                 <table cellpadding="5" cellspacing="0" border="1" class="infotablesecond pull-right">
                     <tr>
-                        <td class="bgcolor" width="140px">Served By:</td>
-                        <td width="150px">@ViewBag.invoice.User.display_name</td>
+                        <td class="bgcolor font_size_bold" width="140px">Served By:</td>
+                        <td class="unbold font_size_unbold" width="150px">@ViewBag.invoice.User.display_name</td>
                     </tr>
                 </table>
                 <div class="clearfix"></div>
                 <div>&nbsp;</div>
                 <table cellpadding="5" cellspacing="0" border="1" class="infotablethird pull-right">
                     <tr>
-                        <td colspan="2" class="bgcolor" width="300px">Customer Details</td>
-                        <td class="bgcolor" width="150px" align="center">Shipping Details</td>
+                        <td colspan="2" class="bgcolor font_size_bold" width="300px">Customer Details</td>
+                        <td class="bgcolor font_size_bold" width="150px" align="center">Shipping Details</td>
                     </tr>
                     <tr style="font-size:11px">
-                        <td colspan="2" height="40px">@ViewBag.invoice.Customer.Name <br />@ViewBag.invoice.Customer.Company.Company_Name <br /> @ViewBag.invoice.Customer.Billing_Street <br />@ViewBag.invoice.Customer.Billing_County <br />@ViewBag.invoice.Customer.Billing_Postcode </td>
+                        <td colspan="2" height="40px" class="unbold font_size_unbold">@ViewBag.invoice.Customer.Name <br />@ViewBag.invoice.Customer.Company.Company_Name <br /> @ViewBag.invoice.Customer.Billing_Street <br />@ViewBag.invoice.Customer.Billing_County <br />@ViewBag.invoice.Customer.Billing_Postcode </td>
                         @if (@ViewBag.invoice.Customer.Billing_Postcode == @ViewBag.invoice.Customer.Shipping_Postcode)
                         {
                             <td rowspan="3"></td>
                         }
                         else
                         {
-                            <td rowspan="3" valign="top">@ViewBag.invoice.Customer.Billing_Street <br />@ViewBag.invoice.Customer.Billing_County <br />@ViewBag.invoice.Customer.Billing_Postcode </td>
+                            <td rowspan="3" valign="top" class="unbold font_size_unbold">@ViewBag.invoice.Customer.Shipping_Street <br />@ViewBag.invoice.Customer.Shipping_County <br />@ViewBag.invoice.Customer.Shipping_Postcode </td>
                         }
                     </tr>
                     <tr>
-                        <td class="bgcolor">Customer Email</td>
-                        <td class="">@ViewBag.invoice.Customer.Email</td>
+                        <td class="bgcolor font_size_bold">Customer Email</td>
+                        <td class="unbold font_size_unbold">@ViewBag.invoice.Customer.Email</td>
                     </tr>
                     <tr>
-                        <td class="bgcolor">Customer Phone</td>
-                        <td class="">@ViewBag.invoice.Customer.phone</td>
+                        <td class="bgcolor font_size_bold">Customer Phone</td>
+                        <td class="unbold font_size_unbold">@ViewBag.invoice.Customer.phone</td>
                     </tr>
                 </table>
                 <div class="clearfix"></div>
@@ -230,7 +254,7 @@
         <div>&nbsp;</div>
         <div class="detail-info">
             <table cellpadding="0" cellspacing="0" border="1" class="infotableforth">
-                <tr class="firstrow">
+                <tr class="firstrow font-11">
                     <td width="12%">Image</td>
                     <td width="15%">Item Code</td>
                     <td width="27%">Description</td>
@@ -251,7 +275,7 @@
                 @foreach (var a in Model)
                 {
 
-                    <tr align="center">
+                    <tr align="center" class="description_tr_font_size">
                         @if (@a.Sale.Product.Image != null)
                         {
                             {
@@ -293,28 +317,28 @@
                 @if (@ViewBag.invoice.Doc_Type_ID == 1)
                 {
                     <tr>
-                        <td>Subtotal</td>
-                        <td><span>£</span>@ViewBag.invoice.Net_Price</td>
+                        <td class="font_size_bold">Subtotal</td>
+                        <td class="unbold font_size_unbold"><span>£</span>@ViewBag.invoice.Net_Price</td>
                     </tr>
                     <tr>
-                        <td>VAT (20%)</td>
-                        <td><span>£</span>@ViewBag.invoice.VAT_20</td>
+                        <td class="font_size_bold">VAT (20%)</td>
+                        <td class="unbold font_size_unbold"><span>£</span>@ViewBag.invoice.VAT_20</td>
                     </tr>
                     <tr>
-                        <td>Total</td>
-                        <td><span>£</span>@ViewBag.invoice.Gross_Total</td>
+                        <td class="font_size_bold">Total</td>
+                        <td class="unbold font_size_unbold"><span>£</span>@ViewBag.invoice.Gross_Total</td>
                     </tr>
                     <tr>
-                        <td>Payment Method</td>
-                        <td>@ViewBag.invoice.Payment_Methods.Type</td>
+                        <td class="font_size_bold">Payment Method</td>
+                        <td class="font_size_unbold">@ViewBag.invoice.Payment_Methods.Type</td>
                     </tr>
                     <tr>
-                        <td>Payment Status</td>
-                        <td>@ViewBag.invoice.Payment_Status.Status</td>
+                        <td class="font_size_bold">Payment Status</td>
+                        <td class="font_size_unbold">@ViewBag.invoice.Payment_Status.Status</td>
                     </tr>
                     <tr>
-                        <td>Outstanding Balance</td>
-                        <td><span>£</span>@ViewBag.invoice.Customer.Balance</td>
+                        <td class="font_size_bold">Outstanding Balance</td>
+                        <td class="unbold font_size_unbold"><span>£</span>@ViewBag.invoice.Customer.Balance</td>
                     </tr>
                 }
                 else
@@ -328,8 +352,8 @@
                             <td><span>£</span>@v.Invoice.VAT_20</td>
                         </tr>*@
                     <tr>
-                        <td width="140px" style="padding-right:5px">Total</td>
-                        <td width="150px"><span>£</span>@ViewBag.invoice.Gross_Total</td>
+                        <td width="140px" style="padding-right:5px" class="font_size_bold">Total</td>
+                        <td width="150px" class="unbold font_size_unbold"><span>£</span>@ViewBag.invoice.Gross_Total</td>
                     </tr>
                     @*<tr>
                             <td>Payment Method</td>
@@ -354,19 +378,20 @@
 
             <div class="divFooter">
                 <table cellpadding="0" cellspacing="0" border="1" width="100%">
-                    <tr>
-                        <td align="center" class="bgcolor" height="35px"><strong>Term and Conditions</strong></td>
-                    </tr>
-                    <tr>
+                    <tr class="">
                         @if (@ViewBag.invoice.Doc_Type_ID != 3)
                         {
-
-                            @*<td height="100px" valign="top"><textarea id="text_area_conditions">@config.Terms_Condition</textarea></td>*@
-                            <td height="100px" valign="top">@config.Terms_Condition</td>
+                            <td class="terms_condition_padding" height="100px" valign="top" style="padding: 0 !important;">
+                                <h3 width="100%" align="center" class="bgcolor font-13" style="padding:10px 0 !important; margin-top:0 !important; margin-bottom:2px !important;"><strong>Term and Conditions</strong></h3>
+                                <div style="padding:0 5px !important;">@Html.Raw(System.Web.HttpUtility.HtmlDecode(config.Terms_Condition))</div>
+                            </td>
                         }
                         else
                         {
-                            <td height="100px" valign="top">@config.Terms_Condition_Item_Sale</td>
+                            <td class="terms_condition_padding" height="100px" valign="top" style="padding: 0 !important;">
+                                <h3 width="100%" align="center" class="bgcolor font-13" style="padding:10px 0 !important; margin-top:0 !important; margin-bottom:2px !important;"><strong>Term and Conditions</strong></h3>
+                                <div style="padding:0 5px !important;">@Html.Raw(System.Web.HttpUtility.HtmlDecode(config.Terms_Condition_Item_Sale))</div>
+                            </td>
                         }
 
                     </tr>
@@ -374,8 +399,8 @@
 
 
 
-                <p align="center" style="margin-top:10px;"><strong>THANKS FOR YOUR BUSINESS!</strong></p>
-                <hr style="height: 1px; background-color: #000; margin-top:0px!important" />
+                <p align="center" style="margin-top:10px;" class="font-12"><strong>THANKS FOR YOUR BUSINESS!</strong></p>
+                <hr style="height: 1px; background-color: #000 !important; margin-top:0px!important" />
                 @if (ViewBag.invoice.Doc_Type_ID != 3)
                 {
                     if (ViewBag.invoice.Doc_Type_ID == 1)
@@ -401,6 +426,9 @@
     //var editorText = CKEDITOR.instances.text_area_conditions.getData();
     //CKEDITOR.replace("text_area_conditions");
 
+    $(document).ready(function () {
+        window.print();
+    })
 
     CKEDITOR.replace('text_area_conditions');
 

@@ -151,3 +151,26 @@ function Different_Address_New() {
 function hide_add_customer_modal() {
     $("#CreateModal").hide();
 }
+
+
+
+$('#add_street_postcode').bind('keypress keyup blur', function () {
+    $('#shipping_street_add').val($(this).val());
+});
+
+//$('#add_street_postcode').keyup(function () {
+//    $('#shipping_street_add').val($(this).val());
+//});
+$('#add_town_postcode').keyup(function () {
+    $('#shipping_town_add').val($(this).val());
+});
+$('#add_county_postcode').keyup(function () {
+    $('#shipping_county_add').val($(this).val());
+});
+$('#add_country_postcode').keyup(function () {
+    $('#shipping_country_add').val($(this).val());
+});
+$('#postcode_add').keyup(function () {
+    $('#shipping_postcode_add').val($(this).val());
+});
+

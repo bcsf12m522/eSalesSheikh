@@ -1,5 +1,5 @@
 ﻿@model List<eSalesPro.Models.Customer>
-<body id="body-index" onload="">
+<body id="body-index">
     <div id="sticky-footer-wrap">
 
         @*-----------------Top Navigation Start---------------*@
@@ -26,6 +26,8 @@
                     <div class="bggg-img">
                         <div>
 
+                            
+
                             <div class="col-md-12">
 
                                 <div id="loader_div" class="none">
@@ -39,7 +41,7 @@
                                 <input hidden type="text" value="-1" id="customer_list_edit_modal_value" />
 
                                 <div class="pull-left col-md-3 pl-0">
-                                    <a href="~/Home/Epos" class="btn btn-primary blue-btn-style mt-10 btn-mini bold">Back to EPOS Main Panel</a>
+                                    <a href="~/User/Epos" class="btn btn-primary blue-btn-style mt-10 btn-mini bold">Back to EPOS Main Panel</a>
                                 </div>
 
                                 <div class="empty-height"></div>
@@ -53,7 +55,8 @@
                                     </div>
 
                                     <div class="col-md-3 pull-right pr-0">
-                                        <a href="~/Home/Epos" onclick="PrintBtn()" class="btn pull-right btn-primary blue-btn-style btn-mini text-center width-170 bold">Print</a>
+                                        <a href="#" class="btn pull-right btn-primary blue-btn-style btn-mini text-center width-170 bold print_btn_view none">Print</a>
+                                        @*<a href="javascript:void();" onclick="document.getElementById('printOption').style.visibility = 'hidden';document.print();return true;">Print</a>*@
                                         @*<a href="#" data-target="#View_Payment_Status_Modal" data-toggle="modal" class="btn btn_view_payment_status btn-mini bold width-170 pull-right">View Payment Status</a>*@
                                     </div>
 
@@ -102,7 +105,25 @@
 
 
 
-                        <div class="col-md-12 mt-20" id="customer_table_div" style="display:none">
+                        <div class="col-md-12" id="customer_table_div" style="display:none">
+                            
+                            @*<div class="col-md-3 pull-left print_page_heading">
+                                <h3 class="black-color bold print_page_heading">Customer List</h3>
+                            </div>*@
+
+                            <div class="col-md-3 pl-0 pr-0 pull-left none print_page_heading">
+                                <h3 style="font-size:26px" class="bold">Customer List<small></small></h3>
+                            </div>
+
+
+
+                            <div class="col-md-3 pull-right pr-0 print_btn_hide_cols" style="padding-bottom:10px">
+                                <a href="#" onclick="tableToExcel('chuss', 'W3C Example Table')" class="btn pull-right btn-primary blue-btn-style btn-mini text-center width-170 bold">Export</a>
+                            </div>
+                            
+
+                            
+                            
                             <table class="table table-responsive border_black" id="chuss">
                                 <thead>
                                     <tr class="table-heading-fonts table-main-headings">
@@ -119,7 +140,7 @@
                         <th>Role</th>
                         <th>Status</th>*@
 
-                                        <th class="text-center">Actions</th>
+                                        <th class="text-center print_btn_hide_cols">Actions</th>
                                     </tr>
                                 </thead>
 
@@ -157,6 +178,12 @@
             Html.RenderPartial("Footer_View");
         }
     </footer>
+
+    @*----------------------------POP UP END SessionManagement--------------------------------*@
+    @{
+        Html.RenderPartial("Session_Logout_Modal/Logout_Modal");
+    }
+    @*----------------------------POP UP END SessionManagement--------------------------------*@
 
     <script src="~/Scripts/Customer/Customer_List.js"></script>
     <script src="~/scripts/customer_summary/customer_summary.js"></script>

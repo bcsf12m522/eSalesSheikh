@@ -37,12 +37,12 @@
     <link href="~/content/css/media.css" rel="stylesheet" />
 
     <link href="~/scripts/new-js/jquery.datatables.css" rel="stylesheet" />
-    <link href="~/content/css/jquery.fancybox.css" rel="stylesheet"/>
+    @*<link href="~/content/css/jquery.fancybox.css" rel="stylesheet"/>*@
 
     <!-------------------IMAGE INPUT STYLES---------------------->
 
     <script src="~/scripts/images-js/jquery.filer.min.js"></script>
-    <script src="~/scripts/js/jquery.fancybox.js"></script>
+    @*<script src="~/scripts/js/jquery.fancybox.js"></script>*@
     <script src="~/scripts/images-js/fileinput.min.js"></script>
     <script src="~/scripts/images-js/bootstrap2.min.js"></script>
     <link href="~/Content/css/fileinput.min.css" rel="stylesheet" />
@@ -69,9 +69,18 @@
     <script src="~/scripts/new-js/jquery.datatables.min.js"></script>
 
     <script src="~/Scripts/Customer/Postcode_Customers.js"></script>
+    <script src="~/scripts/validation_errors/validation_errors.js"></script>
+
+
+    <script src="~/content/ckeditor/ckeditor.js"></script>
+    <script src="~/content/ckeditor/samples/js/sample.js"></script>
+    <link rel="stylesheet" href="~/Content/ckeditor/contents.css" />
+
+    <script src="~/SessionManagement/Session_Management_JS.js"></script>
     
+
 </head>
-<body>
+<body onload="StartTimers();" onmousemove="ResetTimers();">
     @RenderBody()
 </body>
 </html>

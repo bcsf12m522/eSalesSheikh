@@ -1,6 +1,9 @@
 ﻿function Loading_Purchase_Report() {
-    //alert("ASASASAS");
+    alert("ASASASAS");
     //$("#table_div_Load").hide();
+
+}
+$(document).ready(function () {
 
     $("#loader_div").show();
     $("#date_click_div").hide();
@@ -28,7 +31,7 @@
             //alert("ERROR");
         }
     })
-}
+});
 
 
 

@@ -31,6 +31,23 @@
 
     $("#payment_status_value_after_disabled").val(status_type);
 
+    if (exclude == 1) {
+        //alert("exculde" + exclude);
+        document.getElementById("excludeVat").checked = true;
+        $(".priceVAT").hide();
+        $("#net_tr").hide();
+        $("#vat_tr").hide();
+
+    }
+    if (sold == 1) {
+        document.getElementById("sold_history_checkbox").checked = true;
+        //alert("sold" + sold);
+    }
+
+    if (detail == 1) {
+        document.getElementById("view_details").checked = true;
+        //alert("sold" + sold);
+    }
     //alert("NOT RUN INVOICE");
 }
 
@@ -205,6 +222,13 @@ function run_invoice() {
         make_readonly_on_Invoice(1);
         $("#input_view_detail").val(0);
         document.getElementById("view_details").checked = false;
+
+        if (exclude == 1) {
+            $(".priceVAT").hide();
+            $("#net_tr").hide();
+            $("#vat_tr").hide();
+        }
+
     }
 
     else if (selectedValue == 2) {
@@ -264,6 +288,11 @@ function run_invoice() {
         }
 
         make_readonly_on_Invoice(2);
+        if (exclude == 1) {
+            $(".priceVAT").hide();
+            $("#net_tr").hide();
+            $("#vat_tr").hide();
+        }
     }
 
     else if (selectedValue == 3) {
@@ -780,6 +809,8 @@ function tbody_add_record(id, count) {
 
     //alert("tbody Counter ="+  count);
     //alert("id  " + id);
+    var c_type = $("#customer_type_selected").val();
+    //alert("c_type " + c_type);
     
     $("#invoice_product_id" + count).val(id);
 
@@ -795,13 +826,44 @@ function tbody_add_record(id, count) {
     var quantity_inner = quantity.innerHTML;
 
 
-    var price = document.getElementById('partial_row4' + id);
-    var price_inner = price.innerHTML;
-    $("#invoice_price" + count).val(price_inner);
+    var price = 0;
+    var price_inner = 0;
 
-    var percent_price = ((20 / 100)) * price_inner;
-    total_price_with_vat = +percent_price + +price_inner;
 
+    if (c_type == 1) {
+        price = document.getElementById('partial_row3' + id);
+        price_inner = price.innerHTML;
+        $("#invoice_price" + count).val(price_inner);
+    }
+
+    else if (c_type == 2) {
+        price = document.getElementById('partial_row4' + id);
+        price_inner = price.innerHTML;
+        $("#invoice_price" + count).val(price_inner);
+    }
+
+    else if (c_type == 3) {
+        price = document.getElementById('partial_row5' + id);
+        price_inner = price.innerHTML;
+        $("#invoice_price" + count).val(price_inner);
+    }
+
+    else if (c_type == 4) {
+        price = document.getElementById('partial_row6' + id);
+        price_inner = price.innerHTML;
+        $("#invoice_price" + count).val(price_inner);
+    }
+
+    //alert("Price_inner" + price_inner);
+
+    var vat_percent_val = +(vat_percent / 100) + +1;
+
+
+    //var percent_price = vat_percent_val * price_inner;
+    //alert("percent_price" + percent_price);
+    total_price_with_vat = (vat_percent_val * price_inner);
+
+    //alert("Price Vat =" + total_price_with_vat);
     var a = total_price_with_vat.toFixed(2);
 
     $("#invoice_price_vat" + count).val(a);
@@ -1007,14 +1069,15 @@ function Total(rownum) {
     var check_give_refund = $("#check_give_refund_value").val();
     var quantity = document.getElementById('invoice_quantity' + rownum).value;
 
+    var vat_percent_val = +(vat_percent / 100) + +1;
+
     //alert("quantity" + quantity);
 
     var price = document.getElementById('invoice_price' + rownum).value;
 
-    var price_vat = ((20 / 100)) * price;
+    var priceVatTotal = (price * vat_percent_val).toFixed(3);
 
-    var priceVatTotal = +price + +price_vat;
-
+    //alert("priceVatTotal " + priceVatTotal);
 
     var total = quantity * price;
 
@@ -1082,11 +1145,18 @@ function Total(rownum) {
     $("#net_invoice").html("£" + a_parsed);
 
 
-    var total_vat = (((20 / 100)) * a_parsed).toFixed(2);
+    //var total_vat = (((20 / 100)) * a_parsed).toFixed(2);
 
-    var grosswithoutpoint = +a_parsed + +total_vat;
+    //var grosswithoutpoint = +a_parsed + +total_vat;
 
-    var gross = grosswithoutpoint.toFixed(2);
+    //var gross = grosswithoutpoint.toFixed(2);
+
+    var gross_without_parse = (a_parsed * vat_percent_val);
+
+    var total_vat = (gross_without_parse - a_parsed).toFixed(2);
+
+    var gross = gross_without_parse.toFixed(1);
+
 
     var discounted = gross - global_discount;
 
@@ -1105,11 +1175,14 @@ function Total(rownum) {
 }
 
 function Total2(rownum) {
+    var vat_percent_val = +(vat_percent / 100) + +1;
+
+
     var check_give_refund = $("#check_give_refund_value").val();
     var quantity = document.getElementById('invoice_quantity' + rownum).value;
 
     var priceVat = document.getElementById('invoice_price_vat' + rownum).value;
-    var price = (5 / 6) * (priceVat);
+    var price = ((priceVat) / vat_percent_val).toFixed(2);
 
     var total = quantity * price;
     var totalVat = quantity * priceVat;
@@ -1173,13 +1246,19 @@ function Total2(rownum) {
 
     var a_parsed = a.toFixed(2);
 
-
+    
     $("#net_invoice").html("£" + a_parsed);
-    var total_vat = (((20 / 100)) * a_parsed).toFixed(2);
 
-    var grosswithoutpoint = +a_parsed + +total_vat;
 
-    var gross = grosswithoutpoint.toFixed(2);
+    var gross_without_parse = (a_parsed * vat_percent_val);
+
+    var total_vat = (gross_without_parse - a_parsed).toFixed(2);
+
+    var gross = gross_without_parse.toFixed(1);
+
+    //alert("total_vat" + total_vat);
+
+   
 
 
 
@@ -1316,6 +1395,7 @@ function go(id, type_id) {
         $("#type_customer_item_sale").text("Other Customer");
     }
 
+    $("#customer_type_selected").val(type1);
 
 
     $("#ExistingModal").hide('slow');
@@ -1770,3 +1850,5 @@ function view_detail_click() {
         $("#input_view_detail").val(0);
     }
 }
+
+

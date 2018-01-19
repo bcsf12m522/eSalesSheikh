@@ -1,9 +1,9 @@
 ﻿@model List<eSalesPro.Models.Invoice>
-<body id="body-index" onload="Loading_Sales_Report()">
+<body id="body-index">
     <div id="sticky-footer-wrap">
 
         @{
-            decimal total = 0;
+            //decimal total = 0;
         }
         @*-----------------Top Navigation Start---------------*@
 
@@ -123,7 +123,7 @@
                         <div class="col-md-12">
 
                             <div class="col-md-3 pull-left pl-0">
-                                <a href="~/Home/Epos" class="btn btn-primary blue-btn-style btn-mini bold">Back to EPOS Main Panel</a>
+                                <a href="~/User/Epos" class="btn btn-primary blue-btn-style btn-mini bold">Back to EPOS Main Panel</a>
                             </div>
 
                             <div class="col-md-5"></div>
@@ -191,7 +191,13 @@
         }
     </footer>
 
+    @*----------------------------POP UP END SessionManagement--------------------------------*@
 
+    @{
+        Html.RenderPartial("Session_Logout_Modal/Logout_Modal");
+    }
+
+    @*----------------------------POP UP END SessionManagement--------------------------------*@
    
 
     <script src="~/scripts/customer_summary/customer_summary.js"></script>

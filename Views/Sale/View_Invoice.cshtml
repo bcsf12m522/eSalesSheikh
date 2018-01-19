@@ -2,8 +2,10 @@
 @{
 
     var base_url_live = eSalesPro.AppConstants.AppConstant.base_url_sheikh;
-    var base_url_client = eSalesPro.AppConstants.AppConstant.base_url_client;
+    var base_url_client_testing = eSalesPro.AppConstants.AppConstant.base_url_client_testing;
     var base_url_local = eSalesPro.AppConstants.AppConstant.base_url_local;
+
+    var base_url_client_live = eSalesPro.AppConstants.AppConstant.base_url_client_live;
 
 }
 
@@ -1088,13 +1090,8 @@
 
     @*------------------------------------------EMAIL MODAL----------------------------------------*@
 
-
-
     @foreach (var v in @ViewBag.config)
     {
-
-
-
         <div class="modal fade" id="Email_Modal" tabindex="-1" role="dialog" aria-hidden="false">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content modal-style-custom">
@@ -1127,7 +1124,7 @@
                                             </label>
                                         </div>
                                         <div class="col-md-5">
-                                            <input class="height-28 width-300 text-center" value="@v.Email" readonly />
+                                            <input class="height-28 width-300 text-center" value="@v.Email" readonly/>
                                         </div>
                                         <div class="col-md-2"></div>
                                     </div>
@@ -1140,7 +1137,7 @@
                                             <label>Email To</label>
                                         </div>
                                         <div class="col-md-5">
-                                            <input class="height-28 width-300 text-center" name="to_email" value="email.test.ranglerz@gmail.com" />
+                                            <input class="height-28 width-300 text-center" name="to_email" type="email" value="@ViewBag.invoice.Customer.Email" required/>
                                         </div>
                                         <div class="col-md-2"></div>
                                     </div>
@@ -1154,7 +1151,7 @@
                                             <label>CC</label>
                                         </div>
                                         <div class="col-md-5">
-                                            <input class="height-28 width-300 text-center" name="cc" />
+                                            <input type="email" multiple class="height-28 width-300 text-center" name="cc"/>
                                         </div>
                                         <div class="col-md-2"></div>
                                     </div>
@@ -1174,13 +1171,25 @@
                                             </label>
                                         </div>
                                         <div class="col-md-5">
-                                            <input class="height-28 width-300 text-center" name="subject" value="@String.Concat(@ViewBag.invoice.Document_Type.Type, " for ", @ViewBag.invoice.Customer.Name)" />
-                                            @*<input class="height-28 width-300 text-center" name="subject" value="@ViewBag.invoice.Customer.Name" />*@
+                                            @*<input class="height-28 width-300 text-center" name="subject" value="@String.Concat(@ViewBag.invoice.Document_Type.Type, " for ", @ViewBag.invoice.Customer.Name)" />*@
+                                            @if (ViewBag.invoice.Doc_Type_ID == 1)
+                                            {
+                                                <input class="height-28 width-300 text-center" name="subject" value="Invoice" />
+                                            }
+                                            else if (ViewBag.invoice.Doc_Type_ID == 2)
+                                            {
+                                                <input class="height-28 width-300 text-center" name="subject" value="Quotation"/>
+                                            }
+                                            else if (ViewBag.invoice.Doc_Type_ID == 3)
+                                            {
+                                                <input class="height-28 width-300 text-center" name="subject" value="Item Sale"/>
+                                            }
+                                            
+                                            
                                         </div>
                                         <div class="col-md-2"></div>
                                     </div>
 
-                                    @*<input name="body" value="~/Sale/Print_Document/@ViewBag.invoice.Id" />*@
 
                                     <div class="clearfix"></div>
 
@@ -1189,14 +1198,9 @@
 
                                     <div class="col-md-12">
 
-                                        @*<textarea class="col-md-12 email_textarea pl-0 pr-0" id="email_textarea" name="email_textarea">
-
-                                            </textarea>*@
-                                        @*<textarea class="col-md-12 email_textarea pl-0 pr-0" id="email_textarea" name="email_textarea"></textarea>*@
-
-
+                                     
                                         <textarea name="ck_body" id="editor" class="ck_textarea">
-                                            <a style="font-family:Comic Sans MS !important;font-weight:bold" href="@String.Concat(@base_url_client, "/Home/Print_Document/" + @ViewBag.invoice.Id)">Click here for a copy of the Invoice for your reference.</a>
+                                            <a style="font-family:Comic Sans MS !important;font-weight:bold" href="@String.Concat(@base_url_client_testing, "/Home/Print_Document/" + @ViewBag.invoice.Id)">Click here for a copy of the Invoice for your reference.</a>
 
 
 
@@ -2195,15 +2199,14 @@
     <script src="~/Scripts/Postcode_Customer/Edit_Customer_Postcode.js"></script>
 
 
-    <script src="~/content/ckeditor/ckeditor.js"></script>
+    @*<script src="~/content/ckeditor/ckeditor.js"></script>
     <script src="~/content/ckeditor/samples/js/sample.js"></script>
-    <link rel="stylesheet" href="~/Content/ckeditor/contents.css" />
+    <link rel="stylesheet" href="~/Content/ckeditor/contents.css" />*@
 
 
 
     <script>
         initSample();
-        
     </script>
 
     
